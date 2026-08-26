@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "exact_reference_checks": 100000,
+  "field_validation": "FIELD_VALID"
+}
+
+EXIT_CODE=0

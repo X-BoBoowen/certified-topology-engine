@@ -1,0 +1,14 @@
+Phase C.1 exact-input repair verification environment
+
+Python: 3.13.5
+Implementation: CPython
+pytest: 9.0.2
+Operating system: Linux 6.18.35 x86_64
+libc: glibc 2.41
+Runtime dependencies: Python standard library only
+Test dependency: pytest==9.0.2
+
+Certificate arithmetic:
+- fractions.Fraction only after the public input gate
+- built-in int is explicitly converted to Fraction
+- runtime_seconds alone is measured with a floating-point system clock

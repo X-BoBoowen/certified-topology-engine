@@ -1,0 +1,16 @@
+# Python-generated caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local environments and tool state
+.venv/
+venv/
+.coverage
+htmlcov/
+
+# Isolated Codex/Git worktrees
+.worktrees/
+
+# Local scratch space; auditable evidence belongs under audit/baseline/
+audit/tmp/

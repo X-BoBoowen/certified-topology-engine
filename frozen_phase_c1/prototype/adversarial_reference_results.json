@@ -1,0 +1,134 @@
+[
+  {
+    "id": "random_external_00",
+    "reference_reach": "3/13",
+    "below_r0": "9/52",
+    "below_status": "VALID",
+    "below_boxes": 568,
+    "above_r0": "3013/13000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1772,
+    "passed": true
+  },
+  {
+    "id": "random_external_01",
+    "reference_reach": "11/38",
+    "below_r0": "33/152",
+    "below_status": "VALID",
+    "below_boxes": 560,
+    "above_r0": "5519/19000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1700,
+    "passed": true
+  },
+  {
+    "id": "random_external_02",
+    "reference_reach": "1/2",
+    "below_r0": "3/8",
+    "below_status": "VALID",
+    "below_boxes": 500,
+    "above_r0": "501/1000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1034,
+    "passed": true
+  },
+  {
+    "id": "random_external_03",
+    "reference_reach": "2/3",
+    "below_r0": "1/2",
+    "below_status": "VALID",
+    "below_boxes": 494,
+    "above_r0": "2003/3000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1002,
+    "passed": true
+  },
+  {
+    "id": "random_external_04",
+    "reference_reach": "1/8",
+    "below_r0": "3/32",
+    "below_status": "VALID",
+    "below_boxes": 576,
+    "above_r0": "63/500",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1832,
+    "passed": true
+  },
+  {
+    "id": "random_external_05",
+    "reference_reach": "7/18",
+    "below_r0": "7/24",
+    "below_status": "VALID",
+    "below_boxes": 520,
+    "above_r0": "3509/9000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1086,
+    "passed": true
+  },
+  {
+    "id": "random_external_06",
+    "reference_reach": "11/34",
+    "below_r0": "33/136",
+    "below_status": "VALID",
+    "below_boxes": 510,
+    "above_r0": "5517/17000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1198,
+    "passed": true
+  },
+  {
+    "id": "random_external_07",
+    "reference_reach": "9/32",
+    "below_r0": "27/128",
+    "below_status": "VALID",
+    "below_boxes": 568,
+    "above_r0": "1129/4000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 1558,
+    "passed": true
+  },
+  {
+    "id": "random_nested_00",
+    "reference_reach": "1/4",
+    "below_r0": "3/16",
+    "below_status": "VALID",
+    "below_boxes": 762,
+    "above_r0": "251/1000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 5244,
+    "passed": true
+  },
+  {
+    "id": "random_nested_01",
+    "reference_reach": "1/2",
+    "below_r0": "3/8",
+    "below_status": "VALID",
+    "below_boxes": 614,
+    "above_r0": "501/1000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 4120,
+    "passed": true
+  },
+  {
+    "id": "random_nested_02",
+    "reference_reach": "1/2",
+    "below_r0": "3/8",
+    "below_status": "VALID",
+    "below_boxes": 592,
+    "above_r0": "501/1000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 3556,
+    "passed": true
+  },
+  {
+    "id": "random_nested_03",
+    "reference_reach": "9/14",
+    "below_r0": "27/56",
+    "below_status": "VALID",
+    "below_boxes": 1188,
+    "above_r0": "4507/7000",
+    "above_status": "UNKNOWN",
+    "above_boxes": 21074,
+    "passed": true
+  }
+]

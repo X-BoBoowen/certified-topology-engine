@@ -1,0 +1,47 @@
+$ python run_before_after_regression.py
+{
+  "geometry": {
+    "gap": "139999999999999991/100000000000000000",
+    "true_reach": "139999999999999991/200000000000000000"
+  },
+  "before": {
+    "float_0_7": {
+      "status": "VALID",
+      "interval_boxes": 1746,
+      "max_depth_seen": 118,
+      "unresolved_boxes": 0,
+      "reason": "all nonlocal patch-pair boxes excluded"
+    },
+    "fraction_from_float_0_7": {
+      "status": "UNKNOWN",
+      "interval_boxes": 2162,
+      "max_depth_seen": 130,
+      "unresolved_boxes": 6,
+      "reason": "unresolved boxes at maximum subdivision depth"
+    }
+  },
+  "after": {
+    "float_0_7": {
+      "status": "INPUT_INVALID",
+      "interval_boxes": 0,
+      "max_depth_seen": 0,
+      "unresolved_boxes": 0,
+      "reason": "r0 must be fractions.Fraction or a non-boolean built-in int; got float"
+    },
+    "fraction_from_float_0_7": {
+      "status": "UNKNOWN",
+      "interval_boxes": 2162,
+      "max_depth_seen": 130,
+      "unresolved_boxes": 6,
+      "reason": "unresolved boxes at maximum subdivision depth"
+    },
+    "fraction_7_10": {
+      "status": "UNKNOWN",
+      "interval_boxes": 2162,
+      "max_depth_seen": 130,
+      "unresolved_boxes": 6,
+      "reason": "unresolved boxes at maximum subdivision depth"
+    }
+  }
+}
+REGRESSION_REPAIR_VERIFIED

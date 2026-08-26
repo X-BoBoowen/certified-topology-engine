@@ -1,0 +1,79 @@
+{
+  "all_passed": false,
+  "commands": {
+    "float_path_audit": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_float_path_audit.py"
+      ],
+      "exit_code": 0,
+      "runtime_seconds": 0.6068565999999009
+    },
+    "general_suite": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_general_suite.py"
+      ],
+      "exit_code": 1,
+      "runtime_seconds": 0.5458904889999303
+    },
+    "invalid_suite": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_invalid_suite.py"
+      ],
+      "exit_code": 0,
+      "runtime_seconds": 0.5591479720001189
+    },
+    "proof_replay": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_proof_replay.py"
+      ],
+      "exit_code": 1,
+      "runtime_seconds": 0.5655822849998913
+    },
+    "property_suite": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/run_property_suite.py"
+      ],
+      "exit_code": 0,
+      "runtime_seconds": 11.925463318000084
+    },
+    "py_compile": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "phase_c2a",
+        "tests",
+        "scripts"
+      ],
+      "exit_code": 0,
+      "runtime_seconds": 0.5987597100001949
+    },
+    "pytest": {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 2,
+      "runtime_seconds": 1.783954397999878
+    }
+  },
+  "field_only_loop_discovery": "NOT_IMPLEMENTED; candidate-free calls return UNKNOWN",
+  "general_counts": {
+    "circle_failures": null,
+    "circle_false_valid": null,
+    "circle_scenarios": null,
+    "circle_valid": null,
+    "knot_failures": null,
+    "knot_scenarios": null,
+    "knot_valid": null
+  },
+  "general_semantic_gate": false
+}

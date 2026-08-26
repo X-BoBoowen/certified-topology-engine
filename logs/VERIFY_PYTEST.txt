@@ -1,0 +1,39 @@
+
+==================================== ERRORS ====================================
+________ ERROR collecting frozen_phase_c1/test_accounting_and_suite.py _________
+import file mismatch:
+imported module 'test_accounting_and_suite' has this __file__ attribute:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/prototype/test_accounting_and_suite.py
+which is not the same as the test file we want to collect:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/test_accounting_and_suite.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_________ ERROR collecting frozen_phase_c1/test_adversarial_repair.py __________
+import file mismatch:
+imported module 'test_adversarial_repair' has this __file__ attribute:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/prototype/test_adversarial_repair.py
+which is not the same as the test file we want to collect:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/test_adversarial_repair.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___________ ERROR collecting frozen_phase_c1/test_input_contract.py ____________
+import file mismatch:
+imported module 'test_input_contract' has this __file__ attribute:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/prototype/test_input_contract.py
+which is not the same as the test file we want to collect:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/test_input_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+____________ ERROR collecting frozen_phase_c1/test_reach_engine.py _____________
+import file mismatch:
+imported module 'test_reach_engine' has this __file__ attribute:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/prototype/test_reach_engine.py
+which is not the same as the test file we want to collect:
+  /mnt/data/Phase_C2a_Self_Verification_Repair_20260824/frozen_phase_c1/test_reach_engine.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+=========================== short test summary info ============================
+ERROR frozen_phase_c1/test_accounting_and_suite.py
+ERROR frozen_phase_c1/test_adversarial_repair.py
+ERROR frozen_phase_c1/test_input_contract.py
+ERROR frozen_phase_c1/test_reach_engine.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 4 errors during collection !!!!!!!!!!!!!!!!!!!!
+4 errors in 0.14s
+
+EXIT_CODE=2

@@ -1,0 +1,1704 @@
+diff --git a/old/reach_engine.py b/new/reach_engine.py
+index 4ce6681..de23f0e 100644
+--- a/old/reach_engine.py
++++ b/new/reach_engine.py
+@@ -5,10 +5,54 @@ from dataclasses import dataclass
+ from enum import Enum, auto
+ from fractions import Fraction
+ from time import perf_counter
+-from typing import Iterable
++from typing import Iterable, TypeAlias
+ 
+ 
+ F = Fraction
++ExactRationalInput: TypeAlias = Fraction | int
++
++
++class ExactInputError(TypeError):
++    """Raised when a value is not admitted by the certified numeric API."""
++
++
++def exact_fraction(value: object, *, name: str) -> Fraction:
++    """Return an exact rational accepted by the certified core.
++
++    Only ``fractions.Fraction`` and non-boolean built-in integers are accepted.
++    Floats, Decimal values, booleans, strings, and custom numeric types are
++    rejected rather than guessed or silently converted.
++    """
++
++    if isinstance(value, bool):
++        raise ExactInputError(f"{name} must not be bool")
++    if type(value) is Fraction:
++        return value
++    if type(value) is int:
++        return Fraction(value)
++    raise ExactInputError(
++        f"{name} must be fractions.Fraction or a non-boolean built-in int; "
++        f"got {type(value).__name__}"
++    )
++
++
++def parse_rational(text: str) -> Fraction:
++    """Parse decimal/integer/fraction text exactly, outside ``certify()``.
++
++    Examples:
++        ``parse_rational("0.7") == Fraction(7, 10)``
++        ``parse_rational("14/20") == Fraction(7, 10)``
++    """
++
++    if type(text) is not str:
++        raise TypeError("parse_rational expects a string")
++    cleaned = text.strip()
++    if not cleaned:
++        raise ValueError("empty rational string")
++    try:
++        return Fraction(cleaned)
++    except (ValueError, ZeroDivisionError) as exc:
++        raise ValueError(f"invalid exact rational text: {text!r}") from exc
+ 
+ 
+ @dataclass(frozen=True)
+@@ -17,12 +61,17 @@ class Interval:
+     hi: F
+ 
+     def __post_init__(self) -> None:
+-        if self.lo > self.hi:
++        lo = exact_fraction(self.lo, name="interval.lo")
++        hi = exact_fraction(self.hi, name="interval.hi")
++        object.__setattr__(self, "lo", lo)
++        object.__setattr__(self, "hi", hi)
++        if lo > hi:
+             raise ValueError("invalid interval")
+ 
+     @staticmethod
+-    def point(x: F) -> "Interval":
+-        return Interval(x, x)
++    def point(x: ExactRationalInput) -> "Interval":
++        q = exact_fraction(x, name="interval point")
++        return Interval(q, q)
+ 
+     @property
+     def width(self) -> F:
+@@ -30,12 +79,12 @@ class Interval:
+ 
+     @property
+     def mid(self) -> F:
+-        return (self.lo + self.hi) / 2
++        return (self.lo + self.hi) / F(2)
+ 
+     def contains_zero(self) -> bool:
+         return self.lo <= 0 <= self.hi
+ 
+-    def __add__(self, other: "Interval | F | int") -> "Interval":
++    def __add__(self, other: "Interval | ExactRationalInput") -> "Interval":
+         o = as_interval(other)
+         return Interval(self.lo + o.lo, self.hi + o.hi)
+ 
+@@ -44,57 +93,69 @@ class Interval:
+     def __neg__(self) -> "Interval":
+         return Interval(-self.hi, -self.lo)
+ 
+-    def __sub__(self, other: "Interval | F | int") -> "Interval":
++    def __sub__(self, other: "Interval | ExactRationalInput") -> "Interval":
+         return self + (-as_interval(other))
+ 
+-    def __rsub__(self, other: "Interval | F | int") -> "Interval":
++    def __rsub__(self, other: "Interval | ExactRationalInput") -> "Interval":
+         return as_interval(other) - self
+ 
+-    def __mul__(self, other: "Interval | F | int") -> "Interval":
++    def __mul__(self, other: "Interval | ExactRationalInput") -> "Interval":
+         o = as_interval(other)
+-        vals = (
++        values = (
+             self.lo * o.lo,
+             self.lo * o.hi,
+             self.hi * o.lo,
+             self.hi * o.hi,
+         )
+-        return Interval(min(vals), max(vals))
++        return Interval(min(values), max(values))
+ 
+     __rmul__ = __mul__
+ 
+     def reciprocal(self) -> "Interval":
+         if self.contains_zero():
+             raise ZeroDivisionError("interval contains zero")
+-        vals = (F(1, 1) / self.lo, F(1, 1) / self.hi)
+-        return Interval(min(vals), max(vals))
++        values = (F(1) / self.lo, F(1) / self.hi)
++        return Interval(min(values), max(values))
+ 
+-    def __truediv__(self, other: "Interval | F | int") -> "Interval":
++    def __truediv__(self, other: "Interval | ExactRationalInput") -> "Interval":
+         return self * as_interval(other).reciprocal()
+ 
+     def square(self) -> "Interval":
+         if self.contains_zero():
+             return Interval(F(0), max(self.lo * self.lo, self.hi * self.hi))
+-        vals = (self.lo * self.lo, self.hi * self.hi)
+-        return Interval(min(vals), max(vals))
++        values = (self.lo * self.lo, self.hi * self.hi)
++        return Interval(min(values), max(values))
+ 
+ 
+-def as_interval(x: Interval | F | int) -> Interval:
+-    if isinstance(x, Interval):
+-        return x
+-    if not isinstance(x, Fraction):
+-        x = F(x)
+-    return Interval.point(x)
++def as_interval(value: Interval | ExactRationalInput) -> Interval:
++    if isinstance(value, Interval):
++        return value
++    return Interval.point(exact_fraction(value, name="interval operand"))
++
++
++def bisect_interval_cover(parent: Interval) -> tuple[Interval, Interval]:
++    """Closed cover-preserving bisection.
++
++    The two children share the midpoint. Their union covers the complete
++    parent interval; they are not claimed to be a pairwise-disjoint partition.
++    """
++
++    midpoint = parent.mid
++    return Interval(parent.lo, midpoint), Interval(midpoint, parent.hi)
+ 
+ 
+ @dataclass(frozen=True)
+ class Circle:
+-    cx: F
+-    cy: F
+-    radius: F
++    """Raw circle input record.
+ 
+-    def __post_init__(self) -> None:
+-        if self.radius <= 0:
+-            raise ValueError("circle radius must be positive")
++    Runtime exactness and geometry are validated at the beginning of
++    ``ReachEngine.certify``. This permits invalid calls to return the explicit
++    ``INPUT_INVALID`` status rather than entering certificate arithmetic.
++    """
++
++    cx: object
++    cy: object
++    radius: object
+ 
+ 
+ @dataclass(frozen=True)
+@@ -106,47 +167,47 @@ class CirclePatch:
+     t: Interval
+     circle: Circle
+ 
+-    def position(self, ti: Interval) -> tuple[Interval, Interval]:
+-        t2 = ti * ti
+-        den = 1 + t2
+-        bx = (1 - t2) / den
+-        by = (2 * ti) / den
+-        x, y = rotate_quarter(bx, by, self.quarter)
++    def position(self, parameter: Interval) -> tuple[Interval, Interval]:
++        t2 = parameter * parameter
++        denominator = 1 + t2
++        base_x = (1 - t2) / denominator
++        base_y = (2 * parameter) / denominator
++        x, y = rotate_quarter(base_x, base_y, self.quarter)
+         return (
+             self.circle.cx + self.circle.radius * x,
+             self.circle.cy + self.circle.radius * y,
+         )
+ 
+-    def tangent(self, ti: Interval) -> tuple[Interval, Interval]:
+-        t2 = ti * ti
+-        den2 = (1 + t2) * (1 + t2)
+-        dx = (-4 * ti) / den2
+-        dy = (2 * (1 - t2)) / den2
++    def tangent(self, parameter: Interval) -> tuple[Interval, Interval]:
++        t2 = parameter * parameter
++        denominator2 = (1 + t2) * (1 + t2)
++        dx = (-4 * parameter) / denominator2
++        dy = (2 * (1 - t2)) / denominator2
+         x, y = rotate_quarter(dx, dy, self.quarter)
+         return (self.circle.radius * x, self.circle.radius * y)
+ 
+     def local_with(self, other: "CirclePatch") -> bool:
+         if self.circle_id != other.circle_id:
+             return False
+-        n = self.total_on_loop
+-        d = abs(self.global_index - other.global_index)
+-        cyclic = min(d, n - d)
+-        # Same/adjacent rational quarter-subpatches lie in a common
+-        # circular guard arc of angular width strictly below pi.  For a
+-        # circle, a nonzero chord is orthogonal to the endpoint tangent
+-        # only at an antipodal separation, so every such pair is locally
+-        # excluded.  This is the circle-specific guard-chart certificate
+-        # used by the reference suite.
+-        return cyclic <= 1
+-
+-
+-def rotate_quarter(x: Interval, y: Interval, q: int) -> tuple[Interval, Interval]:
+-    q %= 4
+-    if q == 0:
++        patch_count = self.total_on_loop
++        index_distance = abs(self.global_index - other.global_index)
++        cyclic_distance = min(index_distance, patch_count - index_distance)
++        # Same/adjacent rational quarter-subpatches lie in a common circular
++        # guard arc of angular width strictly below pi. For a circle, a
++        # nonzero chord is orthogonal to an endpoint tangent only at an
++        # antipodal separation, so every such pair is locally excluded.
++        return cyclic_distance <= 1
++
++
++def rotate_quarter(
++    x: Interval, y: Interval, quarter: int
++) -> tuple[Interval, Interval]:
++    quarter %= 4
++    if quarter == 0:
+         return x, y
+-    if q == 1:
++    if quarter == 1:
+         return -y, x
+-    if q == 2:
++    if quarter == 2:
+         return -x, -y
+     return y, -x
+ 
+@@ -155,36 +216,79 @@ class Status(Enum):
+     VALID = auto()
+     UNKNOWN = auto()
+     CURVATURE_FAIL = auto()
++    INPUT_INVALID = auto()
+ 
+ 
+ @dataclass
+ class ReachResult:
+     status: Status
+-    r0: F
++    r0: F | None
+     runtime_seconds: float
+     patch_count: int
+     all_patch_pairs: int
++    initial_pair_boxes: int
+     local_pruned: int
+     distance_pruned: int
+     normal_pruned: int
+     interval_boxes: int
++    subdivision_children_enqueued: int
++    queued_boxes_at_exit: int
+     max_depth_seen: int
++    max_depth_unresolved_boxes: int
+     unresolved_boxes: int
+     reason: str
+ 
++    @property
++    def generated_boxes(self) -> int:
++        return self.initial_pair_boxes + self.subdivision_children_enqueued
++
++    @property
++    def subdivision_parent_boxes(self) -> int:
++        if self.subdivision_children_enqueued % 2:
++            raise AssertionError("subdivision child count must be even")
++        return self.subdivision_children_enqueued // 2
++
++    @property
++    def accounting_ok(self) -> bool:
++        return self.generated_boxes == self.interval_boxes + self.queued_boxes_at_exit
++
++    @property
++    def processing_accounting_ok(self) -> bool:
++        return self.interval_boxes == (
++            self.distance_pruned
++            + self.normal_pruned
++            + self.max_depth_unresolved_boxes
++            + self.subdivision_parent_boxes
++        )
++
++    @property
++    def unresolved_accounting_ok(self) -> bool:
++        return self.unresolved_boxes == (
++            self.max_depth_unresolved_boxes + self.queued_boxes_at_exit
++        )
++
+     def as_dict(self) -> dict[str, object]:
+         return {
+             "status": self.status.name,
+-            "r0": str(self.r0),
++            "r0": None if self.r0 is None else str(self.r0),
+             "runtime_seconds": self.runtime_seconds,
+             "patch_count": self.patch_count,
+             "all_patch_pairs": self.all_patch_pairs,
++            "initial_pair_boxes": self.initial_pair_boxes,
+             "local_pruned": self.local_pruned,
+             "distance_pruned": self.distance_pruned,
+             "normal_pruned": self.normal_pruned,
+             "interval_boxes": self.interval_boxes,
++            "subdivision_children_enqueued": self.subdivision_children_enqueued,
++            "subdivision_parent_boxes": self.subdivision_parent_boxes,
++            "generated_boxes": self.generated_boxes,
++            "queued_boxes_at_exit": self.queued_boxes_at_exit,
+             "max_depth_seen": self.max_depth_seen,
++            "max_depth_unresolved_boxes": self.max_depth_unresolved_boxes,
+             "unresolved_boxes": self.unresolved_boxes,
++            "accounting_ok": self.accounting_ok,
++            "processing_accounting_ok": self.processing_accounting_ok,
++            "unresolved_accounting_ok": self.unresolved_accounting_ok,
+             "reason": self.reason,
+         }
+ 
+@@ -201,9 +305,8 @@ class PairBox:
+ class ReachEngine:
+     """Exact-rational interval DCSD exclusion for an analytic circle atlas.
+ 
+-    This is a deliberately small reference implementation. It proves
+-    soundness of the exhaustive pair-cover/pair-pruning architecture on
+-    rational circles; it is not the spline-atlas implementation.
++    This is an analytic-circle restricted reference engine. It is not a
++    general spline reach engine.
+     """
+ 
+     def __init__(
+@@ -212,90 +315,243 @@ class ReachEngine:
+         max_depth: int = 18,
+         max_boxes: int = 300_000,
+     ) -> None:
++        for name, value in (
++            ("pieces_per_quarter", pieces_per_quarter),
++            ("max_depth", max_depth),
++            ("max_boxes", max_boxes),
++        ):
++            if type(value) is not int:
++                raise TypeError(f"{name} must be a built-in int")
+         if pieces_per_quarter < 2:
+             raise ValueError("pieces_per_quarter must be at least 2")
++        if max_depth < 0:
++            raise ValueError("max_depth must be nonnegative")
++        if max_boxes < 1:
++            raise ValueError("max_boxes must be positive")
+         self.pieces_per_quarter = pieces_per_quarter
+         self.max_depth = max_depth
+         self.max_boxes = max_boxes
+ 
+-    def build_atlas(self, circles: Iterable[Circle]) -> list[CirclePatch]:
++    @staticmethod
++    def _normalize_circle(circle: object, index: int) -> Circle:
++        if type(circle) is not Circle:
++            raise ExactInputError(f"circles[{index}] must be a Circle")
++        cx = exact_fraction(circle.cx, name=f"circles[{index}].cx")
++        cy = exact_fraction(circle.cy, name=f"circles[{index}].cy")
++        radius = exact_fraction(circle.radius, name=f"circles[{index}].radius")
++        if radius <= 0:
++            raise ValueError(f"circles[{index}].radius must be positive")
++        return Circle(cx, cy, radius)
++
++    @classmethod
++    def _normalize_circles(cls, circles: object) -> list[Circle]:
++        if isinstance(circles, (str, bytes)):
++            raise ExactInputError("circles must be an iterable of Circle objects")
++        try:
++            raw = list(circles)  # type: ignore[arg-type]
++        except TypeError as exc:
++            raise ExactInputError("circles must be an iterable of Circle objects") from exc
++        if not raw:
++            raise ValueError("empty circle link is not supported")
++        return [cls._normalize_circle(circle, index) for index, circle in enumerate(raw)]
++
++    @staticmethod
++    def _validate_disjoint_embedded_link(circles: list[Circle]) -> None:
++        for i, first in enumerate(circles):
++            for j in range(i + 1, len(circles)):
++                second = circles[j]
++                dx = first.cx - second.cx
++                dy = first.cy - second.cy
++                center_distance2 = dx * dx + dy * dy
++                sum_radius = first.radius + second.radius
++                radius_difference = abs(first.radius - second.radius)
++                externally_separated = center_distance2 > sum_radius * sum_radius
++                strictly_nested = center_distance2 < radius_difference * radius_difference
++                if externally_separated or strictly_nested:
++                    continue
++
++                if (
++                    first.cx == second.cx
++                    and first.cy == second.cy
++                    and first.radius == second.radius
++                ):
++                    relation = "duplicate circle"
++                elif center_distance2 == sum_radius * sum_radius:
++                    relation = "external tangency"
++                elif center_distance2 == radius_difference * radius_difference:
++                    relation = "internal tangency"
++                else:
++                    relation = "transverse circle-boundary intersection"
++                raise ValueError(
++                    f"circle link is not pairwise-disjoint: pair ({i}, {j}) has {relation}"
++                )
++
++    def _build_atlas_exact(self, circles: list[Circle]) -> list[CirclePatch]:
+         patches: list[CirclePatch] = []
+         per_loop = 4 * self.pieces_per_quarter
+         for circle_id, circle in enumerate(circles):
+-            for q in range(4):
+-                for j in range(self.pieces_per_quarter):
+-                    lo = F(j, self.pieces_per_quarter)
+-                    hi = F(j + 1, self.pieces_per_quarter)
+-                    idx = q * self.pieces_per_quarter + j
++            for quarter in range(4):
++                for piece in range(self.pieces_per_quarter):
++                    lo = F(piece, self.pieces_per_quarter)
++                    hi = F(piece + 1, self.pieces_per_quarter)
++                    index = quarter * self.pieces_per_quarter + piece
+                     patches.append(
+                         CirclePatch(
+                             circle_id=circle_id,
+-                            global_index=idx,
++                            global_index=index,
+                             total_on_loop=per_loop,
+-                            quarter=q,
++                            quarter=quarter,
+                             t=Interval(lo, hi),
+                             circle=circle,
+                         )
+                     )
+         return patches
+ 
+-    def certify(self, circles: list[Circle], r0: F) -> ReachResult:
++    def build_atlas(self, circles: Iterable[Circle]) -> list[CirclePatch]:
++        normalized = self._normalize_circles(circles)
++        self._validate_disjoint_embedded_link(normalized)
++        return self._build_atlas_exact(normalized)
++
++    @staticmethod
++    def _squared_distance_threshold(r0: ExactRationalInput) -> Fraction:
++        exact_r0 = exact_fraction(r0, name="r0")
++        two_r0 = F(2) * exact_r0
++        threshold2 = two_r0 * two_r0
++        if type(threshold2) is not Fraction:
++            raise AssertionError("distance threshold left exact rational arithmetic")
++        return threshold2
++
++    @staticmethod
++    def _result(
++        *,
++        status: Status,
++        r0: F | None,
++        start: float,
++        patch_count: int = 0,
++        all_patch_pairs: int = 0,
++        initial_pair_boxes: int = 0,
++        local_pruned: int = 0,
++        distance_pruned: int = 0,
++        normal_pruned: int = 0,
++        interval_boxes: int = 0,
++        subdivision_children_enqueued: int = 0,
++        queued_boxes_at_exit: int = 0,
++        max_depth_seen: int = 0,
++        max_depth_unresolved_boxes: int = 0,
++        unresolved_boxes: int = 0,
++        reason: str,
++    ) -> ReachResult:
++        result = ReachResult(
++            status=status,
++            r0=r0,
++            runtime_seconds=perf_counter() - start,
++            patch_count=patch_count,
++            all_patch_pairs=all_patch_pairs,
++            initial_pair_boxes=initial_pair_boxes,
++            local_pruned=local_pruned,
++            distance_pruned=distance_pruned,
++            normal_pruned=normal_pruned,
++            interval_boxes=interval_boxes,
++            subdivision_children_enqueued=subdivision_children_enqueued,
++            queued_boxes_at_exit=queued_boxes_at_exit,
++            max_depth_seen=max_depth_seen,
++            max_depth_unresolved_boxes=max_depth_unresolved_boxes,
++            unresolved_boxes=unresolved_boxes,
++            reason=reason,
++        )
++        if not result.accounting_ok:
++            raise AssertionError("generated/processed/queued accounting invariant failed")
++        if not result.processing_accounting_ok:
++            raise AssertionError("processed-box outcome accounting invariant failed")
++        if not result.unresolved_accounting_ok:
++            raise AssertionError("unresolved-box accounting invariant failed")
++        return result
++
++    def certify(self, circles: object, r0: object) -> ReachResult:
+         start = perf_counter()
+-        if r0 <= 0:
+-            raise ValueError("r0 must be positive")
+ 
+-        atlas = self.build_atlas(circles)
+-        n = len(atlas)
+-        all_pairs = n * (n + 1) // 2
++        try:
++            exact_r0 = exact_fraction(r0, name="r0")
++        except ExactInputError as exc:
++            return self._result(
++                status=Status.INPUT_INVALID,
++                r0=None,
++                start=start,
++                reason=str(exc),
++            )
++        if exact_r0 <= 0:
++            return self._result(
++                status=Status.INPUT_INVALID,
++                r0=exact_r0,
++                start=start,
++                reason="r0 must be positive",
++            )
+ 
+-        # Curvature radius of a circle equals its radius. Equality is allowed.
+-        if any(c.radius < r0 for c in circles):
+-            return ReachResult(
++        try:
++            exact_circles = self._normalize_circles(circles)
++            self._validate_disjoint_embedded_link(exact_circles)
++        except (ExactInputError, ValueError) as exc:
++            return self._result(
++                status=Status.INPUT_INVALID,
++                r0=exact_r0,
++                start=start,
++                reason=str(exc),
++            )
++
++        atlas = self._build_atlas_exact(exact_circles)
++        patch_count = len(atlas)
++        all_patch_pairs = patch_count * (patch_count + 1) // 2
++
++        # A circle's curvature radius equals its exact radius. Equality is allowed.
++        if any(circle.radius < exact_r0 for circle in exact_circles):
++            return self._result(
+                 status=Status.CURVATURE_FAIL,
+-                r0=r0,
+-                runtime_seconds=perf_counter() - start,
+-                patch_count=n,
+-                all_patch_pairs=all_pairs,
+-                local_pruned=0,
+-                distance_pruned=0,
+-                normal_pruned=0,
+-                interval_boxes=0,
+-                max_depth_seen=0,
+-                unresolved_boxes=0,
++                r0=exact_r0,
++                start=start,
++                patch_count=patch_count,
++                all_patch_pairs=all_patch_pairs,
+                 reason="curvature bound 1/R <= 1/r0 fails",
+             )
+ 
+         queue: deque[PairBox] = deque()
+         local_pruned = 0
+-        for i, a in enumerate(atlas):
+-            for b in atlas[i:]:
+-                if a.local_with(b):
++        for i, first in enumerate(atlas):
++            for second in atlas[i:]:
++                if first.local_with(second):
+                     local_pruned += 1
+                     continue
+-                queue.append(PairBox(a, b, a.t, b.t, 0))
++                queue.append(PairBox(first, second, first.t, second.t, 0))
+ 
++        initial_pair_boxes = len(queue)
+         distance_pruned = 0
+         normal_pruned = 0
+         interval_boxes = 0
++        subdivision_children_enqueued = 0
+         max_depth_seen = 0
+-        unresolved = 0
+-        threshold2 = (2 * r0) * (2 * r0)
++        max_depth_unresolved_boxes = 0
++
++        threshold2 = self._squared_distance_threshold(exact_r0)
+ 
+         while queue:
+             if interval_boxes >= self.max_boxes:
+-                unresolved = len(queue)
+-                return ReachResult(
++                queued_boxes_at_exit = len(queue)
++                unresolved_total = max_depth_unresolved_boxes + queued_boxes_at_exit
++                return self._result(
+                     status=Status.UNKNOWN,
+-                    r0=r0,
+-                    runtime_seconds=perf_counter() - start,
+-                    patch_count=n,
+-                    all_patch_pairs=all_pairs,
++                    r0=exact_r0,
++                    start=start,
++                    patch_count=patch_count,
++                    all_patch_pairs=all_patch_pairs,
++                    initial_pair_boxes=initial_pair_boxes,
+                     local_pruned=local_pruned,
+                     distance_pruned=distance_pruned,
+                     normal_pruned=normal_pruned,
+                     interval_boxes=interval_boxes,
++                    subdivision_children_enqueued=subdivision_children_enqueued,
++                    queued_boxes_at_exit=queued_boxes_at_exit,
+                     max_depth_seen=max_depth_seen,
+-                    unresolved_boxes=unresolved,
++                    max_depth_unresolved_boxes=max_depth_unresolved_boxes,
++                    unresolved_boxes=unresolved_total,
+                     reason="interval box budget exhausted",
+                 )
+ 
+@@ -303,65 +559,78 @@ class ReachEngine:
+             interval_boxes += 1
+             max_depth_seen = max(max_depth_seen, box.depth)
+ 
+-            xa = box.a.position(box.s)
+-            xb = box.b.position(box.t)
+-            chord = (xa[0] - xb[0], xa[1] - xb[1])
+-            d2 = chord[0].square() + chord[1].square()
++            first_position = box.a.position(box.s)
++            second_position = box.b.position(box.t)
++            chord = (
++                first_position[0] - second_position[0],
++                first_position[1] - second_position[1],
++            )
++            distance2 = chord[0].square() + chord[1].square()
+ 
+-            if d2.lo >= threshold2:
++            if distance2.lo >= threshold2:
+                 distance_pruned += 1
+                 continue
+ 
+-            ta = box.a.tangent(box.s)
+-            tb = box.b.tangent(box.t)
+-            g1 = chord[0] * ta[0] + chord[1] * ta[1]
+-            g2 = chord[0] * tb[0] + chord[1] * tb[1]
++            first_tangent = box.a.tangent(box.s)
++            second_tangent = box.b.tangent(box.t)
++            g1 = chord[0] * first_tangent[0] + chord[1] * first_tangent[1]
++            g2 = chord[0] * second_tangent[0] + chord[1] * second_tangent[1]
+ 
+             if not g1.contains_zero() or not g2.contains_zero():
+                 normal_pruned += 1
+                 continue
+ 
+             if box.depth >= self.max_depth:
+-                unresolved += 1
++                max_depth_unresolved_boxes += 1
+                 continue
+ 
+-            # Deterministic subdivision of the wider parameter interval.
++            # Closed, cover-preserving bisection. The children share the
++            # midpoint; no pairwise-disjoint partition claim is made.
+             if box.s.width >= box.t.width:
+-                m = box.s.mid
+-                queue.append(PairBox(box.a, box.b, Interval(box.s.lo, m), box.t, box.depth + 1))
+-                queue.append(PairBox(box.a, box.b, Interval(m, box.s.hi), box.t, box.depth + 1))
++                left, right = bisect_interval_cover(box.s)
++                queue.append(PairBox(box.a, box.b, left, box.t, box.depth + 1))
++                queue.append(PairBox(box.a, box.b, right, box.t, box.depth + 1))
+             else:
+-                m = box.t.mid
+-                queue.append(PairBox(box.a, box.b, box.s, Interval(box.t.lo, m), box.depth + 1))
+-                queue.append(PairBox(box.a, box.b, box.s, Interval(m, box.t.hi), box.depth + 1))
++                left, right = bisect_interval_cover(box.t)
++                queue.append(PairBox(box.a, box.b, box.s, left, box.depth + 1))
++                queue.append(PairBox(box.a, box.b, box.s, right, box.depth + 1))
++            subdivision_children_enqueued += 2
+ 
+-        if unresolved:
+-            return ReachResult(
++        if max_depth_unresolved_boxes:
++            return self._result(
+                 status=Status.UNKNOWN,
+-                r0=r0,
+-                runtime_seconds=perf_counter() - start,
+-                patch_count=n,
+-                all_patch_pairs=all_pairs,
++                r0=exact_r0,
++                start=start,
++                patch_count=patch_count,
++                all_patch_pairs=all_patch_pairs,
++                initial_pair_boxes=initial_pair_boxes,
+                 local_pruned=local_pruned,
+                 distance_pruned=distance_pruned,
+                 normal_pruned=normal_pruned,
+                 interval_boxes=interval_boxes,
++                subdivision_children_enqueued=subdivision_children_enqueued,
++                queued_boxes_at_exit=0,
+                 max_depth_seen=max_depth_seen,
+-                unresolved_boxes=unresolved,
++                max_depth_unresolved_boxes=max_depth_unresolved_boxes,
++                unresolved_boxes=max_depth_unresolved_boxes,
+                 reason="unresolved boxes at maximum subdivision depth",
+             )
+ 
+-        return ReachResult(
++        return self._result(
+             status=Status.VALID,
+-            r0=r0,
+-            runtime_seconds=perf_counter() - start,
+-            patch_count=n,
+-            all_patch_pairs=all_pairs,
++            r0=exact_r0,
++            start=start,
++            patch_count=patch_count,
++            all_patch_pairs=all_patch_pairs,
++            initial_pair_boxes=initial_pair_boxes,
+             local_pruned=local_pruned,
+             distance_pruned=distance_pruned,
+             normal_pruned=normal_pruned,
+             interval_boxes=interval_boxes,
++            subdivision_children_enqueued=subdivision_children_enqueued,
++            queued_boxes_at_exit=0,
+             max_depth_seen=max_depth_seen,
++            max_depth_unresolved_boxes=0,
+             unresolved_boxes=0,
+             reason="all nonlocal patch-pair boxes excluded",
+         )
+diff --git a/new/run_adversarial_reference.py b/new/run_adversarial_reference.py
+new file mode 100644
+index 0000000..dd827ad
+--- /dev/null
++++ b/new/run_adversarial_reference.py
+@@ -0,0 +1,125 @@
++from __future__ import annotations
++
++from fractions import Fraction as F
++import json
++from pathlib import Path
++import random
++import sys
++from typing import Iterable
++
++from reach_engine import Circle, ReachEngine, Status
++
++
++SEED = 20260823
++
++
++def analytic_reach_collinear(circles: Iterable[Circle]) -> F:
++    items = list(circles)
++    if not items:
++        raise ValueError("empty link")
++    if any(c.cy != 0 for c in items):
++        raise ValueError("reference helper only supports centers on the x-axis")
++    reach = min(c.radius for c in items)
++    for i, first in enumerate(items):
++        for second in items[i + 1 :]:
++            center_distance = abs(first.cx - second.cx)
++            radius_sum = first.radius + second.radius
++            radius_difference = abs(first.radius - second.radius)
++            if center_distance > radius_sum:
++                boundary_gap = center_distance - radius_sum
++            elif center_distance < radius_difference:
++                boundary_gap = radius_difference - center_distance
++            else:
++                raise ValueError("reference helper received intersecting/tangent circles")
++            reach = min(reach, boundary_gap / F(2))
++    return reach
++
++
++def generated_links() -> list[tuple[str, list[Circle]]]:
++    rng = random.Random(SEED)
++    cases: list[tuple[str, list[Circle]]] = []
++
++    for index in range(8):
++        r1 = F(rng.randint(3, 10), rng.randint(2, 5))
++        r2 = F(rng.randint(3, 10), rng.randint(2, 5))
++        gap = F(rng.randint(2, 12), rng.randint(5, 20))
++        center = r1 + r2 + gap
++        cases.append(
++            (
++                f"random_external_{index:02d}",
++                [Circle(F(0), F(0), r1), Circle(center, F(0), r2)],
++            )
++        )
++
++    for index in range(4):
++        inner_radius = F(rng.randint(3, 8), rng.randint(2, 5))
++        offset = F(rng.randint(0, 5), rng.randint(4, 12))
++        boundary_gap = F(rng.randint(2, 10), rng.randint(5, 18))
++        outer_radius = inner_radius + offset + boundary_gap
++        cases.append(
++            (
++                f"random_nested_{index:02d}",
++                [
++                    Circle(F(0), F(0), outer_radius),
++                    Circle(offset, F(0), inner_radius),
++                ],
++            )
++        )
++
++    return cases
++
++
++def run() -> tuple[list[dict[str, object]], list[str]]:
++    rows: list[dict[str, object]] = []
++    failures: list[str] = []
++    for case_id, circles in generated_links():
++        reference_reach = analytic_reach_collinear(circles)
++        below = reference_reach * F(3, 4)
++        above = reference_reach + min(F(1, 1000), reference_reach / F(20))
++        engine = ReachEngine(pieces_per_quarter=4, max_depth=36, max_boxes=800_000)
++
++        below_result = engine.certify(circles, below)
++        above_result = engine.certify(circles, above)
++
++        passed = (
++            below_result.status is Status.VALID
++            and above_result.status is not Status.VALID
++            and below_result.accounting_ok
++            and below_result.processing_accounting_ok
++            and below_result.unresolved_accounting_ok
++            and above_result.accounting_ok
++            and above_result.processing_accounting_ok
++            and above_result.unresolved_accounting_ok
++        )
++        row = {
++            "id": case_id,
++            "reference_reach": str(reference_reach),
++            "below_r0": str(below),
++            "below_status": below_result.status.name,
++            "below_boxes": below_result.interval_boxes,
++            "above_r0": str(above),
++            "above_status": above_result.status.name,
++            "above_boxes": above_result.interval_boxes,
++            "passed": passed,
++        }
++        rows.append(row)
++        print(json.dumps(row, ensure_ascii=False))
++        if not passed:
++            failures.append(case_id)
++    return rows, failures
++
++
++def main() -> int:
++    rows, failures = run()
++    output = Path(__file__).with_name("adversarial_reference_results.json")
++    output.write_text(json.dumps(rows, indent=2), encoding="utf-8")
++    print(f"wrote {output}")
++    if failures:
++        print("adversarial reference failures:", ", ".join(failures), file=sys.stderr)
++        return 1
++    print(f"all {len(rows)} deterministic exact-rational reference cases passed")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/new/run_before_after_regression.py b/new/run_before_after_regression.py
+new file mode 100644
+index 0000000..9898dc1
+--- /dev/null
++++ b/new/run_before_after_regression.py
+@@ -0,0 +1,79 @@
++from __future__ import annotations
++
++from fractions import Fraction as F
++import importlib.util
++import json
++from pathlib import Path
++import sys
++from types import ModuleType
++
++
++def load_module(path: Path, name: str) -> ModuleType:
++    spec = importlib.util.spec_from_file_location(name, path)
++    if spec is None or spec.loader is None:
++        raise RuntimeError(f"cannot load {path}")
++    module = importlib.util.module_from_spec(spec)
++    sys.modules[name] = module
++    spec.loader.exec_module(module)
++    return module
++
++
++def run_case(module: ModuleType, r0: object) -> dict[str, object]:
++    gap = F(139999999999999991, 100000000000000000)
++    circles = [
++        module.Circle(F(0), F(0), F(2)),
++        module.Circle(F(4) + gap, F(0), F(2)),
++    ]
++    result = module.ReachEngine(
++        pieces_per_quarter=4,
++        max_depth=130,
++        max_boxes=2_000_000,
++    ).certify(circles, r0)
++    return {
++        "status": result.status.name,
++        "interval_boxes": result.interval_boxes,
++        "max_depth_seen": result.max_depth_seen,
++        "unresolved_boxes": result.unresolved_boxes,
++        "reason": result.reason,
++    }
++
++
++def main() -> int:
++    root = Path(__file__).resolve().parent
++    legacy_path = root / "audit" / "legacy_unsound_reach_engine.py"
++    if not legacy_path.exists():
++        legacy_path = root / "original" / "reach_engine.py"
++    patched_path = root / "reach_engine.py"
++
++    legacy = load_module(legacy_path, "phase_c_legacy_unsound")
++    patched = load_module(patched_path, "phase_c1_patched")
++
++    rows = {
++        "geometry": {
++            "gap": "139999999999999991/100000000000000000",
++            "true_reach": "139999999999999991/200000000000000000",
++        },
++        "before": {
++            "float_0_7": run_case(legacy, 0.7),
++            "fraction_from_float_0_7": run_case(legacy, F.from_float(0.7)),
++        },
++        "after": {
++            "float_0_7": run_case(patched, 0.7),
++            "fraction_from_float_0_7": run_case(patched, F.from_float(0.7)),
++            "fraction_7_10": run_case(patched, F(7, 10)),
++        },
++    }
++    print(json.dumps(rows, indent=2))
++
++    passed = (
++        rows["before"]["float_0_7"]["status"] == "VALID"
++        and rows["after"]["float_0_7"]["status"] == "INPUT_INVALID"
++        and rows["after"]["fraction_from_float_0_7"]["status"] != "VALID"
++        and rows["after"]["fraction_7_10"]["status"] != "VALID"
++    )
++    print("REGRESSION_REPAIR_VERIFIED" if passed else "REGRESSION_REPAIR_FAILED")
++    return 0 if passed else 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/old/run_suite.py b/new/run_suite.py
+index e43da47..9c008e8 100644
+--- a/old/run_suite.py
++++ b/new/run_suite.py
+@@ -1,12 +1,18 @@
++from __future__ import annotations
++
+ from fractions import Fraction as F
+ import json
+ from pathlib import Path
++import sys
++from typing import Iterable
++
++from reach_engine import Circle, ReachEngine, Status
+ 
+-from reach_engine import Circle, ReachEngine
+ 
+-CASES = [
++LEGACY_CASES = [
+     {
+         "id": "S1_single_circle",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(3))],
+         "reference_reach": "3",
+         "r0": F(2),
+@@ -14,6 +20,7 @@ CASES = [
+     },
+     {
+         "id": "S2_two_separated_circles",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(2)), Circle(F(10), F(0), F(3))],
+         "reference_reach": "2",
+         "r0": F(3, 2),
+@@ -21,6 +28,7 @@ CASES = [
+     },
+     {
+         "id": "S3_concentric_annulus",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(2)), Circle(F(0), F(0), F(5))],
+         "reference_reach": "3/2",
+         "r0": F(7, 5),
+@@ -28,6 +36,7 @@ CASES = [
+     },
+     {
+         "id": "S3b_annulus_equality",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(2)), Circle(F(0), F(0), F(5))],
+         "reference_reach": "3/2",
+         "r0": F(3, 2),
+@@ -37,6 +46,7 @@ CASES = [
+     },
+     {
+         "id": "S4_near_parallel_large_loops",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(20)), Circle(F(202, 5), F(0), F(20))],
+         "reference_reach": "1/5",
+         "r0": F(19, 100),
+@@ -46,6 +56,7 @@ CASES = [
+     },
+     {
+         "id": "S5_exact_equality_pair",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(5)), Circle(F(12), F(0), F(5))],
+         "reference_reach": "1",
+         "r0": F(1),
+@@ -55,6 +66,7 @@ CASES = [
+     },
+     {
+         "id": "S6_high_curvature_fails",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(3, 4))],
+         "reference_reach": "3/4",
+         "r0": F(1),
+@@ -62,6 +74,7 @@ CASES = [
+     },
+     {
+         "id": "S6b_high_curvature_strict_valid",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(3, 4))],
+         "reference_reach": "3/4",
+         "r0": F(7, 10),
+@@ -69,6 +82,7 @@ CASES = [
+     },
+     {
+         "id": "S7_low_curvature_global_bottleneck",
++        "category": "legacy",
+         "circles": [Circle(F(0), F(0), F(20)), Circle(F(202, 5), F(0), F(20))],
+         "reference_reach": "1/5",
+         "r0": F(1),
+@@ -78,6 +92,7 @@ CASES = [
+     },
+     {
+         "id": "S8_nested_and_multiple_components",
++        "category": "legacy",
+         "circles": [
+             Circle(F(0), F(0), F(2)),
+             Circle(F(0), F(0), F(5)),
+@@ -91,23 +106,199 @@ CASES = [
+     },
+ ]
+ 
+-rows = []
+-for case in CASES:
+-    engine = ReachEngine(
+-        pieces_per_quarter=4,
+-        max_depth=case.get("max_depth", 18),
+-        max_boxes=case.get("max_boxes", 300_000),
+-    )
+-    result = engine.certify(case["circles"], case["r0"])
+-    row = {
+-        "id": case["id"],
+-        "reference_reach": case["reference_reach"],
+-        "expected": case["expected"],
+-        **result.as_dict(),
+-    }
+-    rows.append(row)
+-    print(json.dumps(row, ensure_ascii=False))
++_RED_GAP = F(139999999999999991, 100000000000000000)
++ADVERSARIAL_CASES = [
++    {
++        "id": "A1_red_team_float_r0_rejected",
++        "category": "adversarial",
++        "circles": [
++            Circle(F(0), F(0), F(2)),
++            Circle(F(4) + _RED_GAP, F(0), F(2)),
++        ],
++        "reference_reach": str(_RED_GAP / 2),
++        "r0": 0.7,
++        "expected": "INPUT_INVALID",
++        "max_depth": 130,
++        "max_boxes": 2_000_000,
++    },
++    {
++        "id": "A2_red_team_exact_binary_float_not_valid",
++        "category": "adversarial",
++        "circles": [
++            Circle(F(0), F(0), F(2)),
++            Circle(F(4) + _RED_GAP, F(0), F(2)),
++        ],
++        "reference_reach": str(_RED_GAP / 2),
++        "r0": F.from_float(0.7),
++        "expected": "NOT_VALID",
++        "max_depth": 130,
++        "max_boxes": 2_000_000,
++    },
++    {
++        "id": "A3_red_team_exact_decimal_not_valid",
++        "category": "adversarial",
++        "circles": [
++            Circle(F(0), F(0), F(2)),
++            Circle(F(4) + _RED_GAP, F(0), F(2)),
++        ],
++        "reference_reach": str(_RED_GAP / 2),
++        "r0": F(7, 10),
++        "expected": "NOT_VALID",
++        "max_depth": 130,
++        "max_boxes": 2_000_000,
++    },
++    {
++        "id": "A4_near_tangent_strict_margin_valid",
++        "category": "adversarial",
++        "circles": [Circle(F(0), F(0), F(2)), Circle(F(81, 20), F(0), F(2))],
++        "reference_reach": "1/40",
++        "r0": F(1, 50),
++        "expected": "VALID",
++        "max_depth": 40,
++        "max_boxes": 600_000,
++    },
++    {
++        "id": "A5_near_tangent_above_reach_not_valid",
++        "category": "adversarial",
++        "circles": [Circle(F(0), F(0), F(2)), Circle(F(81, 20), F(0), F(2))],
++        "reference_reach": "1/40",
++        "r0": F(3, 100),
++        "expected": "NOT_VALID",
++        "max_depth": 40,
++        "max_boxes": 600_000,
++    },
++    {
++        "id": "A6_periodic_seam_bottleneck",
++        "category": "adversarial",
++        "circles": [Circle(F(0), F(0), F(3)), Circle(F(8), F(0), F(3))],
++        "reference_reach": "1",
++        "r0": F(11, 10),
++        "expected": "NOT_VALID",
++        "max_depth": 24,
++        "max_boxes": 500_000,
++    },
++    {
++        "id": "A7_three_components_hidden_short_gap",
++        "category": "adversarial",
++        "circles": [
++            Circle(F(0), F(0), F(2)),
++            Circle(F(20), F(0), F(3)),
++            Circle(F(241, 10), F(0), F(1)),
++        ],
++        "reference_reach": "1/20",
++        "r0": F(3, 50),
++        "expected": "NOT_VALID",
++        "max_depth": 32,
++        "max_boxes": 600_000,
++    },
++    {
++        "id": "A8_external_tangent_invalid",
++        "category": "invalid-input",
++        "circles": [Circle(F(0), F(0), F(2)), Circle(F(4), F(0), F(2))],
++        "reference_reach": None,
++        "r0": F(1),
++        "expected": "INPUT_INVALID",
++    },
++    {
++        "id": "A9_internal_tangent_invalid",
++        "category": "invalid-input",
++        "circles": [Circle(F(0), F(0), F(2)), Circle(F(1), F(0), F(1))],
++        "reference_reach": None,
++        "r0": F(1, 2),
++        "expected": "INPUT_INVALID",
++    },
++    {
++        "id": "A10_intersection_invalid",
++        "category": "invalid-input",
++        "circles": [Circle(F(0), F(0), F(2)), Circle(F(3), F(0), F(2))],
++        "reference_reach": None,
++        "r0": F(1),
++        "expected": "INPUT_INVALID",
++    },
++    {
++        "id": "A11_duplicate_invalid",
++        "category": "invalid-input",
++        "circles": [Circle(F(0), F(0), F(2)), Circle(F(0), F(0), F(2))],
++        "reference_reach": None,
++        "r0": F(1),
++        "expected": "INPUT_INVALID",
++    },
++    {
++        "id": "A12_empty_invalid",
++        "category": "invalid-input",
++        "circles": [],
++        "reference_reach": None,
++        "r0": F(1),
++        "expected": "INPUT_INVALID",
++    },
++]
++
++CASES = LEGACY_CASES + ADVERSARIAL_CASES
++
++
++def matches_expected(expected: str, actual: Status) -> bool:
++    """Formal expected-status semantics used by the executable suite oracle."""
++
++    if expected == "VALID":
++        return actual is Status.VALID
++    if expected == "CURVATURE_FAIL":
++        return actual is Status.CURVATURE_FAIL
++    if expected == "INPUT_INVALID":
++        return actual is Status.INPUT_INVALID
++    if expected == "UNKNOWN_ALLOWED":
++        # Equality is mathematically certifiable, but this semi-decision
++        # implementation is permitted to return UNKNOWN.
++        return actual in {Status.VALID, Status.UNKNOWN}
++    if expected == "NOT_VALID":
++        return actual is not Status.VALID
++    raise ValueError(f"unknown expected-status rule: {expected}")
++
++
++def run_cases(cases: Iterable[dict[str, object]] = CASES) -> tuple[list[dict[str, object]], list[str]]:
++    rows: list[dict[str, object]] = []
++    mismatches: list[str] = []
++    for case in cases:
++        engine = ReachEngine(
++            pieces_per_quarter=4,
++            max_depth=int(case.get("max_depth", 18)),
++            max_boxes=int(case.get("max_boxes", 300_000)),
++        )
++        result = engine.certify(case["circles"], case["r0"])
++        passed = matches_expected(str(case["expected"]), result.status)
++        row = {
++            "id": case["id"],
++            "category": case.get("category", "unspecified"),
++            "reference_reach": case.get("reference_reach"),
++            "expected": case["expected"],
++            "expectation_passed": passed,
++            **result.as_dict(),
++        }
++        rows.append(row)
++        print(json.dumps(row, ensure_ascii=False))
++        if not passed:
++            mismatches.append(
++                f"{case['id']}: expected {case['expected']}, got {result.status.name}"
++            )
++    return rows, mismatches
++
++
++def main(
++    cases: Iterable[dict[str, object]] = CASES,
++    output: Path | None = None,
++) -> int:
++    rows, mismatches = run_cases(cases)
++    if output is None:
++        output = Path(__file__).with_name("synthetic_results.json")
++    output.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
++    print(f"wrote {output}")
++    if mismatches:
++        print("scenario expectation failures:", file=sys.stderr)
++        for message in mismatches:
++            print(f"- {message}", file=sys.stderr)
++        return 1
++    print(f"all {len(rows)} scenario expectations passed")
++    return 0
++
+ 
+-out = Path(__file__).with_name("synthetic_results.json")
+-out.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+-print(f"wrote {out}")
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/new/test_accounting_and_suite.py b/new/test_accounting_and_suite.py
+new file mode 100644
+index 0000000..7daf992
+--- /dev/null
++++ b/new/test_accounting_and_suite.py
+@@ -0,0 +1,77 @@
++from fractions import Fraction as F
++
++import reach_engine
++import run_suite
++from reach_engine import Circle, ReachEngine, Status
++
++
++def test_cover_preserving_bisection_covers_parent_and_shares_midpoint():
++    parent = reach_engine.Interval(F(1, 3), F(7, 5))
++    left, right = reach_engine.bisect_interval_cover(parent)
++    assert left.lo == parent.lo
++    assert right.hi == parent.hi
++    assert left.hi == right.lo == parent.mid
++    assert left.lo <= parent.lo <= left.hi
++    assert right.lo <= parent.hi <= right.hi
++
++
++def test_max_depth_unresolved_accounting_is_auditable():
++    circles = [Circle(F(0), F(0), F(5)), Circle(F(12), F(0), F(5))]
++    result = ReachEngine(4, max_depth=0, max_boxes=200_000).certify(circles, F(1))
++    assert result.status is Status.UNKNOWN
++    assert result.queued_boxes_at_exit == 0
++    assert result.unresolved_boxes == result.max_depth_unresolved_boxes
++    assert result.generated_boxes == result.interval_boxes + result.queued_boxes_at_exit
++
++
++def test_max_box_unresolved_accounting_preserves_prior_depth_failures():
++    circles = [Circle(F(0), F(0), F(5)), Circle(F(12), F(0), F(5))]
++    result = ReachEngine(4, max_depth=0, max_boxes=20).certify(circles, F(1))
++    assert result.status is Status.UNKNOWN
++    assert result.max_depth_unresolved_boxes > 0
++    assert result.queued_boxes_at_exit > 0
++    assert result.unresolved_boxes == (
++        result.max_depth_unresolved_boxes + result.queued_boxes_at_exit
++    )
++    assert result.generated_boxes == result.interval_boxes + result.queued_boxes_at_exit
++
++
++def test_expected_status_semantics_are_formalized():
++    assert run_suite.matches_expected("VALID", Status.VALID)
++    assert not run_suite.matches_expected("VALID", Status.UNKNOWN)
++    assert run_suite.matches_expected("UNKNOWN_ALLOWED", Status.UNKNOWN)
++    assert run_suite.matches_expected("UNKNOWN_ALLOWED", Status.VALID)
++    assert not run_suite.matches_expected("UNKNOWN_ALLOWED", Status.CURVATURE_FAIL)
++    assert run_suite.matches_expected("NOT_VALID", Status.UNKNOWN)
++    assert run_suite.matches_expected("NOT_VALID", Status.CURVATURE_FAIL)
++    assert run_suite.matches_expected("NOT_VALID", Status.INPUT_INVALID)
++    assert not run_suite.matches_expected("NOT_VALID", Status.VALID)
++    assert run_suite.matches_expected("CURVATURE_FAIL", Status.CURVATURE_FAIL)
++    assert run_suite.matches_expected("INPUT_INVALID", Status.INPUT_INVALID)
++
++
++def test_all_accounting_invariants_hold_on_budget_exit():
++    circles = [Circle(F(0), F(0), F(5)), Circle(F(12), F(0), F(5))]
++    result = ReachEngine(4, max_depth=0, max_boxes=20).certify(circles, F(1))
++    assert result.accounting_ok
++    assert result.processing_accounting_ok
++    assert result.unresolved_accounting_ok
++    assert result.interval_boxes == (
++        result.distance_pruned
++        + result.normal_pruned
++        + result.max_depth_unresolved_boxes
++        + result.subdivision_parent_boxes
++    )
++
++
++def test_run_suite_main_returns_nonzero_on_expectation_mismatch(tmp_path):
++    bad_case = {
++        "id": "deliberate_mismatch",
++        "circles": [Circle(F(0), F(0), F(3))],
++        "reference_reach": "3",
++        "r0": F(2),
++        "expected": "INPUT_INVALID",
++    }
++    output = tmp_path / "mismatch.json"
++    assert run_suite.main([bad_case], output) == 1
++    assert output.exists()
+diff --git a/new/test_adversarial_repair.py b/new/test_adversarial_repair.py
+new file mode 100644
+index 0000000..f635f00
+--- /dev/null
++++ b/new/test_adversarial_repair.py
+@@ -0,0 +1,98 @@
++from fractions import Fraction as F
++import random
++
++from reach_engine import Circle, ReachEngine, Status
++
++
++def deep_engine():
++    return ReachEngine(pieces_per_quarter=4, max_depth=130, max_boxes=2_000_000)
++
++
++def test_red_team_float_counterexample_is_rejected():
++    gap = F(139999999999999991, 100000000000000000)
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4) + gap, F(0), F(2))]
++    result = deep_engine().certify(circles, 0.7)
++    assert result.status is Status.INPUT_INVALID
++
++
++def test_red_team_exact_binary_float_value_is_not_valid():
++    gap = F(139999999999999991, 100000000000000000)
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4) + gap, F(0), F(2))]
++    result = deep_engine().certify(circles, F.from_float(0.7))
++    assert result.status is not Status.VALID
++
++
++def test_red_team_exact_decimal_value_is_not_valid():
++    gap = F(139999999999999991, 100000000000000000)
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4) + gap, F(0), F(2))]
++    result = deep_engine().certify(circles, F(7, 10))
++    assert result.status is not Status.VALID
++
++
++def test_near_external_tangency_strictly_disjoint_below_gap_is_valid():
++    gap = F(1, 20)
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4) + gap, F(0), F(2))]
++    result = ReachEngine(4, max_depth=40, max_boxes=600_000).certify(circles, F(1, 50))
++    assert result.status is Status.VALID
++
++
++def test_near_external_tangency_above_true_reach_is_not_valid():
++    gap = F(1, 20)
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4) + gap, F(0), F(2))]
++    result = ReachEngine(4, max_depth=40, max_boxes=600_000).certify(circles, F(3, 100))
++    assert result.status is not Status.VALID
++
++
++def test_annulus_equality_has_independent_regression():
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(0), F(0), F(5))]
++    result = ReachEngine(4, max_depth=14, max_boxes=80_000).certify(circles, F(3, 2))
++    assert result.status is not Status.VALID
++
++
++def test_periodic_seam_bottleneck_is_not_missed():
++    # Closest points lie on x-axis quarter/seam representations.
++    circles = [Circle(F(0), F(0), F(3)), Circle(F(8), F(0), F(3))]
++    equality = ReachEngine(4, max_depth=18, max_boxes=200_000).certify(circles, F(1))
++    above = ReachEngine(4, max_depth=22, max_boxes=400_000).certify(circles, F(11, 10))
++    assert equality.status is not Status.INPUT_INVALID
++    assert above.status is not Status.VALID
++
++
++def test_three_components_hidden_short_gap_is_not_valid():
++    circles = [
++        Circle(F(0), F(0), F(2)),
++        Circle(F(20), F(0), F(3)),
++        Circle(F(24) + F(1, 10), F(0), F(1)),
++    ]
++    # Hidden gap between the last two boundaries is 1/10, so reach <= 1/20.
++    result = ReachEngine(4, max_depth=32, max_boxes=600_000).certify(circles, F(3, 50))
++    assert result.status is not Status.VALID
++
++
++def analytic_reach_for_separated_axis_circles(circles):
++    reach = min(c.radius for c in circles)
++    for i, a in enumerate(circles):
++        for b in circles[i + 1 :]:
++            center_distance = abs(a.cx - b.cx)
++            boundary_gap = center_distance - a.radius - b.radius
++            reach = min(reach, boundary_gap / 2)
++    return reach
++
++
++def test_random_exact_rational_separated_links_against_analytic_reference():
++    rng = random.Random(20260823)
++    for _ in range(8):
++        r1 = F(rng.randint(2, 5), rng.randint(1, 3))
++        r2 = F(rng.randint(2, 5), rng.randint(1, 3))
++        gap = F(rng.randint(1, 6), rng.randint(4, 10))
++        circles = [
++            Circle(F(0), F(0), r1),
++            Circle(r1 + r2 + gap, F(0), r2),
++        ]
++        reach = analytic_reach_for_separated_axis_circles(circles)
++        below = reach * F(9, 10)
++        above = reach + F(1, 1000)
++        below_result = ReachEngine(4, max_depth=36, max_boxes=800_000).certify(circles, below)
++        above_result = ReachEngine(4, max_depth=36, max_boxes=800_000).certify(circles, above)
++        assert below_result.status is Status.VALID
++        assert above_result.status is not Status.VALID
+diff --git a/new/test_input_contract.py b/new/test_input_contract.py
+new file mode 100644
+index 0000000..7d21570
+--- /dev/null
++++ b/new/test_input_contract.py
+@@ -0,0 +1,206 @@
++from decimal import Decimal
++from fractions import Fraction as F
++
++import reach_engine
++from reach_engine import Circle, ReachEngine, Status
++
++
++def engine(**kwargs):
++    return ReachEngine(
++        pieces_per_quarter=kwargs.get("pieces_per_quarter", 4),
++        max_depth=kwargs.get("max_depth", 18),
++        max_boxes=kwargs.get("max_boxes", 300_000),
++    )
++
++
++def valid_circle():
++    return Circle(F(0), F(0), F(2))
++
++
++def test_parse_rational_decimal_and_ratio_are_exact():
++    assert reach_engine.parse_rational("0.7") == F(7, 10)
++    assert reach_engine.parse_rational(" 14/20 ") == F(7, 10)
++    assert isinstance(reach_engine.parse_rational("0.7"), F)
++
++
++def test_float_r0_is_input_invalid():
++    result = engine().certify([valid_circle()], 0.7)
++    assert result.status is Status.INPUT_INVALID
++    assert result.r0 is None
++    assert result.interval_boxes == 0
++
++
++def test_decimal_bool_and_custom_r0_are_input_invalid():
++    class NumericLike:
++        pass
++
++    for value in (Decimal("0.7"), True, NumericLike()):
++        result = engine().certify([valid_circle()], value)
++        assert result.status is Status.INPUT_INVALID
++        assert result.interval_boxes == 0
++
++
++def test_integer_r0_is_explicitly_normalized_to_fraction():
++    result = engine().certify([Circle(0, 0, 3)], 2)
++    assert result.status is Status.VALID
++    assert result.r0 == F(2)
++    assert isinstance(result.r0, F)
++
++
++def test_float_circle_fields_are_input_invalid():
++    cases = [
++        Circle(0.0, F(0), F(2)),
++        Circle(F(0), 0.0, F(2)),
++        Circle(F(0), F(0), 2.0),
++    ]
++    for circle in cases:
++        result = engine().certify([circle], F(1))
++        assert result.status is Status.INPUT_INVALID
++        assert result.interval_boxes == 0
++
++
++def test_bool_decimal_and_custom_circle_fields_are_input_invalid():
++    class NumericLike:
++        pass
++
++    cases = [
++        Circle(True, F(0), F(2)),
++        Circle(F(0), Decimal("0"), F(2)),
++        Circle(F(0), F(0), NumericLike()),
++    ]
++    for circle in cases:
++        result = engine().certify([circle], F(1))
++        assert result.status is Status.INPUT_INVALID
++        assert result.interval_boxes == 0
++
++
++def test_empty_input_is_input_invalid():
++    result = engine().certify([], F(1))
++    assert result.status is Status.INPUT_INVALID
++    assert result.patch_count == 0
++
++
++def test_nonpositive_radius_is_input_invalid():
++    for radius in (F(0), F(-1)):
++        result = engine().certify([Circle(F(0), F(0), radius)], F(1))
++        assert result.status is Status.INPUT_INVALID
++        assert result.interval_boxes == 0
++
++
++def test_nonpositive_r0_is_input_invalid():
++    for r0 in (F(0), F(-1)):
++        result = engine().certify([valid_circle()], r0)
++        assert result.status is Status.INPUT_INVALID
++        assert result.interval_boxes == 0
++
++
++def test_external_tangent_link_is_input_invalid():
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4), F(0), F(2))]
++    assert engine().certify(circles, F(1)).status is Status.INPUT_INVALID
++
++
++def test_internal_tangent_link_is_input_invalid():
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(1), F(0), F(1))]
++    assert engine().certify(circles, F(1, 2)).status is Status.INPUT_INVALID
++
++
++def test_transversely_intersecting_link_is_input_invalid():
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(3), F(0), F(2))]
++    assert engine().certify(circles, F(1)).status is Status.INPUT_INVALID
++
++
++def test_duplicate_circle_is_input_invalid():
++    circle = Circle(F(0), F(0), F(2))
++    assert engine().certify([circle, circle], F(1)).status is Status.INPUT_INVALID
++
++
++def test_nested_disjoint_circles_remain_valid_input():
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(0), F(0), F(5))]
++    result = engine(max_depth=20, max_boxes=400_000).certify(circles, F(7, 5))
++    assert result.status is Status.VALID
++
++
++def test_interval_adapter_rejects_float_defense_in_depth():
++    try:
++        reach_engine.as_interval(0.5)
++    except TypeError:
++        pass
++    else:
++        raise AssertionError("float must not be admitted into exact interval arithmetic")
++
++
++def test_fraction_subclass_and_int_subclass_are_rejected():
++    class FractionSubclass(F):
++        pass
++
++    class IntSubclass(int):
++        pass
++
++    for value in (FractionSubclass(1, 2), IntSubclass(1)):
++        result = engine().certify([valid_circle()], value)
++        assert result.status is Status.INPUT_INVALID
++
++
++def test_rational_text_is_not_silently_accepted_by_certify():
++    result = engine().certify([valid_circle()], "0.7")
++    assert result.status is Status.INPUT_INVALID
++    assert reach_engine.parse_rational("0.7") == F(7, 10)
++
++
++def test_parse_rational_rejects_nonfinite_and_zero_denominator_text():
++    for text in ("nan", "inf", "-inf", "1/0", ""):
++        try:
++            reach_engine.parse_rational(text)
++        except ValueError:
++            pass
++        else:
++            raise AssertionError(f"{text!r} must not parse as an exact rational")
++
++
++def test_distance_threshold_is_exact_fraction():
++    threshold2 = ReachEngine._squared_distance_threshold(F(7, 10))
++    assert type(threshold2) is F
++    assert threshold2 == F(49, 25)
++
++
++def test_build_atlas_rejects_invalid_circle_link():
++    circles = [Circle(F(0), F(0), F(2)), Circle(F(4), F(0), F(2))]
++    try:
++        engine().build_atlas(circles)
++    except ValueError:
++        pass
++    else:
++        raise AssertionError("public atlas builder must enforce the link contract")
++
++
++def test_nan_and_infinity_are_input_invalid():
++    for value in (float("nan"), float("inf"), float("-inf")):
++        result = engine().certify([valid_circle()], value)
++        assert result.status is Status.INPUT_INVALID
++
++
++def test_position_tangent_distance_and_orthogonality_intervals_stay_fractional():
++    atlas = engine().build_atlas([Circle(F(0), F(0), F(3))])
++    first = atlas[0]
++    second = atlas[2]
++    position_a = first.position(first.t)
++    position_b = second.position(second.t)
++    tangent_a = first.tangent(first.t)
++    tangent_b = second.tangent(second.t)
++    chord = (position_a[0] - position_b[0], position_a[1] - position_b[1])
++    distance2 = chord[0].square() + chord[1].square()
++    g1 = chord[0] * tangent_a[0] + chord[1] * tangent_a[1]
++    g2 = chord[0] * tangent_b[0] + chord[1] * tangent_b[1]
++
++    intervals = [*position_a, *position_b, *tangent_a, *tangent_b, distance2, g1, g2]
++    for interval in intervals:
++        assert type(interval.lo) is F
++        assert type(interval.hi) is F
++
++
++def test_circle_subclass_is_rejected_at_public_boundary():
++    class CircleSubclass(Circle):
++        pass
++
++    result = engine().certify([CircleSubclass(F(0), F(0), F(2))], F(1))
++    assert result.status is Status.INPUT_INVALID
+diff --git a/old/test_reach_engine.py b/new/test_reach_engine.py
+index aad2724..e967c8d 100644
+--- a/old/test_reach_engine.py
++++ b/new/test_reach_engine.py
+@@ -65,3 +65,18 @@ def test_s8_nested_and_multiple_components_valid():
+     ]
+     result = run(circles, F(7, 5), max_depth=20, max_boxes=400_000)
+     assert result.status is Status.VALID
++
++
++def test_float_r0_false_valid_regression_is_not_valid():
++    """Red-team reproducer: float 0.7 must never enter the certified path."""
++    gap = F(139999999999999991, 100000000000000000)
++    circles = [
++        Circle(F(0), F(0), F(2)),
++        Circle(F(4) + gap, F(0), F(2)),
++    ]
++    result = ReachEngine(
++        pieces_per_quarter=4,
++        max_depth=130,
++        max_boxes=2_000_000,
++    ).certify(circles, 0.7)
++    assert result.status is not Status.VALID

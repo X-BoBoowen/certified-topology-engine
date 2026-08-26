@@ -1,0 +1,42 @@
+{
+  "failure_count": 0,
+  "cases": [
+    {
+      "name": "float_r0",
+      "ok": true,
+      "status": "INPUT_INVALID"
+    },
+    {
+      "name": "decimal_r0",
+      "ok": true,
+      "status": "INPUT_INVALID"
+    },
+    {
+      "name": "bool_r0",
+      "ok": true,
+      "status": "INPUT_INVALID"
+    },
+    {
+      "name": "string_r0",
+      "ok": true,
+      "status": "INPUT_INVALID"
+    },
+    {
+      "name": "boundary_touch",
+      "ok": true,
+      "status": "INPUT_INVALID"
+    },
+    {
+      "name": "c2_mismatch",
+      "ok": true,
+      "status": "INPUT_INVALID"
+    },
+    {
+      "name": "field_only_gap",
+      "ok": true,
+      "status": "UNKNOWN"
+    }
+  ]
+}
+
+EXIT_CODE=0

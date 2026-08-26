@@ -1,0 +1,64 @@
+=== OUTER ZIP SHA256 ===
+72d0f08e3c997a0ae854463f9c5e3e1a1b586d06674a311950ac7091a1c99858  /mnt/data/Phase_C_Certified_Reach_Engine_Bundle_20260823(1)(1)(1).zip
+=== PRISTINE FILE SHA256 ===
+6937a32a2b1cbf6385f3ba4afbab53b8a0b73087ff24c7cefa1d84c28be1710d  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/ENVIRONMENT.txt
+0b948ecaf2ef0804cfef91060f2bfe1f4d2163e30fa57957ab0e8f42a7e46a71  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/MANIFEST.json
+04134ea127bbc7e045e1717e5363d96eec535a10623ef491cade682dde4c570c  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/README.md
+2db06a6d81856f79e5db0b6af29c2f5ee2144b82aacefac2ad9257738a42899d  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/RERUN_COMPARISON.txt
+edcf3d23a18619e99f52ed5cd111d1f7fe9313c41bfe12d6db12dd33eb76fd9f  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/SCENARIO_TEST_MAPPING.md
+6017fd4242db5b76ae9ba6a53b052571465c65f735b43cbec5fbdb6ffd82a7e8  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/SHA256SUMS.txt
+1c0dea645e53b6f41a80e4e4a9e4b33ad52e3513eca33f5740d2b4159160fafb  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/SYNTHETIC_SUITE_OUTPUT.txt
+5ebc2d94c07ff0f81fac17a3352a889e384eeeb8a013ddb7270649fb597e13ec  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/TEST_OUTPUT.txt
+66bb1809c81484a42af82a676ded47b086ae7e50af336c4f1649d1c708436bf6  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/ZIP_LISTING.txt
+aa55cfa2d25bb9f1b7cde30e135f96fe16ca05520c192e97259bf891ec6fdb6e  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/phase_c_reach_engine_prototype.zip
+8552eb46fe6e33453261793029aedb38fa37c86fbfa5444277f143349d4ec74d  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/reach_engine.py
+fffa2b768f5100b0e02dafee455935354cad88ba941db6f4c79bd91c05d11a5a  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/requirements.txt
+a8cf0165130cf67d838df28bcfb3af13351cebed56a67698b894d0f32dd0d96a  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/rerun/synthetic_results_rerun.json
+abbc4811b7fa6512dbab869b268778f34c4bfb3315cacc59e3021c58d6f342e1  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/run_suite.py
+03612982f17d76477b2ea132d675fd3f10cc5f2a8eaff068be52a6fa3c346e15  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/synthetic_results.json
+f97dbb43397118fe3933b3f6304b7ad47c6472037e2d2927b82668c50abcf0f3  /mnt/data/phase_c_final_verification/pristine/Phase_C_Certified_Reach_Engine_Bundle_20260823/test_reach_engine.py
+=== DECLARED CHECKSUM VERIFICATION ===
+ENVIRONMENT.txt: OK
+MANIFEST.json: OK
+README.md: OK
+RERUN_COMPARISON.txt: OK
+SCENARIO_TEST_MAPPING.md: OK
+SYNTHETIC_SUITE_OUTPUT.txt: OK
+TEST_OUTPUT.txt: OK
+ZIP_LISTING.txt: OK
+phase_c_reach_engine_prototype.zip: OK
+reach_engine.py: OK
+requirements.txt: OK
+rerun/synthetic_results_rerun.json: OK
+run_suite.py: OK
+synthetic_results.json: OK
+test_reach_engine.py: OK
+=== PY_COMPILE ===
+py_compile: PASS
+=== PYTEST ===
+.........                                                                [100%]
+9 passed in 2.37s
+=== SYNTHETIC SUITE ===
+{"id": "S1_single_circle", "reference_reach": "3", "expected": "VALID", "status": "VALID", "r0": "2", "runtime_seconds": 0.023573414999987108, "patch_count": 16, "all_patch_pairs": 136, "local_pruned": 32, "distance_pruned": 48, "normal_pruned": 64, "interval_boxes": 120, "max_depth_seen": 1, "unresolved_boxes": 0, "reason": "all nonlocal patch-pair boxes excluded"}
+{"id": "S2_two_separated_circles", "reference_reach": "2", "expected": "VALID", "status": "VALID", "r0": "3/2", "runtime_seconds": 0.07896353000001, "patch_count": 32, "all_patch_pairs": 528, "local_pruned": 64, "distance_pruned": 374, "normal_pruned": 120, "interval_boxes": 524, "max_depth_seen": 2, "unresolved_boxes": 0, "reason": "all nonlocal patch-pair boxes excluded"}
+{"id": "S3_concentric_annulus", "reference_reach": "3/2", "expected": "VALID", "status": "VALID", "r0": "7/5", "runtime_seconds": 0.6353545310000754, "patch_count": 32, "all_patch_pairs": 528, "local_pruned": 64, "distance_pruned": 1114, "normal_pruned": 624, "interval_boxes": 3012, "max_depth_seen": 8, "unresolved_boxes": 0, "reason": "all nonlocal patch-pair boxes excluded"}
+{"id": "S3b_annulus_equality", "reference_reach": "3/2", "expected": "UNKNOWN_ALLOWED", "status": "UNKNOWN", "r0": "3/2", "runtime_seconds": 8.019086122999965, "patch_count": 32, "all_patch_pairs": 528, "local_pruned": 64, "distance_pruned": 334, "normal_pruned": 8240, "interval_boxes": 28972, "max_depth_seen": 14, "unresolved_boxes": 6144, "reason": "unresolved boxes at maximum subdivision depth"}
+{"id": "S4_near_parallel_large_loops", "reference_reach": "1/5", "expected": "VALID", "status": "VALID", "r0": "19/100", "runtime_seconds": 0.21393982300003245, "patch_count": 32, "all_patch_pairs": 528, "local_pruned": 64, "distance_pruned": 691, "normal_pruned": 129, "interval_boxes": 1176, "max_depth_seen": 18, "unresolved_boxes": 0, "reason": "all nonlocal patch-pair boxes excluded"}
+{"id": "S5_exact_equality_pair", "reference_reach": "1", "expected": "UNKNOWN_ALLOWED", "status": "UNKNOWN", "r0": "1", "runtime_seconds": 0.11365346999991743, "patch_count": 32, "all_patch_pairs": 528, "local_pruned": 64, "distance_pruned": 441, "normal_pruned": 120, "interval_boxes": 672, "max_depth_seen": 14, "unresolved_boxes": 7, "reason": "unresolved boxes at maximum subdivision depth"}
+{"id": "S6_high_curvature_fails", "reference_reach": "3/4", "expected": "CURVATURE_FAIL", "status": "CURVATURE_FAIL", "r0": "1", "runtime_seconds": 4.953300003762706e-05, "patch_count": 16, "all_patch_pairs": 136, "local_pruned": 0, "distance_pruned": 0, "normal_pruned": 0, "interval_boxes": 0, "max_depth_seen": 0, "unresolved_boxes": 0, "reason": "curvature bound 1/R <= 1/r0 fails"}
+{"id": "S6b_high_curvature_strict_valid", "reference_reach": "3/4", "expected": "VALID", "status": "VALID", "r0": "7/10", "runtime_seconds": 0.19079067999996369, "patch_count": 16, "all_patch_pairs": 136, "local_pruned": 32, "distance_pruned": 251, "normal_pruned": 235, "interval_boxes": 868, "max_depth_seen": 5, "unresolved_boxes": 0, "reason": "all nonlocal patch-pair boxes excluded"}
+{"id": "S7_low_curvature_global_bottleneck", "reference_reach": "1/5", "expected": "NOT_VALID", "status": "UNKNOWN", "r0": "1", "runtime_seconds": 0.34507533600003626, "patch_count": 32, "all_patch_pairs": 528, "local_pruned": 64, "distance_pruned": 484, "normal_pruned": 446, "interval_boxes": 1572, "max_depth_seen": 14, "unresolved_boxes": 88, "reason": "unresolved boxes at maximum subdivision depth"}
+{"id": "S8_nested_and_multiple_components", "reference_reach": "3/2", "expected": "VALID", "status": "VALID", "r0": "7/5", "runtime_seconds": 0.7242332670000451, "patch_count": 48, "all_patch_pairs": 1176, "local_pruned": 96, "distance_pruned": 1690, "normal_pruned": 664, "interval_boxes": 3628, "max_depth_seen": 8, "unresolved_boxes": 0, "reason": "all nonlocal patch-pair boxes excluded"}
+wrote /mnt/data/phase_c_final_verification/run/synthetic_results.json
+=== NON-RUNTIME COMPARISON ===
+10/10 scenario records match in all non-runtime fields
+=== FALSE-VALID REPRODUCER ===
+true_reach= 139999999999999991/200000000000000000
+r0_exact= 3152519739159347/4503599627370496
+r0_minus_true_reach= 2030932031/3435973836800000000000000000
+float_threshold= 8827055269646171/4503599627370496
+gap_squared= 19599999999999997480000000000000081/10000000000000000000000000000000000
+exact_threshold= 9938380705789317246726257466409/5070602400912917605986812821504
+float_input_status= VALID boxes= 1746 max_depth= 118
+fraction_input_status= UNKNOWN boxes= 2162 unresolved= 6
+FALSE_VALID_REPRODUCED

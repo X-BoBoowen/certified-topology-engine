@@ -1,0 +1,6 @@
+$ python -m py_compile reach_engine.py test_reach_engine.py test_input_contract.py test_adversarial_repair.py test_accounting_and_suite.py run_suite.py run_adversarial_reference.py run_before_after_regression.py
+py_compile: PASS
+
+$ python -m pytest -q test_reach_engine.py test_input_contract.py test_adversarial_repair.py test_accounting_and_suite.py
+................................................                         [100%]
+48 passed in 21.50s
