@@ -1,0 +1,20 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+________ test_static_undefined_name_gate_rejects_a_real_undefined_name ________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-678/test_static_undefined_name_gat0')
+
+    def test_static_undefined_name_gate_rejects_a_real_undefined_name(tmp_path):
+        broken = tmp_path / 'broken.py'
+        broken.write_text('result = missing_name\n', encoding='utf-8')
+        process = run_static_check(broken)
+>       assert process.returncode == 1, process.stdout
+E       AssertionError: C:\Users\29722\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe: can't open file 'D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\scripts\\run_static_undefined_check.py': [Errno 2] No such file or directory
+E         
+E       assert 2 == 1
+E        +  where 2 = CompletedProcess(args=['D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...\\\.worktrees\\\\phase-c2b-worker\\\\scripts\\\\run_static_undefined_check.py': [Errno 2] No such file or directory\n").returncode
+
+tests\test_verification_scripts.py:29: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_static_undefined_name_gate_rejects_a_real_undefined_name
+1 failed in 0.14s

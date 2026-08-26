@@ -1,0 +1,159 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_default_pytest_collection_is_scoped_to_target_tree ___________
+
+    def test_default_pytest_collection_is_scoped_to_target_tree():
+        root=Path(__file__).resolve().parents[1]
+        p=subprocess.run(
+            [sys.executable,'-m','pytest','--collect-only','-q'],
+            cwd=root,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=120,
+        )
+>       assert p.returncode==0,p.stdout
+E       AssertionError: frozen_phase_c1/prototype/test_accounting_and_suite.py::test_cover_preserving_bisection_covers_parent_and_shares_midpoint
+E         frozen_phase_c1/prototype/test_accounting_and_suite.py::test_max_depth_unresolved_accounting_is_auditable
+E         frozen_phase_c1/prototype/test_accounting_and_suite.py::test_max_box_unresolved_accounting_preserves_prior_depth_failures
+E         frozen_phase_c1/prototype/test_accounting_and_suite.py::test_expected_status_semantics_are_formalized
+E         frozen_phase_c1/prototype/test_accounting_and_suite.py::test_all_accounting_invariants_hold_on_budget_exit
+E         frozen_phase_c1/prototype/test_accounting_and_suite.py::test_run_suite_main_returns_nonzero_on_expectation_mismatch
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_red_team_float_counterexample_is_rejected
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_red_team_exact_binary_float_value_is_not_valid
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_red_team_exact_decimal_value_is_not_valid
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_near_external_tangency_strictly_disjoint_below_gap_is_valid
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_near_external_tangency_above_true_reach_is_not_valid
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_annulus_equality_has_independent_regression
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_periodic_seam_bottleneck_is_not_missed
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_three_components_hidden_short_gap_is_not_valid
+E         frozen_phase_c1/prototype/test_adversarial_repair.py::test_random_exact_rational_separated_links_against_analytic_reference
+E         frozen_phase_c1/prototype/test_input_contract.py::test_parse_rational_decimal_and_ratio_are_exact
+E         frozen_phase_c1/prototype/test_input_contract.py::test_float_r0_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_decimal_bool_and_custom_r0_are_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_integer_r0_is_explicitly_normalized_to_fraction
+E         frozen_phase_c1/prototype/test_input_contract.py::test_float_circle_fields_are_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_bool_decimal_and_custom_circle_fields_are_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_empty_input_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_nonpositive_radius_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_nonpositive_r0_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_external_tangent_link_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_internal_tangent_link_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_transversely_intersecting_link_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_duplicate_circle_is_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_nested_disjoint_circles_remain_valid_input
+E         frozen_phase_c1/prototype/test_input_contract.py::test_interval_adapter_rejects_float_defense_in_depth
+E         frozen_phase_c1/prototype/test_input_contract.py::test_fraction_subclass_and_int_subclass_are_rejected
+E         frozen_phase_c1/prototype/test_input_contract.py::test_rational_text_is_not_silently_accepted_by_certify
+E         frozen_phase_c1/prototype/test_input_contract.py::test_parse_rational_rejects_nonfinite_and_zero_denominator_text
+E         frozen_phase_c1/prototype/test_input_contract.py::test_distance_threshold_is_exact_fraction
+E         frozen_phase_c1/prototype/test_input_contract.py::test_build_atlas_rejects_invalid_circle_link
+E         frozen_phase_c1/prototype/test_input_contract.py::test_nan_and_infinity_are_input_invalid
+E         frozen_phase_c1/prototype/test_input_contract.py::test_position_tangent_distance_and_orthogonality_intervals_stay_fractional
+E         frozen_phase_c1/prototype/test_input_contract.py::test_circle_subclass_is_rejected_at_public_boundary
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s1_single_circle_strict_margin_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s2_two_separated_circles_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s3_concentric_annulus_strict_margin_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s4_near_parallel_large_circles_below_bottleneck_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s5_equality_never_false_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s6_curvature_branch_rejects_too_large_radius
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s6_curvature_branch_allows_strictly_smaller_radius
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s7_low_curvature_global_bottleneck_not_false_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_s8_nested_and_multiple_components_valid
+E         frozen_phase_c1/prototype/test_reach_engine.py::test_float_r0_false_valid_regression_is_not_valid
+E         tests/test_boundary_sturm.py::test_strict_zero_free_boundary_passes_exact_sturm
+E         tests/test_boundary_sturm.py::test_true_boundary_zero_is_rejected
+E         tests/test_boundary_sturm.py::test_sturm_closes_dependency_case_that_natural_interval_cannot
+E         tests/test_exact_input.py::test_parse_rational_decimal_text_exact
+E         tests/test_exact_input.py::test_r0_rejects_non_exact_types[0.7_0]
+E         tests/test_exact_input.py::test_r0_rejects_non_exact_types[bad1]
+E         tests/test_exact_input.py::test_r0_rejects_non_exact_types[True]
+E         tests/test_exact_input.py::test_r0_rejects_non_exact_types[0.7_1]
+E         tests/test_exact_input.py::test_circle_spec_rejects_non_exact_types[0.0]
+E         tests/test_exact_input.py::test_circle_spec_rejects_non_exact_types[bad1]
+E         tests/test_exact_input.py::test_circle_spec_rejects_non_exact_types[True]
+E         tests/test_exact_input.py::test_circle_spec_rejects_non_exact_types[1]
+E         tests/test_factor_certificate.py::test_exact_factor_certificate_proves_zero_set_coverage
+E         tests/test_factor_certificate.py::test_wrong_multiplier_cannot_validate
+E         tests/test_field_validation.py::test_piecewise_knot_field_is_c2_and_boundary_zero_free
+E         tests/test_field_validation.py::test_candidate_free_field_is_honest_unknown
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S1_single_circle]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S2_two_separated_circles]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S3_concentric_annulus]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S3b_annulus_equality]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S4_near_parallel_large_loops]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S5_exact_equality_pair]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S6_high_curvature_fails]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S6b_high_curvature_strict_valid]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S7_low_curvature_global_bottleneck]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[S8_nested_and_multiple_components]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A01_external_gap]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A02_external_above]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A03_nested_strict]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A04_nested_above]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A05_seam_bottleneck]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A06_seam_above]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A07_three_hidden_gap]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A08_three_hidden_gap_above]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A09_large_margin]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A10_single_fractional]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A11_nested_fractional]
+E         tests/test_general_scenarios.py::test_22_circle_differential_expectations[A12_equality_single]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K1_vertical_knot]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K2_horizontal_knot]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K3_corner_knot]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K4_multi_knots]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K5_two_loops]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K6_nested]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K7_near_bottleneck]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K8_equality]
+E         tests/test_general_scenarios.py::test_9_knot_expectations[K9_above]
+E         tests/test_import_environment.py::test_runner_imports_from_clean_working_directory
+E         tests/test_import_environment.py::test_default_pytest_collection_is_scoped_to_target_tree
+E         tests/test_polynomial_interval.py::test_interval_polynomial_contains_exact_points
+E         tests/test_proof_replay.py::test_real_valid_proof_replays_and_tamper_fails
+E         
+E         =================================== ERRORS ====================================
+E         ________ ERROR collecting frozen_phase_c1/test_accounting_and_suite.py ________
+E         import file mismatch:
+E         imported module 'test_accounting_and_suite' has this __file__ attribute:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\prototype\test_accounting_and_suite.py
+E         which is not the same as the test file we want to collect:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\test_accounting_and_suite.py
+E         HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+E         _________ ERROR collecting frozen_phase_c1/test_adversarial_repair.py _________
+E         import file mismatch:
+E         imported module 'test_adversarial_repair' has this __file__ attribute:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\prototype\test_adversarial_repair.py
+E         which is not the same as the test file we want to collect:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\test_adversarial_repair.py
+E         HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+E         ___________ ERROR collecting frozen_phase_c1/test_input_contract.py ___________
+E         import file mismatch:
+E         imported module 'test_input_contract' has this __file__ attribute:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\prototype\test_input_contract.py
+E         which is not the same as the test file we want to collect:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\test_input_contract.py
+E         HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+E         ____________ ERROR collecting frozen_phase_c1/test_reach_engine.py ____________
+E         import file mismatch:
+E         imported module 'test_reach_engine' has this __file__ attribute:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\prototype\test_reach_engine.py
+E         which is not the same as the test file we want to collect:
+E           D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\frozen_phase_c1\test_reach_engine.py
+E         HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+E         =========================== short test summary info ===========================
+E         ERROR frozen_phase_c1/test_accounting_and_suite.py
+E         ERROR frozen_phase_c1/test_adversarial_repair.py
+E         ERROR frozen_phase_c1/test_input_contract.py
+E         ERROR frozen_phase_c1/test_reach_engine.py
+E         !!!!!!!!!!!!!!!!!!! Interrupted: 4 errors during collection !!!!!!!!!!!!!!!!!!!
+E         99 tests collected, 4 errors in 0.17s
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...!!!!!!!!!!!!!!!! Interrupted: 4 errors during collection !!!!!!!!!!!!!!!!!!!\n99 tests collected, 4 errors in 0.17s\n").returncode
+
+tests\test_import_environment.py:19: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_import_environment.py::test_default_pytest_collection_is_scoped_to_target_tree
+1 failed in 0.54s

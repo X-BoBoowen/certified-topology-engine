@@ -1,13 +1,13 @@
-Traceback (most recent call last):
-  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\scripts\run_proof_replay.py", line 18, in <module>
-    if __name__=='__main__': raise SystemExit(main())
-                                              ^^^^^^
-  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\scripts\run_proof_replay.py", line 10, in main
-    result=eng.certify(field,s.r0,prop)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\phase_c2a\engine.py", line 69, in certify
-    'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
-                                  ^^^^^^^^^^^^
-NameError: name 'frozen_outer' is not defined
-
-EXIT_CODE=1
+COMMAND=["D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe", "scripts/run_proof_replay.py"]
+TIMEOUT_SECONDS=120
+{
+  "generator_pid": 26632,
+  "original_replay": true,
+  "proof_root_hash": "f2d1b996e38f2dd05fbb215455a288c2c37069e574e1f82a5f93eac620acecc4",
+  "replay_exit_code": 0,
+  "replay_pid": 29460,
+  "source_status": "VALID",
+  "worker_output": "{\n  \"accepted\": true,\n  \"error\": null,\n  \"replay_pid\": 29460\n}\n"
+}
+EXIT_CODE=0
+RUNTIME_SECONDS=0.260068

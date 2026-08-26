@@ -1,0 +1,17 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________ test_final_verdict_matches_the_machine_summary ________________
+
+    def test_final_verdict_matches_the_machine_summary():
+        summary = json.loads((ROOT / 'results' / 'verification_summary.json').read_text())
+        verdict = (ROOT / 'FINAL_VERDICT.txt').read_text(encoding='utf-8').strip()
+>       assert verdict == summary['worker_status']
+E       AssertionError: assert 'PIVOT ¡ª SELF...CATION FAILED' == 'SELF-VERIFIC...AUDIT PENDING'
+E         
+E         - SELF-VERIFICATION PASS ¡ª INDEPENDENT AUDIT PENDING
+E         + PIVOT ¡ª SELF-VERIFICATION FAILED
+
+tests\test_verification_scripts.py:196: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_final_verdict_matches_the_machine_summary
+1 failed in 0.08s

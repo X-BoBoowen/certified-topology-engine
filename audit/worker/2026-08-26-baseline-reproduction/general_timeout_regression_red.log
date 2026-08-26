@@ -1,0 +1,22 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________ test_general_suite_completes_with_required_semantic_counts __________
+
+    def test_general_suite_completes_with_required_semantic_counts():
+        try:
+            process = subprocess.run(
+                [sys.executable, str(ROOT / 'scripts' / 'run_general_suite.py')],
+                cwd=ROOT,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=30,
+            )
+        except subprocess.TimeoutExpired:
+>           raise AssertionError('general suite exceeded 30 seconds') from None
+E           AssertionError: general suite exceeded 30 seconds
+
+tests\test_verification_scripts.py:21: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_general_suite_completes_with_required_semantic_counts
+1 failed in 30.10s

@@ -1,0 +1,48 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+______________ test_bounded_command_runner_times_out_fail_closed ______________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-680/test_bounded_command_runner_ti0')
+
+    def test_bounded_command_runner_times_out_fail_closed(tmp_path):
+        spec = importlib.util.find_spec('phase_c2a.verification_runtime')
+>       assert spec is not None
+E       assert None is not None
+
+tests\test_verification_scripts.py:97: AssertionError
+__________ test_required_verification_commands_have_bounded_timeouts __________
+
+    def test_required_verification_commands_have_bounded_timeouts():
+        spec = importlib.util.find_spec('phase_c2a.verification_runtime')
+>       assert spec is not None
+E       assert None is not None
+
+tests\test_verification_scripts.py:115: AssertionError
+___________ test_frozen_hash_script_writes_approved_machine_report ____________
+
+    def test_frozen_hash_script_writes_approved_machine_report():
+        process = run_script('run_frozen_hash_check.py')
+>       assert process.returncode == 0, process.stdout
+E       AssertionError: C:\Users\29722\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe: can't open file 'D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\scripts\\run_frozen_hash_check.py': [Errno 2] No such file or directory
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...\c2b\\\\.worktrees\\\\phase-c2b-worker\\\\scripts\\\\run_frozen_hash_check.py': [Errno 2] No such file or directory\n").returncode
+
+tests\test_verification_scripts.py:137: AssertionError
+_________ test_relocation_script_replays_proof_from_a_different_path __________
+
+    def test_relocation_script_replays_proof_from_a_different_path():
+        process = run_script('run_relocation_check.py')
+>       assert process.returncode == 0, process.stdout
+E       AssertionError: C:\Users\29722\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe: can't open file 'D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\scripts\\run_relocation_check.py': [Errno 2] No such file or directory
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...\\c2b\\\\.worktrees\\\\phase-c2b-worker\\\\scripts\\\\run_relocation_check.py': [Errno 2] No such file or directory\n").returncode
+
+tests\test_verification_scripts.py:148: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_bounded_command_runner_times_out_fail_closed
+FAILED tests/test_verification_scripts.py::test_required_verification_commands_have_bounded_timeouts
+FAILED tests/test_verification_scripts.py::test_frozen_hash_script_writes_approved_machine_report
+FAILED tests/test_verification_scripts.py::test_relocation_script_replays_proof_from_a_different_path
+4 failed in 0.21s

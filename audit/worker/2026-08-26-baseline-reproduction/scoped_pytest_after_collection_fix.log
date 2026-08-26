@@ -1,0 +1,2305 @@
+................FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF...F                      [100%]
+================================== FAILURES ===================================
+_________ test_22_circle_differential_expectations[S1_single_circle] __________
+
+s = Scenario(name='S1_single_circle', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)),), r0=Fraction(2, 1), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF63F0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-6, 1), Fraction(6, 1)), y_breaks=(Fraction(-6, 1), Fraction(6, 1)), pie...ynomial2D(coeffs={(2, 0): Fraction(1, 1), (0, 2): Fraction(1, 1), (0, 0): Fraction(-9, 1)})}, label='S1_single_circle')
+r0 = Fraction(2, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_____ test_22_circle_differential_expectations[S2_two_separated_circles] ______
+
+s = Scenario(name='S2_two_separated_circles', circles=(CircleSpec(cx=Fraction(-5, 1), cy=Fraction(0, 1), radius=Fraction(2...1), radius=Fraction(2, 1))), r0=Fraction(3, 2), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF46E0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-10, 1), Fraction(10, 1)), y_breaks=(Fraction(-10, 1), Fraction(10, 1)),...(2, 1), (0, 0): Fraction(441, 1), (0, 2): Fraction(42, 1), (0, 4): Fraction(1, 1)})}, label='S2_two_separated_circles')
+r0 = Fraction(3, 2)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-5, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(5, 1), cy=Fraction(0, 1), radius=Fraction(2, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_______ test_22_circle_differential_expectations[S3_concentric_annulus] _______
+
+s = Scenario(name='S3_concentric_annulus', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)...1), radius=Fraction(5, 1))), r0=Fraction(7, 5), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF57C0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-8, 1), Fraction(8, 1)), y_breaks=(Fraction(-8, 1), Fraction(8, 1)), pie...(-29, 1), (0, 4): Fraction(1, 1), (0, 2): Fraction(-29, 1), (0, 0): Fraction(100, 1)})}, label='S3_concentric_annulus')
+r0 = Fraction(7, 5)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(5, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_______ test_22_circle_differential_expectations[S3b_annulus_equality] ________
+
+s = Scenario(name='S3b_annulus_equality', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1))...=Fraction(5, 1))), r0=Fraction(3, 2), expected='UNKNOWN_ALLOWED', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF6C60>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-8, 1), Fraction(8, 1)), y_breaks=(Fraction(-8, 1), Fraction(8, 1)), pie...n(-29, 1), (0, 4): Fraction(1, 1), (0, 2): Fraction(-29, 1), (0, 0): Fraction(100, 1)})}, label='S3b_annulus_equality')
+r0 = Fraction(3, 2)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(5, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+___ test_22_circle_differential_expectations[S4_near_parallel_large_loops] ____
+
+s = Scenario(name='S4_near_parallel_large_loops', circles=(CircleSpec(cx=Fraction(-101, 1), cy=Fraction(0, 1), radius=Frac...radius=Fraction(100, 1))), r0=Fraction(19, 20), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF7260>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-204, 1), Fraction(204, 1)), y_breaks=(Fraction(-204, 1), Fraction(204, ... (0, 0): Fraction(40401, 1), (0, 2): Fraction(402, 1), (0, 4): Fraction(1, 1)})}, label='S4_near_parallel_large_loops')
+r0 = Fraction(19, 20)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-101, 1), cy=Fraction(0, 1), radius=Fraction(100, 1)), CircleSpec(cx=Fr... 1), cy=Fraction(0, 1), radius=Fraction(100, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+______ test_22_circle_differential_expectations[S5_exact_equality_pair] _______
+
+s = Scenario(name='S5_exact_equality_pair', circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, ...=Fraction(2, 1))), r0=Fraction(1, 1), expected='UNKNOWN_ALLOWED', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF5580>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-8, 1), Fraction(8, 1)), y_breaks=(Fraction(-8, 1), Fraction(8, 1)), pie...ion(2, 1), (0, 0): Fraction(25, 1), (0, 2): Fraction(10, 1), (0, 4): Fraction(1, 1)})}, label='S5_exact_equality_pair')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+______ test_22_circle_differential_expectations[S6_high_curvature_fails] ______
+
+s = Scenario(name='S6_high_curvature_fails', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 4)),), r0=Fraction(1, 1), expected='NOT_VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF5F70>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-15, 4), Fraction(15, 4)), y_breaks=(Fraction(-15, 4), Fraction(15, 4)),...D(coeffs={(2, 0): Fraction(1, 1), (0, 2): Fraction(1, 1), (0, 0): Fraction(-9, 16)})}, label='S6_high_curvature_fails')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 4)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+__ test_22_circle_differential_expectations[S6b_high_curvature_strict_valid] __
+
+s = Scenario(name='S6b_high_curvature_strict_valid', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 4)),), r0=Fraction(7, 10), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40AF980>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-15, 4), Fraction(15, 4)), y_breaks=(Fraction(-15, 4), Fraction(15, 4)),...={(2, 0): Fraction(1, 1), (0, 2): Fraction(1, 1), (0, 0): Fraction(-9, 16)})}, label='S6b_high_curvature_strict_valid')
+r0 = Fraction(7, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 4)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_ test_22_circle_differential_expectations[S7_low_curvature_global_bottleneck] _
+
+s = Scenario(name='S7_low_curvature_global_bottleneck', circles=(CircleSpec(cx=Fraction(-251, 5), cy=Fraction(0, 1), radiu...adius=Fraction(50, 1))), r0=Fraction(1, 1), expected='NOT_VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40ACD70>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-516, 5), Fraction(516, 5)), y_breaks=(Fraction(-516, 5), Fraction(516, ...action(251001, 625), (0, 2): Fraction(1002, 25), (0, 4): Fraction(1, 1)})}, label='S7_low_curvature_global_bottleneck')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-251, 5), cy=Fraction(0, 1), radius=Fraction(50, 1)), CircleSpec(cx=Fra..., 5), cy=Fraction(0, 1), radius=Fraction(50, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_ test_22_circle_differential_expectations[S8_nested_and_multiple_components] _
+
+s = Scenario(name='S8_nested_and_multiple_components', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fr...1), radius=Fraction(3, 1))), r0=Fraction(7, 5), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40AE270>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-26, 1), Fraction(26, 1)), y_breaks=(Fraction(-26, 1), Fraction(26, 1)),...ction(-11239, 1), (1, 0): Fraction(-4000, 1), (0, 0): Fraction(39100, 1)})}, label='S8_nested_and_multiple_components')
+r0 = Fraction(7, 5)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fractio...0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_________ test_22_circle_differential_expectations[A01_external_gap] __________
+
+s = Scenario(name='A01_external_gap', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), Ci...1), radius=Fraction(2, 1))), r0=Fraction(7, 5), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF6000>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-12, 1), Fraction(12, 1)), y_breaks=(Fraction(-12, 1), Fraction(12, 1)),...action(41, 1), (0, 4): Fraction(1, 1), (1, 0): Fraction(56, 1), (0, 0): Fraction(-180, 1)})}, label='A01_external_gap')
+r0 = Fraction(7, 5)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(7, 1), cy=Fraction(0, 1), radius=Fraction(2, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+________ test_22_circle_differential_expectations[A02_external_above] _________
+
+s = Scenario(name='A02_external_above', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), ...radius=Fraction(2, 1))), r0=Fraction(8, 5), expected='NOT_VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF4AD0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-12, 1), Fraction(12, 1)), y_breaks=(Fraction(-12, 1), Fraction(12, 1)),...tion(41, 1), (0, 4): Fraction(1, 1), (1, 0): Fraction(56, 1), (0, 0): Fraction(-180, 1)})}, label='A02_external_above')
+r0 = Fraction(8, 5)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(7, 1), cy=Fraction(0, 1), radius=Fraction(2, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_________ test_22_circle_differential_expectations[A03_nested_strict] _________
+
+s = Scenario(name='A03_nested_strict', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), C...1), radius=Fraction(8, 1))), r0=Fraction(3, 2), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FE5B50>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-11, 1), Fraction(11, 1)), y_breaks=(Fraction(-11, 1), Fraction(11, 1)),...tion(-68, 1), (0, 4): Fraction(1, 1), (0, 2): Fraction(-68, 1), (0, 0): Fraction(256, 1)})}, label='A03_nested_strict')
+r0 = Fraction(3, 2)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(8, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_________ test_22_circle_differential_expectations[A04_nested_above] __________
+
+s = Scenario(name='A04_nested_above', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), Ci...adius=Fraction(8, 1))), r0=Fraction(16, 5), expected='NOT_VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40ACF50>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-11, 1), Fraction(11, 1)), y_breaks=(Fraction(-11, 1), Fraction(11, 1)),...ction(-68, 1), (0, 4): Fraction(1, 1), (0, 2): Fraction(-68, 1), (0, 0): Fraction(256, 1)})}, label='A04_nested_above')
+r0 = Fraction(16, 5)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(8, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+________ test_22_circle_differential_expectations[A05_seam_bottleneck] ________
+
+s = Scenario(name='A05_seam_bottleneck', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)),...), radius=Fraction(3, 1))), r0=Fraction(9, 10), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40AE600>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-14, 1), Fraction(14, 1)), y_breaks=(Fraction(-14, 1), Fraction(14, 1)),...(-16, 1), (0, 2): Fraction(46, 1), (0, 1): Fraction(144, 1), (0, 0): Fraction(-495, 1)})}, label='A05_seam_bottleneck')
+r0 = Fraction(9, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)), CircleSpec(cx=Fraction(0, 1), cy=Fraction(8, 1), radius=Fraction(3, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+__________ test_22_circle_differential_expectations[A06_seam_above] ___________
+
+s = Scenario(name='A06_seam_above', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)), Circ...dius=Fraction(3, 1))), r0=Fraction(11, 10), expected='NOT_VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40C8440>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-14, 1), Fraction(14, 1)), y_breaks=(Fraction(-14, 1), Fraction(14, 1)),...ction(-16, 1), (0, 2): Fraction(46, 1), (0, 1): Fraction(144, 1), (0, 0): Fraction(-495, 1)})}, label='A06_seam_above')
+r0 = Fraction(11, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)), CircleSpec(cx=Fraction(0, 1), cy=Fraction(8, 1), radius=Fraction(3, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_______ test_22_circle_differential_expectations[A07_three_hidden_gap] ________
+
+s = Scenario(name='A07_three_hidden_gap', circles=(CircleSpec(cx=Fraction(-8, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)...), radius=Fraction(4, 1))), r0=Fraction(9, 10), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40ACCB0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-27, 1), Fraction(27, 1)), y_breaks=(Fraction(-27, 1), Fraction(27, 1)),...9, 1), (0, 4): Fraction(430, 1), (0, 0): Fraction(-190080, 1), (0, 6): Fraction(1, 1)})}, label='A07_three_hidden_gap')
+r0 = Fraction(9, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-8, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)), CircleSpec(cx=Fracti...0, 1), cy=Fraction(0, 1), radius=Fraction(4, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+____ test_22_circle_differential_expectations[A08_three_hidden_gap_above] _____
+
+s = Scenario(name='A08_three_hidden_gap_above', circles=(CircleSpec(cx=Fraction(-8, 1), cy=Fraction(0, 1), radius=Fraction...dius=Fraction(4, 1))), r0=Fraction(11, 10), expected='NOT_VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40AD340>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-27, 1), Fraction(27, 1)), y_breaks=(Fraction(-27, 1), Fraction(27, 1)),... (0, 4): Fraction(430, 1), (0, 0): Fraction(-190080, 1), (0, 6): Fraction(1, 1)})}, label='A08_three_hidden_gap_above')
+r0 = Fraction(11, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-8, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)), CircleSpec(cx=Fracti...0, 1), cy=Fraction(0, 1), radius=Fraction(4, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_________ test_22_circle_differential_expectations[A09_large_margin] __________
+
+s = Scenario(name='A09_large_margin', circles=(CircleSpec(cx=Fraction(-20, 1), cy=Fraction(-5, 1), radius=Fraction(4, 1)),...1), radius=Fraction(5, 1))), r0=Fraction(3, 1), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF78F0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-27, 1), Fraction(27, 1)), y_breaks=(Fraction(-27, 1), Fraction(27, 1)),...tion(525, 1), (0, 1): Fraction(-2548, 1), (0, 4): Fraction(1, 1), (0, 3): Fraction(-2, 1)})}, label='A09_large_margin')
+r0 = Fraction(3, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-20, 1), cy=Fraction(-5, 1), radius=Fraction(4, 1)), CircleSpec(cx=Frac...5, 1), cy=Fraction(6, 1), radius=Fraction(5, 1))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_______ test_22_circle_differential_expectations[A10_single_fractional] _______
+
+s = Scenario(name='A10_single_fractional', circles=(CircleSpec(cx=Fraction(1, 3), cy=Fraction(-2, 5), radius=Fraction(7, 3)),), r0=Fraction(2, 1), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF6450>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-86, 15), Fraction(86, 15)), y_breaks=(Fraction(-86, 15), Fraction(86, 1...n(-2, 3), (0, 0): Fraction(-388, 75), (0, 2): Fraction(1, 1), (0, 1): Fraction(4, 5)})}, label='A10_single_fractional')
+r0 = Fraction(2, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(1, 3), cy=Fraction(-2, 5), radius=Fraction(7, 3)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_______ test_22_circle_differential_expectations[A11_nested_fractional] _______
+
+s = Scenario(name='A11_nested_fractional', circles=(CircleSpec(cx=Fraction(1, 4), cy=Fraction(1, 7), radius=Fraction(5, 2)...), radius=Fraction(15, 2))), r0=Fraction(2, 1), expected='VALID', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40C9F10>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-43, 4), Fraction(43, 4)), y_breaks=(Fraction(-43, 4), Fraction(43, 4)),...392), (0, 1): Fraction(24435, 1372), (0, 4): Fraction(1, 1), (0, 3): Fraction(-4, 7)})}, label='A11_nested_fractional')
+r0 = Fraction(2, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(1, 4), cy=Fraction(1, 7), radius=Fraction(5, 2)), CircleSpec(cx=Fraction(1, 4), cy=Fraction(1, 7), radius=Fraction(15, 2))), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+________ test_22_circle_differential_expectations[A12_equality_single] ________
+
+s = Scenario(name='A12_equality_single', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), r0=Fraction(2, 1), expected='UNKNOWN_ALLOWED', knots_x=(), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',base_circle_scenarios(),ids=lambda s:s.name)
+    def test_22_circle_differential_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40C9DC0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-5, 1), Fraction(5, 1)), y_breaks=(Fraction(-5, 1), Fraction(5, 1)), pie...mial2D(coeffs={(2, 0): Fraction(1, 1), (0, 2): Fraction(1, 1), (0, 0): Fraction(-4, 1)})}, label='A12_equality_single')
+r0 = Fraction(2, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_________________ test_9_knot_expectations[K1_vertical_knot] __________________
+
+s = Scenario(name='K1_vertical_knot', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), r0=Fraction(1, 1), expected='VALID', knots_x=(Fraction(0, 1),), knots_y=(), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF4290>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-5, 1), Fraction(0, 1), Fraction(5, 1)), y_breaks=(Fraction(-5, 1), Frac... (5, 0): Fraction(1, 1000000), (3, 2): Fraction(1, 1000000), (3, 0): Fraction(-1, 250000)})}, label='K1_vertical_knot')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), multipliers={(0, 0)...coeffs={(0, 0): Fraction(1, 1)}), (1, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+________________ test_9_knot_expectations[K2_horizontal_knot] _________________
+
+s = Scenario(name='K2_horizontal_knot', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), r0=Fraction(1, 1), expected='VALID', knots_x=(), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FF78C0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-5, 1), Fraction(5, 1)), y_breaks=(Fraction(-5, 1), Fraction(0, 1), Frac...2, 3): Fraction(1, 1000000), (0, 5): Fraction(1, 1000000), (0, 3): Fraction(-1, 250000)})}, label='K2_horizontal_knot')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), multipliers={(0, 0)...coeffs={(0, 0): Fraction(1, 1)}), (0, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+__________________ test_9_knot_expectations[K3_corner_knot] ___________________
+
+s = Scenario(name='K3_corner_knot', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), r0=Fraction(1, 1), expected='VALID', knots_x=(Fraction(0, 1),), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40AFE00>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-5, 1), Fraction(0, 1), Fraction(5, 1)), y_breaks=(Fraction(-5, 1), Frac...), (2, 3): Fraction(1, 1000000), (0, 5): Fraction(1, 1000000), (0, 3): Fraction(-1, 250000)})}, label='K3_corner_knot')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), multipliers={(0, 0)...}), (1, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+__________________ test_9_knot_expectations[K4_multi_knots] ___________________
+
+s = Scenario(name='K4_multi_knots', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), r0...action(0, 1), Fraction(1, 1)), knots_y=(Fraction(-1, 1), Fraction(0, 1), Fraction(1, 1)), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40C9580>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-5, 1), Fraction(-1, 1), Fraction(0, 1), Fraction(1, 1), Fraction(5, 1))...0), (0, 3): Fraction(-3, 500000), (2, 1): Fraction(3, 500000), (0, 1): Fraction(-3, 125000)})}, label='K4_multi_knots')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),), multipliers={(0, 0)...3, 0): Fraction(3, 1000000), (1, 0): Fraction(3, 500000), (0, 3): Fraction(3, 1000000), (0, 1): Fraction(3, 500000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+___________________ test_9_knot_expectations[K5_two_loops] ____________________
+
+s = Scenario(name='K5_two_loops', circles=(CircleSpec(cx=Fraction(-4, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), Circl...=Fraction(9, 10), expected='VALID', knots_x=(Fraction(0, 1),), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40E39B0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-9, 1), Fraction(0, 1), Fraction(9, 1)), y_breaks=(Fraction(-9, 1), Frac...00000), (0, 3): Fraction(9, 62500), (0, 5): Fraction(3, 125000), (0, 7): Fraction(1, 1000000)})}, label='K5_two_loops')
+r0 = Fraction(9, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-4, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fracti...}), (1, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_____________________ test_9_knot_expectations[K6_nested] _____________________
+
+s = Scenario(name='K6_nested', circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpe...0=Fraction(3, 2), expected='VALID', knots_x=(Fraction(0, 1),), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40E2960>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-9, 1), Fraction(0, 1), Fraction(9, 1)), y_breaks=(Fraction(-9, 1), Frac...1, 25000), (0, 7): Fraction(1, 1000000), (0, 5): Fraction(-1, 25000), (0, 3): Fraction(9, 62500)})}, label='K6_nested')
+r0 = Fraction(3, 2)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fractio...}), (1, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+________________ test_9_knot_expectations[K7_near_bottleneck] _________________
+
+s = Scenario(name='K7_near_bottleneck', circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)),...=Fraction(9, 10), expected='VALID', knots_x=(Fraction(0, 1),), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40E3440>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-8, 1), Fraction(0, 1), Fraction(8, 1)), y_breaks=(Fraction(-8, 1), Frac..., (0, 3): Fraction(1, 40000), (0, 5): Fraction(1, 100000), (0, 7): Fraction(1, 1000000)})}, label='K7_near_bottleneck')
+r0 = Fraction(9, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fracti...}), (1, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+____________________ test_9_knot_expectations[K8_equality] ____________________
+
+s = Scenario(name='K8_equality', circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), Circle...(1, 1), expected='UNKNOWN_ALLOWED', knots_x=(Fraction(0, 1),), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F3FE66F0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-8, 1), Fraction(0, 1), Fraction(8, 1)), y_breaks=(Fraction(-8, 1), Frac...500000), (0, 3): Fraction(1, 40000), (0, 5): Fraction(1, 100000), (0, 7): Fraction(1, 1000000)})}, label='K8_equality')
+r0 = Fraction(1, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fracti...}), (1, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_____________________ test_9_knot_expectations[K9_above] ______________________
+
+s = Scenario(name='K9_above', circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpe...tion(11, 10), expected='NOT_VALID', knots_x=(Fraction(0, 1),), knots_y=(Fraction(0, 1),), epsilon=Fraction(1, 1000000))
+
+    @pytest.mark.parametrize('s',knot_scenarios(),ids=lambda s:s.name)
+    def test_9_knot_expectations(s):
+>       f,p=make_field(s); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(f,s.r0,p); assert expected_ok(s.expected,r.status.value),(s.name,s.expected,r.status,r.reason)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_general_scenarios.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40C8740>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-8, 1), Fraction(0, 1), Fraction(8, 1)), y_breaks=(Fraction(-8, 1), Frac...1, 500000), (0, 3): Fraction(1, 40000), (0, 5): Fraction(1, 100000), (0, 7): Fraction(1, 1000000)})}, label='K9_above')
+r0 = Fraction(11, 10)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(-3, 1), cy=Fraction(0, 1), radius=Fraction(2, 1)), CircleSpec(cx=Fracti...}), (1, 1): Polynomial2D(coeffs={(0, 0): Fraction(1, 1), (3, 0): Fraction(1, 1000000), (0, 3): Fraction(1, 1000000)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+_______________ test_real_valid_proof_replays_and_tamper_fails ________________
+
+    def test_real_valid_proof_replays_and_tamper_fails():
+>       s=base_circle_scenarios()[0]; f,p=make_field(s); e=GeneralReachEngine(max_depth=80,max_boxes=500000); r=e.certify(f,s.r0,p)
+                                                                                                                ^^^^^^^^^^^^^^^^^^^
+
+tests\test_proof_replay.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x00000210F40AECF0>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-6, 1), Fraction(6, 1)), y_breaks=(Fraction(-6, 1), Fraction(6, 1)), pie...ynomial2D(coeffs={(2, 0): Fraction(1, 1), (0, 2): Fraction(1, 1), (0, 0): Fraction(-9, 1)})}, label='S1_single_circle')
+r0 = Fraction(2, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+=========================== short test summary info ===========================
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S1_single_circle]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S2_two_separated_circles]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S3_concentric_annulus]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S3b_annulus_equality]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S4_near_parallel_large_loops]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S5_exact_equality_pair]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S6_high_curvature_fails]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S6b_high_curvature_strict_valid]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S7_low_curvature_global_bottleneck]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[S8_nested_and_multiple_components]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A01_external_gap]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A02_external_above]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A03_nested_strict]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A04_nested_above]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A05_seam_bottleneck]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A06_seam_above]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A07_three_hidden_gap]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A08_three_hidden_gap_above]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A09_large_margin]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A10_single_fractional]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A11_nested_fractional]
+FAILED tests/test_general_scenarios.py::test_22_circle_differential_expectations[A12_equality_single]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K1_vertical_knot]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K2_horizontal_knot]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K3_corner_knot]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K4_multi_knots]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K5_two_loops]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K6_nested]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K7_near_bottleneck]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K8_equality]
+FAILED tests/test_general_scenarios.py::test_9_knot_expectations[K9_above] - ...
+FAILED tests/test_proof_replay.py::test_real_valid_proof_replays_and_tamper_fails
+32 failed, 19 passed in 2.94s

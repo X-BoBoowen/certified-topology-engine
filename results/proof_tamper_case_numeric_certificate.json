@@ -1,0 +1,99 @@
+{
+  "engine_budgets": {
+    "max_boxes": 500000,
+    "max_depth": 80,
+    "pieces_per_quarter": 4
+  },
+  "proof_log": {
+    "decision": "VALID",
+    "engine": {
+      "algorithm": "phase-c2b-proposal-assisted-v1",
+      "package": "phase-c2a-general-field-reference",
+      "version": "0.2.0",
+      "work_budgets": {
+        "factorization_max_depth": 24,
+        "max_boxes": 500000,
+        "max_depth": 80,
+        "pieces_per_quarter": 4
+      }
+    },
+    "field_hash": "df4599f52f7b742eda25c56df64c038d53bf0156110611f0227964cc5a07f8fc",
+    "field_only_gap": "automatic field-only loop discovery is not implemented",
+    "field_validation": {
+      "boundary": {
+        "segments": [
+          [
+            "left",
+            0,
+            0,
+            "-6",
+            "6",
+            true
+          ],
+          [
+            "right",
+            0,
+            0,
+            "-6",
+            "6",
+            true
+          ],
+          [
+            "bottom",
+            0,
+            0,
+            "-6",
+            "6",
+            true
+          ],
+          [
+            "top",
+            0,
+            0,
+            "-6",
+            "6",
+            true
+          ]
+        ]
+      },
+      "c2": {
+        "edge_checks": 0
+      },
+      "field_hash": "df4599f52f7b742eda25c56df64c038d53bf0156110611f0227964cc5a07f8fc"
+    },
+    "frozen_phase_c1": {
+      "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+      "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+    },
+    "oracle": {
+      "reason": "strict exact analytic circle-link margin",
+      "stats": {
+        "mode": "exact_analytic_circle_link"
+      },
+      "status": "VALID"
+    },
+    "proposal_hash": "bb086b713d3677184698defd6d65a253116ec49ee6dde9f460c9addbd6b0d1bb",
+    "proposal_validation": {
+      "circle_count": 1
+    },
+    "r0": "3/2",
+    "root_hash": "5ad51428b3db13555965d9fecd4d54a2f3f862ebdffda7cf1d1bc86d09865421",
+    "schema": "phase-c2a-proof-v1",
+    "zero_set_certificate": {
+      "factor_hash": "3e353519ef195ff55524cc42d36b37765b6a6efedaad2108f45860a9e73c31da",
+      "positivity": [
+        {
+          "boxes": 1,
+          "cell": [
+            0,
+            0
+          ],
+          "leaves": 1
+        }
+      ]
+    }
+  },
+  "r0": "2",
+  "scenario_name": "S1_single_circle",
+  "schema": "phase-c2b-replay-case-v1"
+}

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\scripts\run_general_suite.py", line 24, in <module>
+    if __name__=='__main__': raise SystemExit(main())
+                                              ^^^^^^
+  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\scripts\run_general_suite.py", line 18, in main
+    circles=[run_one(s) for s in base_circle_scenarios()]; knots=[run_one(s) for s in knot_scenarios()]
+             ^^^^^^^^^^
+  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\scripts\run_general_suite.py", line 11, in run_one
+    t=time.perf_counter(); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(field,s.r0,prop); dt=time.perf_counter()-t
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\29722\Desktop\弱小但是有梦想的BoBoo文\paper\paper7\c2b\.worktrees\phase-c2b-worker\phase_c2a\engine.py", line 69, in certify
+    'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                  ^^^^^^^^^^^^
+NameError: name 'frozen_outer' is not defined
+
+EXIT_CODE=1

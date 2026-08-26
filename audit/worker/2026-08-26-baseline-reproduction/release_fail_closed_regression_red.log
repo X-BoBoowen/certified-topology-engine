@@ -1,0 +1,41 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+___________ test_release_builder_rejects_a_missing_machine_summary ____________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-691/test_release_builder_rejects_a0')
+
+    def test_release_builder_rejects_a_missing_machine_summary(tmp_path):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = tmp_path / 'candidate'
+        copy_release_tree(build_release, candidate)
+        (candidate / 'results' / 'verification_summary.json').unlink()
+>       with pytest.raises(RuntimeError, match='missing release file'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE RuntimeError
+
+tests\test_verification_scripts.py:195: Failed
+____________ test_release_builder_rejects_a_failed_machine_summary ____________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-691/test_release_builder_rejects_a1')
+
+    def test_release_builder_rejects_a_failed_machine_summary(tmp_path):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = tmp_path / 'candidate'
+        copy_release_tree(build_release, candidate)
+        summary_path = candidate / 'results' / 'verification_summary.json'
+        summary = json.loads(summary_path.read_text(encoding='utf-8'))
+        summary['all_passed'] = False
+        summary_path.write_text(json.dumps(summary), encoding='utf-8')
+>       with pytest.raises(RuntimeError, match='verification summary is not passed'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE RuntimeError
+
+tests\test_verification_scripts.py:209: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_release_builder_rejects_a_missing_machine_summary
+FAILED tests/test_verification_scripts.py::test_release_builder_rejects_a_failed_machine_summary
+2 failed in 1.11s

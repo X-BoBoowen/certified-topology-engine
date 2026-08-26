@@ -1,0 +1,55 @@
+FFF                                                                      [100%]
+================================== FAILURES ===================================
+_______________ test_real_valid_proof_replays_and_tamper_fails ________________
+
+    def test_real_valid_proof_replays_and_tamper_fails():
+        s=base_circle_scenarios()[0]; f,p=make_field(s); e=GeneralReachEngine(max_depth=80,max_boxes=500000); r=e.certify(f,s.r0,p)
+        assert r.status is EngineStatus.VALID,r.reason
+        log=r.data['proof_log']
+        assert log['frozen_phase_c1']=={
+            'outer_sha256':OUTER_SHA256,
+            'inner_sha256':INNER_SHA256,
+        }
+>       assert log['engine']=={
+               ^^^^^^^^^^^^^
+            'package':'phase-c2a-general-field-reference',
+            'version':'0.2.0',
+            'algorithm':'phase-c2b-proposal-assisted-v1',
+            'work_budgets':{
+                'pieces_per_quarter':4,
+                'max_depth':80,
+                'factorization_max_depth':24,
+                'max_boxes':500000,
+            },
+        }
+E       KeyError: 'engine'
+
+tests\test_proof_replay.py:17: KeyError
+______________ test_proof_replay_script_replays_in_a_new_process ______________
+
+    def test_proof_replay_script_replays_in_a_new_process():
+        process = run_script('run_proof_replay.py')
+        assert process.returncode == 0, process.stdout
+        result = json.loads((ROOT / 'results' / 'proof_replay.json').read_text())
+        assert result['original_replay'] is True
+>       assert result['generator_pid'] != result['replay_pid']
+               ^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'generator_pid'
+
+tests\test_verification_scripts.py:77: KeyError
+_________ test_proof_tamper_script_rejects_resealed_critical_changes __________
+
+    def test_proof_tamper_script_rejects_resealed_critical_changes():
+        process = run_script('run_proof_tamper.py')
+>       assert process.returncode == 0, process.stdout
+E       AssertionError: C:\Users\29722\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe: can't open file 'D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\scripts\\run_proof_tamper.py': [Errno 2] No such file or directory
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...r7\\\\c2b\\\\.worktrees\\\\phase-c2b-worker\\\\scripts\\\\run_proof_tamper.py': [Errno 2] No such file or directory\n").returncode
+
+tests\test_verification_scripts.py:83: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_proof_replay.py::test_real_valid_proof_replays_and_tamper_fails
+FAILED tests/test_verification_scripts.py::test_proof_replay_script_replays_in_a_new_process
+FAILED tests/test_verification_scripts.py::test_proof_tamper_script_rejects_resealed_critical_changes
+3 failed in 0.27s

@@ -1,0 +1,30 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______ test_loader_executes_reach_engine_from_the_verified_inner_archive ______
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-689/test_loader_executes_reach_eng0')
+
+    def test_loader_executes_reach_engine_from_the_verified_inner_archive(tmp_path):
+        source = Path(__file__).resolve().parents[1] / 'frozen_phase_c1'
+        frozen_dir = tmp_path / 'frozen_phase_c1'
+        frozen_dir.mkdir()
+        shutil.copyfile(
+            source / frozen_oracle.OUTER_FILENAME,
+            frozen_dir / frozen_oracle.OUTER_FILENAME,
+        )
+        shutil.copyfile(
+            source / frozen_oracle.INNER_FILENAME,
+            frozen_dir / frozen_oracle.INNER_FILENAME,
+        )
+        (frozen_dir / 'reach_engine.py').write_text(
+            "raise RuntimeError('untrusted unpacked source executed')\n",
+            encoding='utf-8',
+        )
+>       module = frozen_oracle.load_frozen_module(tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: load_frozen_module() takes 0 positional arguments but 1 was given
+
+tests\test_frozen_artifacts.py:53: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_frozen_artifacts.py::test_loader_executes_reach_engine_from_the_verified_inner_archive
+1 failed in 0.10s

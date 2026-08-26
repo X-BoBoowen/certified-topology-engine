@@ -4,9 +4,11 @@ from .polynomial import Polynomial2D
 from .field import PiecewisePolynomialField2D, FieldStatus, FieldValidation
 from .circle_proposal import CircleSpec, CircleProposal
 from .engine import GeneralReachEngine, EngineStatus, EngineResult
+from .version import PACKAGE_VERSION as __version__
 
 __all__ = [
     "ExactInputError", "parse_rational", "require_fraction",
     "Polynomial2D", "PiecewisePolynomialField2D", "FieldStatus", "FieldValidation",
     "CircleSpec", "CircleProposal", "GeneralReachEngine", "EngineStatus", "EngineResult",
+    "__version__",
 ]

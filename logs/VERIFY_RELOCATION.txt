@@ -1,0 +1,19 @@
+COMMAND=["D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe", "scripts/run_relocation_check.py"]
+TIMEOUT_SECONDS=120
+{
+  "proof_replay": {
+    "generator_pid": 29132,
+    "original_replay": true,
+    "proof_root_hash": "f2d1b996e38f2dd05fbb215455a288c2c37069e574e1f82a5f93eac620acecc4",
+    "replay_exit_code": 0,
+    "replay_pid": 25568,
+    "source_status": "VALID",
+    "worker_output": "{\n  \"accepted\": true,\n  \"error\": null,\n  \"replay_pid\": 25568\n}\n"
+  },
+  "proof_replay_exit_code": 0,
+  "raw_output": "{\n  \"generator_pid\": 29132,\n  \"original_replay\": true,\n  \"proof_root_hash\": \"f2d1b996e38f2dd05fbb215455a288c2c37069e574e1f82a5f93eac620acecc4\",\n  \"replay_exit_code\": 0,\n  \"replay_pid\": 25568,\n  \"source_status\": \"VALID\",\n  \"worker_output\": \"{\\n  \\\"accepted\\\": true,\\n  \\\"error\\\": null,\\n  \\\"replay_pid\\\": 25568\\n}\\n\"\n}\n",
+  "relocated_root": "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\audit\\tmp\\phase-c2b-relocation-4561w6xu\\candidate",
+  "source_root": "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker"
+}
+EXIT_CODE=0
+RUNTIME_SECONDS=0.512272

@@ -1,7 +1,9 @@
+COMMAND=["D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe", "scripts/run_property_suite.py"]
+TIMEOUT_SECONDS=120
 {
   "status": "PASS",
   "exact_reference_checks": 100000,
   "field_validation": "FIELD_VALID"
 }
-
 EXIT_CODE=0
+RUNTIME_SECONDS=12.147755

@@ -2,13 +2,12 @@ from __future__ import annotations
 from dataclasses import dataclass,field
 from enum import Enum
 from fractions import Fraction
-from pathlib import Path
-import hashlib,json
 from .exact_types import require_fraction,ExactInputError
 from .field import PiecewisePolynomialField2D,FieldStatus
 from .circle_proposal import CircleProposal
-from .frozen_oracle import load_frozen_module
+from .frozen_oracle import FrozenArtifactError,resolve_frozen_artifacts
 from .proof_log import seal,verify_seal
+from .version import ALGORITHM_VERSION,PACKAGE_NAME,PACKAGE_VERSION
 
 class EngineStatus(str,Enum):
     VALID='VALID'; UNKNOWN='UNKNOWN'; CURVATURE_FAIL='CURVATURE_FAIL'; INPUT_INVALID='INPUT_INVALID'
@@ -39,6 +38,10 @@ class GeneralReachEngine:
         zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
         if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
         if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        try:
+            frozen_artifacts=resolve_frozen_artifacts()
+        except FrozenArtifactError as e:
+            return EngineResult(EngineStatus.UNKNOWN,'FROZEN_ARTIFACT_VALIDATION_FAILED',{'error':str(e)})
         # Exact analytic circle-link certificate.  The field certificate above proves
         # that the general piecewise-polynomial zero set is exactly this link.
         cs=proposal.circles
@@ -64,11 +67,15 @@ class GeneralReachEngine:
         ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
         log=seal({
             'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
-            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
-            'frozen_phase_c1':{
-              'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
-              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            'engine':{
+              'package':PACKAGE_NAME,'version':PACKAGE_VERSION,'algorithm':ALGORITHM_VERSION,
+              'work_budgets':{
+                'pieces_per_quarter':self.pieces_per_quarter,'max_depth':self.max_depth,
+                'factorization_max_depth':min(24,self.max_depth),'max_boxes':self.max_boxes,
+              },
             },
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':frozen_artifacts,
             'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
             'decision':status.value,
             'field_only_gap':'automatic field-only loop discovery is not implemented',

@@ -1,0 +1,9 @@
+{
+  "circle_failures": 0,
+  "circle_false_valid": 0,
+  "circle_scenarios": 22,
+  "circle_valid": 13,
+  "knot_failures": 0,
+  "knot_scenarios": 9,
+  "knot_valid": 7
+}

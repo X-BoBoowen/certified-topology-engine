@@ -1,0 +1,13 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+________________ test_pristine_bootstrap_times_out_fail_closed ________________
+
+    def test_pristine_bootstrap_times_out_fail_closed():
+        spec = importlib.util.find_spec('scripts.verify_pristine')
+>       assert spec is not None
+E       assert None is not None
+
+tests\test_verification_scripts.py:180: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_pristine_bootstrap_times_out_fail_closed
+1 failed in 0.08s

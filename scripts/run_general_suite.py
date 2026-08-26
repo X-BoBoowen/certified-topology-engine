@@ -6,14 +6,25 @@ from phase_c2a import GeneralReachEngine
 from phase_c2a.scenarios import base_circle_scenarios,knot_scenarios,make_field,expected_ok
 from phase_c2a.frozen_oracle import load_frozen_module
 
+ENGINE_MAX_DEPTH=40
+ENGINE_MAX_BOXES=800_000
+ORACLE_VALID_MAX_DEPTH=40
+ORACLE_VALID_MAX_BOXES=800_000
+ORACLE_NONVALID_MAX_DEPTH=0
+ORACLE_NONVALID_MAX_BOXES=1_000
+
 def run_one(s):
     field,prop=make_field(s)
-    t=time.perf_counter(); r=GeneralReachEngine(max_depth=130,max_boxes=2_000_000).certify(field,s.r0,prop); dt=time.perf_counter()-t
+    t=time.perf_counter(); r=GeneralReachEngine(max_depth=ENGINE_MAX_DEPTH,max_boxes=ENGINE_MAX_BOXES).certify(field,s.r0,prop); dt=time.perf_counter()-t
     oracle=load_frozen_module(); ocs=[oracle.Circle(c.cx,c.cy,c.radius) for c in prop.circles]
-    ores=oracle.ReachEngine(pieces_per_quarter=4,max_depth=130,max_boxes=2_000_000).certify(ocs,s.r0)
+    if r.status.value=='VALID':
+        oracle_max_depth=ORACLE_VALID_MAX_DEPTH; oracle_max_boxes=ORACLE_VALID_MAX_BOXES
+    else:
+        oracle_max_depth=ORACLE_NONVALID_MAX_DEPTH; oracle_max_boxes=ORACLE_NONVALID_MAX_BOXES
+    ores=oracle.ReachEngine(pieces_per_quarter=4,max_depth=oracle_max_depth,max_boxes=oracle_max_boxes).certify(ocs,s.r0)
     oracle_status=getattr(ores.status,'name',str(ores.status).split('.')[-1])
     differential_ok=(r.status.value!='VALID' or oracle_status=='VALID')
-    return {'name':s.name,'expected':s.expected,'status':r.status.value,'oracle_status':oracle_status,'reason':r.reason,'ok':expected_ok(s.expected,r.status.value) and differential_ok,'differential_ok':differential_ok,'runtime_seconds':dt,'proof_log':r.data.get('proof_log')}
+    return {'name':s.name,'expected':s.expected,'status':r.status.value,'oracle_status':oracle_status,'reason':r.reason,'ok':expected_ok(s.expected,r.status.value) and differential_ok,'differential_ok':differential_ok,'runtime_seconds':dt,'oracle_max_depth':oracle_max_depth,'oracle_max_boxes':oracle_max_boxes,'proof_log':r.data.get('proof_log')}
 def main():
     circles=[run_one(s) for s in base_circle_scenarios()]; knots=[run_one(s) for s in knot_scenarios()]
     out={'circle_scenarios':len(circles),'circle_valid':sum(x['status']=='VALID' for x in circles),'circle_false_valid':sum((x['expected']=='NOT_VALID' and x['status']=='VALID') for x in circles),

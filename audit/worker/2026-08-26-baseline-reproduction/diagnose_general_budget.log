@@ -1,0 +1,3 @@
+{"engine_status": "VALID", "name": "S1_single_circle", "oracle_status": "VALID", "runtime_seconds": 0.031123599997954443}
+{"engine_status": "VALID", "name": "S2_two_separated_circles", "oracle_status": "VALID", "runtime_seconds": 0.1266436000005342}
+{"engine_status": "VALID", "name": "S3_concentric_annulus", "oracle_status": "VALID", "runtime_seconds": 0.7940947000024607}

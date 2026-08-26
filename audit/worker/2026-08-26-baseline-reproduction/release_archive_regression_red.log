@@ -1,0 +1,15 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______ test_release_archive_contains_only_the_runtime_closure_candidate _______
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-685/test_release_archive_contains_0')
+
+    def test_release_archive_contains_only_the_runtime_closure_candidate(tmp_path):
+        spec = importlib.util.find_spec('scripts.build_release')
+>       assert spec is not None
+E       assert None is not None
+
+tests\test_verification_scripts.py:158: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_release_archive_contains_only_the_runtime_closure_candidate
+1 failed in 0.10s

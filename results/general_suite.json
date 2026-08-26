@@ -1,0 +1,3744 @@
+{
+  "circle_failures": 0,
+  "circle_false_valid": 0,
+  "circle_scenarios": 22,
+  "circle_valid": 13,
+  "circles": [
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "S1_single_circle",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "df4599f52f7b742eda25c56df64c038d53bf0156110611f0227964cc5a07f8fc",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-6",
+                "6",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-6",
+                "6",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-6",
+                "6",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-6",
+                "6",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "df4599f52f7b742eda25c56df64c038d53bf0156110611f0227964cc5a07f8fc"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "bb086b713d3677184698defd6d65a253116ec49ee6dde9f460c9addbd6b0d1bb",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "2",
+        "root_hash": "4efc812019929027d92fb1a72996ef57c03d2a8972df5ee88063f916d5199c16",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "3e353519ef195ff55524cc42d36b37765b6a6efedaad2108f45860a9e73c31da",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0013717000038013794,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "S2_two_separated_circles",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "da41b274503694bc625c38e78a5c1f13245056f737a605a11404b8b01277bcd1",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-10",
+                "10",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-10",
+                "10",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-10",
+                "10",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-10",
+                "10",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "da41b274503694bc625c38e78a5c1f13245056f737a605a11404b8b01277bcd1"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "e69a45e17ff1e0df5a9838033c016d93a8aa45c0e8d07ec8c524a72178a28dc2",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "3/2",
+        "root_hash": "46dffa339e7075b8325fe320724a31bf5822991e71c3e26db2251cd9ffc60d4b",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "9f8af281cd9e008d725558238e3b1dbd012f47fe8f692db8d58ebe3c9c309b4c",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0019008000017493032,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "S3_concentric_annulus",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "6f8b49941cc0bd0f63ecd52b9d4ff2f4063045bfa03e85108e598a93413b1b86",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "6f8b49941cc0bd0f63ecd52b9d4ff2f4063045bfa03e85108e598a93413b1b86"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "298212aec374ac286d09726afeebe5d1deabcca6aa6fc33572ffde724867ab7b",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "7/5",
+        "root_hash": "83ba0d435954f123a0e8ed333be786ead4c12cd2f1050ec39a833107cd759508",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "c824cefd6d2de68b43961e7ab4778cb197961fc2a654318cb2e0c4b95f95cdae",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0015868999980739318,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "UNKNOWN_ALLOWED",
+      "name": "S3b_annulus_equality",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "5ee01b8a218583cb56d83f33d773f3f9babe8ba20cec5df8db37f00f4e04b48e",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "5ee01b8a218583cb56d83f33d773f3f9babe8ba20cec5df8db37f00f4e04b48e"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "298212aec374ac286d09726afeebe5d1deabcca6aa6fc33572ffde724867ab7b",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "3/2",
+        "root_hash": "8a3f17a4223b0f6542a724a80aeae322975c5a5b0d4f52d92d2d69d512f64408",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "c824cefd6d2de68b43961e7ab4778cb197961fc2a654318cb2e0c4b95f95cdae",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.0016573000029893592,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "S4_near_parallel_large_loops",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "e411461b66e18e41cb7d7aa7a0767ba333d90c85894cac8b932973de510aad9f",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-204",
+                "204",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-204",
+                "204",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-204",
+                "204",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-204",
+                "204",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "e411461b66e18e41cb7d7aa7a0767ba333d90c85894cac8b932973de510aad9f"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "9ee6e4374a11f604c39620fe51883e0860185bb845e37eee9299c77bb6bcce4a",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "19/20",
+        "root_hash": "a703ea14f398a86f6c8460883f9c220e1b078c7ddb9d8a7a201cf08d1299490d",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "5eed27c2cfefba8f18226c346bfe9309e279d289442ae3bc9a7eace3c6af0e13",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0017436000052839518,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "UNKNOWN_ALLOWED",
+      "name": "S5_exact_equality_pair",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "005f027e6979fe9bb5cb6e0f1fe0f61a78abc61ccb34fad2c73a6634879620de",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-8",
+                "8",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "005f027e6979fe9bb5cb6e0f1fe0f61a78abc61ccb34fad2c73a6634879620de"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "5c7c2ab2390068554dfebc8ab091eb558fe10851e3ec893cc0fb15fe24300e27",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "1",
+        "root_hash": "9cb6b49643f168ac0923b29b2f0d8a69a481153c137f33d3735adf194dadaa3a",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.0021931000010226853,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "S6_high_curvature_fails",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "CURVATURE_FAIL",
+      "proof_log": {
+        "decision": "CURVATURE_FAIL",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "59a0691316841b18880f77202f0d15a0e1892ce46b67896bf23e9b94ce99cb76",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "59a0691316841b18880f77202f0d15a0e1892ce46b67896bf23e9b94ce99cb76"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "exact curvature radius below r0",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "CURVATURE_FAIL"
+        },
+        "proposal_hash": "0bbd09e30edcbcce6ca3cc79189b8789259e2fc8e54bf44655addac2009a5248",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "1",
+        "root_hash": "01a81e3b04a036c0ff13fd06f62566285f8bb46427684ddf9a12b2c583d5d397",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "d7abda22eb6d6cc1f8ce835e36cd71963d46316d14f357fd2e4febe820f7e356",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "exact curvature radius below r0",
+      "runtime_seconds": 0.0013558000064222142,
+      "status": "CURVATURE_FAIL"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "S6b_high_curvature_strict_valid",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "47fc972c27a9e3f01fe3cde06a2e3d31b1acecda81ab0ec422ec9ab7412a5c9e",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-15/4",
+                "15/4",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "47fc972c27a9e3f01fe3cde06a2e3d31b1acecda81ab0ec422ec9ab7412a5c9e"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "0bbd09e30edcbcce6ca3cc79189b8789259e2fc8e54bf44655addac2009a5248",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "7/10",
+        "root_hash": "d2f92e6307f3ea7473b246c8aa19e4a49ab3efdbbba7dafb1ed6f6b2db7b0343",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "d7abda22eb6d6cc1f8ce835e36cd71963d46316d14f357fd2e4febe820f7e356",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0012715000048046932,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "S7_low_curvature_global_bottleneck",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "71a4432798cf33e5a2f1e6f09350d7602547dfe46a8e29e680dd66eef2e3c381",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-516/5",
+                "516/5",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-516/5",
+                "516/5",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-516/5",
+                "516/5",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-516/5",
+                "516/5",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "71a4432798cf33e5a2f1e6f09350d7602547dfe46a8e29e680dd66eef2e3c381"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "8ec9114d25b232b682ea3d637b1073239caa577ff9d5fc6f765ae9662247ce62",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "1",
+        "root_hash": "75e51193322b30e1212b410f48b6f556551b5e5b01c4b59598a5bfe273bec2e8",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "39b0f7d7e7778b56a5faa83c02994b7726166493acd19b25ff7aa137f55a82f8",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.0019033999997191131,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "S8_nested_and_multiple_components",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "e7cd8de1325044a063d17fd95af605e6b4f58b7b7169db0de6ab7d53464c2a52",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-26",
+                "26",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-26",
+                "26",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-26",
+                "26",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-26",
+                "26",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "e7cd8de1325044a063d17fd95af605e6b4f58b7b7169db0de6ab7d53464c2a52"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "26b4a252b0fed9f8a7df851aa00e6f6ea5425fe43d9218ed044d084c64e5e576",
+        "proposal_validation": {
+          "circle_count": 3
+        },
+        "r0": "7/5",
+        "root_hash": "67ad528c83b5cd8c38c9150af833e6fef261b1b812249e95cd404f8607998c29",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "9d88db5dfc07a26296e968fb7b86a1f30ca0545a84ab270e84d7625689b71f4b",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0027222999997320585,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A01_external_gap",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "7e6ef09e5ae909fe261c6939d03c537fb7cd974735b11afacc22a3018767b48b",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "7e6ef09e5ae909fe261c6939d03c537fb7cd974735b11afacc22a3018767b48b"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "1b9c125841e0b679c470be190cf91c941fb4e2c99967173f1cb6e7cd44cbb746",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "7/5",
+        "root_hash": "ec53a0f8da493224137e4d244bf483a9eba773db83d97944cc876b471f84159e",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "1fa00a49ec7c26aa93701ec02910cd5ff0a421b8f6e9b31e905afca73174b416",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0019882999986293726,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "A02_external_above",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "326227653b274edc2eedb56640cdd5a1e654f82408618c56e98062672cd62d36",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-12",
+                "12",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "326227653b274edc2eedb56640cdd5a1e654f82408618c56e98062672cd62d36"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "1b9c125841e0b679c470be190cf91c941fb4e2c99967173f1cb6e7cd44cbb746",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "8/5",
+        "root_hash": "3cd66dbedd6bee285938b0bad53badd589217037157c604017d702fbfa9328a7",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "1fa00a49ec7c26aa93701ec02910cd5ff0a421b8f6e9b31e905afca73174b416",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.0019362000020919368,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A03_nested_strict",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "9ebf25525a761e27ca6c0528e1db4d08b7e42f857ea2e0e31afbdf0de37a07b6",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "9ebf25525a761e27ca6c0528e1db4d08b7e42f857ea2e0e31afbdf0de37a07b6"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "b63b7b6d30c8bdd6befa7612f14e0bd0f1193b11123f69b5f38b1d171b34fe47",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "3/2",
+        "root_hash": "30d9c89a731880bd66bf7e089cd7d06bdd98221f9dd9bf2c3a0ef0d87167b39b",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "0eeddfe9b78587d58c8cefcf16789577c5a406841ee1af25857ec732d4940cd5",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.00166200000239769,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "A04_nested_above",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "CURVATURE_FAIL",
+      "proof_log": {
+        "decision": "CURVATURE_FAIL",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "6e53216c1f16f8df12e5a14f887bce97a7aa9fff03213f3ceb88a3f096970c48",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-11",
+                "11",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "6e53216c1f16f8df12e5a14f887bce97a7aa9fff03213f3ceb88a3f096970c48"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "exact curvature radius below r0",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "CURVATURE_FAIL"
+        },
+        "proposal_hash": "b63b7b6d30c8bdd6befa7612f14e0bd0f1193b11123f69b5f38b1d171b34fe47",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "16/5",
+        "root_hash": "c97ae77c4eb5176c5a2fd66dea76edb27238d0453a91c4547749aca6b876c31f",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "0eeddfe9b78587d58c8cefcf16789577c5a406841ee1af25857ec732d4940cd5",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "exact curvature radius below r0",
+      "runtime_seconds": 0.0015877999976510182,
+      "status": "CURVATURE_FAIL"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A05_seam_bottleneck",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "2f57167a3ddc3cc9ba7dc7ef19bd18a73566b75c0bca7dacac67c8d77c4ffb3c",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "2f57167a3ddc3cc9ba7dc7ef19bd18a73566b75c0bca7dacac67c8d77c4ffb3c"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "59cb98a4ee3771f7473a4490fdf85cf130859762f62b554fd0bfab729adb7306",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "9/10",
+        "root_hash": "8953af727329d7ca77d04d5bb90936aacd4995820b1b5ebb5d14d1904e9db79c",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "254b25c8c9630bb598725a9f18058d7a9569cb7d3d8b3c9209d06d0a60504fdd",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0019155999980284832,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "A06_seam_above",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "2f666903e3cd47b0e0538286f2a23db7cabe92cc2178fc81a9e750955ef4a3f0",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-14",
+                "14",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "2f666903e3cd47b0e0538286f2a23db7cabe92cc2178fc81a9e750955ef4a3f0"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "59cb98a4ee3771f7473a4490fdf85cf130859762f62b554fd0bfab729adb7306",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "11/10",
+        "root_hash": "c6de86850d87580f6417e33f55895558e2fab5664bee3a32267ecb847639eb10",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "254b25c8c9630bb598725a9f18058d7a9569cb7d3d8b3c9209d06d0a60504fdd",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.0018152999982703477,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A07_three_hidden_gap",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "db0d04f6b35352ef2625eee483d68c046ae069e2bd051d327ac4c99b7b913fb4",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "db0d04f6b35352ef2625eee483d68c046ae069e2bd051d327ac4c99b7b913fb4"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "bfd6428a56bbf20b7771f4f971420a0aea471be680afd0122ceba8409e0d0ae5",
+        "proposal_validation": {
+          "circle_count": 3
+        },
+        "r0": "9/10",
+        "root_hash": "c1787ab7a346f42d17f10800e765b475f4526861e346db4f84697aebd4769cbc",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "64d6e1fede648a1a7bb42fb123ad2629ad6396d0b02b4c45ccf8e2ddad2c209e",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.002620700004626997,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "A08_three_hidden_gap_above",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "52204c2c0d3805a97acc2c9e8a0382b13e9e296a1b8fa24364c0dd08fa2d2254",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "52204c2c0d3805a97acc2c9e8a0382b13e9e296a1b8fa24364c0dd08fa2d2254"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "bfd6428a56bbf20b7771f4f971420a0aea471be680afd0122ceba8409e0d0ae5",
+        "proposal_validation": {
+          "circle_count": 3
+        },
+        "r0": "11/10",
+        "root_hash": "39ac6f5cb722b778351788e4a1c1e3887c468c6360db9f20e5587dfaf1656bd1",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "64d6e1fede648a1a7bb42fb123ad2629ad6396d0b02b4c45ccf8e2ddad2c209e",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.002559399996243883,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A09_large_margin",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "b385c80014d1fb97e84939c3b46c2e38cb88d9342c8c1b6276a6ec115d09f337",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-27",
+                "27",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "b385c80014d1fb97e84939c3b46c2e38cb88d9342c8c1b6276a6ec115d09f337"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "3a3e954cd551740a48321c5eca200643ff4f5d3209b2767f83281b04f4f6ee05",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "3",
+        "root_hash": "d9f1553e744ab9d7d6cda1500d4dce72848520ca6816fd0370bc28557ab46007",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "816f823c394d527b71837365a2608578fd74995269c8220f0cb5bbeffec0158a",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0021033000011811964,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A10_single_fractional",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "38fd1060a3ead8cbfb5cbd897d835c3f5d6378efef4ad05eba7a1073bcb3117a",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-86/15",
+                "86/15",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-86/15",
+                "86/15",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-86/15",
+                "86/15",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-86/15",
+                "86/15",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "38fd1060a3ead8cbfb5cbd897d835c3f5d6378efef4ad05eba7a1073bcb3117a"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "cb53bc5f89986965682638378dc7d49d0a91f80f600683553de3ac82c26348c4",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "2",
+        "root_hash": "2f67a86ccca563ed7e2e1317e4b269f75845a8a48621a49a50040d8ff67304e3",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "f1944548e2ecc1cf36ede527574a3b66fd7ce94028272965e1364adc5f6a48ec",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.001518200006103143,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "A11_nested_fractional",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "a734e36d273d2ad2e89ef4e097f42d0f2005c458e8259322a090eaffbbdd7ce1",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-43/4",
+                "43/4",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-43/4",
+                "43/4",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-43/4",
+                "43/4",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-43/4",
+                "43/4",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "a734e36d273d2ad2e89ef4e097f42d0f2005c458e8259322a090eaffbbdd7ce1"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "0b33d23e90429f6cfc41ce833bc44bf4a4690d05cc651854c4fff61ad5ac0dbf",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "2",
+        "root_hash": "e2d597677040311a3c5b6091c49d3e8925fa550136f01e84fdf883c5bee46d11",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "8ae54d7d75f157280ee70434770f9a4180ebe3d3f3595f4eabbf7489708d52c6",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.00216349999391241,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "UNKNOWN_ALLOWED",
+      "name": "A12_equality_single",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "b07c003244b3ee0208c36a24af43f0ac05be1673baf33d10f45bef52b450855c",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-5",
+                "5",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-5",
+                "5",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-5",
+                "5",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-5",
+                "5",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 0
+          },
+          "field_hash": "b07c003244b3ee0208c36a24af43f0ac05be1673baf33d10f45bef52b450855c"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "6ddcc8bb96c16261edc83859f1a3be5545bbdb87709697e7e0585b139f6a15f3",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "2",
+        "root_hash": "3b0a56847647be447773c0811e87c2a3ed4d623a732c490a3300b1e6fff89920",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.0016630000027362257,
+      "status": "UNKNOWN"
+    }
+  ],
+  "knot_failures": 0,
+  "knot_scenarios": 9,
+  "knot_valid": 7,
+  "knots": [
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K1_vertical_knot",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "85d7fb127712cfd1d4568d38c79883cdb2798e1e8221e9eb8f4c87fd52de4c26",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-5",
+                "5",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-5",
+                "5",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "5",
+                true
+              ],
+              [
+                "top",
+                0,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                0,
+                "0",
+                "5",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 1
+          },
+          "field_hash": "85d7fb127712cfd1d4568d38c79883cdb2798e1e8221e9eb8f4c87fd52de4c26"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "9ba450b2131c1ce5bd6922eb6b1cddb5b19ce95f155509fbc5ff71ca66c62e41",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "1",
+        "root_hash": "7dadda8ec97bbf2d92c0f9870ffa1447f2f836c18460b7df8a843f85c5d2e323",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.0019433999987086281,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K2_horizontal_knot",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "49a26dbd91bef66659554d1432b7fe86ea9142c778773439f8ba5362cd15a784",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "5",
+                true
+              ],
+              [
+                "right",
+                0,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "right",
+                0,
+                1,
+                "0",
+                "5",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-5",
+                "5",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-5",
+                "5",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 1
+          },
+          "field_hash": "49a26dbd91bef66659554d1432b7fe86ea9142c778773439f8ba5362cd15a784"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "569703364eaf756e8e5fb13cdca442362ce878f7ea0fe535cd48b42fd3a9bc30",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "1",
+        "root_hash": "5cd56159d843e8739f60bf8e5dc0dff5206156d53e87f7af748f477f01f26045",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.002154800000425894,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K3_corner_knot",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "e2a9b11f0f08fe28d58d34c9d275b5b19adfaaee135093da0752cc53f6f9c1ef",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "5",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "right",
+                1,
+                1,
+                "0",
+                "5",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "5",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-5",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                1,
+                "0",
+                "5",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 4
+          },
+          "field_hash": "e2a9b11f0f08fe28d58d34c9d275b5b19adfaaee135093da0752cc53f6f9c1ef"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "6125e3451503e16e6810e5f2050d0351e783530d7e2662eac6c5d3cd0c0be639",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "1",
+        "root_hash": "5c5d2bb0f36dacc3fe5bcd28c23e9bf9e2b5a78e385986b8c7b0bcdd4c08e196",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.003555199997208547,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K4_multi_knots",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "fda315a934c8fef44cb444f99fef57e0fb01626177052201b258f770de769094",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-5",
+                "-1",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "-1",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                2,
+                "0",
+                "1",
+                true
+              ],
+              [
+                "left",
+                0,
+                3,
+                "1",
+                "5",
+                true
+              ],
+              [
+                "right",
+                3,
+                0,
+                "-5",
+                "-1",
+                true
+              ],
+              [
+                "right",
+                3,
+                1,
+                "-1",
+                "0",
+                true
+              ],
+              [
+                "right",
+                3,
+                2,
+                "0",
+                "1",
+                true
+              ],
+              [
+                "right",
+                3,
+                3,
+                "1",
+                "5",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-5",
+                "-1",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "-1",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                2,
+                0,
+                "0",
+                "1",
+                true
+              ],
+              [
+                "bottom",
+                3,
+                0,
+                "1",
+                "5",
+                true
+              ],
+              [
+                "top",
+                0,
+                3,
+                "-5",
+                "-1",
+                true
+              ],
+              [
+                "top",
+                1,
+                3,
+                "-1",
+                "0",
+                true
+              ],
+              [
+                "top",
+                2,
+                3,
+                "0",
+                "1",
+                true
+              ],
+              [
+                "top",
+                3,
+                3,
+                "1",
+                "5",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 24
+          },
+          "field_hash": "fda315a934c8fef44cb444f99fef57e0fb01626177052201b258f770de769094"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "3c8c060b412dbf952145c24cea58c43a0e5e8c6fb04d85a234056acbde9d9244",
+        "proposal_validation": {
+          "circle_count": 1
+        },
+        "r0": "1",
+        "root_hash": "c2e10d88a1a92e3485d70f46b6dc7ec28268aea48fb2eafe8c7ba9d3f99e7451",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                2
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                3
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                2
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                3
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                2,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                2,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                2,
+                2
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                2,
+                3
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                3,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                3,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                3,
+                2
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                3,
+                3
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.017126200000348035,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K5_two_loops",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "857590f30254f81ec99cf5005a753ee7a673d0574636e28a329dd9a820e4bbbb",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "9",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "right",
+                1,
+                1,
+                "0",
+                "9",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "9",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                1,
+                "0",
+                "9",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 4
+          },
+          "field_hash": "857590f30254f81ec99cf5005a753ee7a673d0574636e28a329dd9a820e4bbbb"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "86a7f17fd7c9a7e4bfedd94f540be587ef3457b911fe465b2b5e629099b8eef9",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "9/10",
+        "root_hash": "feffccf34bd733e5118103d46808ae3b3ab62b3c4c0f832973900c17ed35b8e8",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "2ffded5413bec79e953bfe86672f8639c015ce565be6a547e3dc374ef4eeca6d",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.005662600000505336,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K6_nested",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "641ad574a1ab3f854e8216df11573628a203e4f62dcba5feed1521aeef7e6a80",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "9",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "right",
+                1,
+                1,
+                "0",
+                "9",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "9",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-9",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                1,
+                "0",
+                "9",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 4
+          },
+          "field_hash": "641ad574a1ab3f854e8216df11573628a203e4f62dcba5feed1521aeef7e6a80"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "b1e35e948428a3b53ea01a16aed793bdd0f69ac49bf8ed2099802a6a2212df72",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "3/2",
+        "root_hash": "276e6e16195540e7d1d6888f7c2c563084edf1810e5df066df64a6369bc702cb",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "48078790473fa560176ab9ad6183d0aa9538b0b5bd83e9d223d6724079beab58",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.00491150000016205,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "VALID",
+      "name": "K7_near_bottleneck",
+      "ok": true,
+      "oracle_max_boxes": 800000,
+      "oracle_max_depth": 40,
+      "oracle_status": "VALID",
+      "proof_log": {
+        "decision": "VALID",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "043b60527c8785a72f036f2c89a47d4cb774c27acab012f554d594fbb10dd7be",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "right",
+                1,
+                1,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                1,
+                "0",
+                "8",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 4
+          },
+          "field_hash": "043b60527c8785a72f036f2c89a47d4cb774c27acab012f554d594fbb10dd7be"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "strict exact analytic circle-link margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "VALID"
+        },
+        "proposal_hash": "bc7d87312b39bf260d5c4576f679f65ce748d59cb1e0a74219e89f51117408f7",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "9/10",
+        "root_hash": "92cf4b3be196d94729c42e2653a68694f66eef64181a836bdfbd7dfb753923b3",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "strict exact analytic circle-link margin",
+      "runtime_seconds": 0.005968299999949522,
+      "status": "VALID"
+    },
+    {
+      "differential_ok": true,
+      "expected": "UNKNOWN_ALLOWED",
+      "name": "K8_equality",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "10e30b2c58367d695850493bdc07e570cd5f5ef7bbd5f022253e2505130e8855",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "right",
+                1,
+                1,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                1,
+                "0",
+                "8",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 4
+          },
+          "field_hash": "10e30b2c58367d695850493bdc07e570cd5f5ef7bbd5f022253e2505130e8855"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "bc7d87312b39bf260d5c4576f679f65ce748d59cb1e0a74219e89f51117408f7",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "1",
+        "root_hash": "a68b9b8b7d9c776e4611c6f6fd610ec24261cc5b0963a0b41915dd76453866b4",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.005626199999824166,
+      "status": "UNKNOWN"
+    },
+    {
+      "differential_ok": true,
+      "expected": "NOT_VALID",
+      "name": "K9_above",
+      "ok": true,
+      "oracle_max_boxes": 1000,
+      "oracle_max_depth": 0,
+      "oracle_status": "UNKNOWN",
+      "proof_log": {
+        "decision": "UNKNOWN",
+        "engine": {
+          "algorithm": "phase-c2b-proposal-assisted-v1",
+          "package": "phase-c2a-general-field-reference",
+          "version": "0.2.0",
+          "work_budgets": {
+            "factorization_max_depth": 24,
+            "max_boxes": 800000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          }
+        },
+        "field_hash": "64323e57c8bb61ecdbc3110def18da357ca30734299a6435a012d30d6e3be8dd",
+        "field_only_gap": "automatic field-only loop discovery is not implemented",
+        "field_validation": {
+          "boundary": {
+            "segments": [
+              [
+                "left",
+                0,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "left",
+                0,
+                1,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "right",
+                1,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "right",
+                1,
+                1,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "bottom",
+                0,
+                0,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "bottom",
+                1,
+                0,
+                "0",
+                "8",
+                true
+              ],
+              [
+                "top",
+                0,
+                1,
+                "-8",
+                "0",
+                true
+              ],
+              [
+                "top",
+                1,
+                1,
+                "0",
+                "8",
+                true
+              ]
+            ]
+          },
+          "c2": {
+            "edge_checks": 4
+          },
+          "field_hash": "64323e57c8bb61ecdbc3110def18da357ca30734299a6435a012d30d6e3be8dd"
+        },
+        "frozen_phase_c1": {
+          "inner_sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+          "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
+        },
+        "oracle": {
+          "reason": "equality or insufficient exact margin",
+          "stats": {
+            "mode": "exact_analytic_circle_link"
+          },
+          "status": "UNKNOWN"
+        },
+        "proposal_hash": "bc7d87312b39bf260d5c4576f679f65ce748d59cb1e0a74219e89f51117408f7",
+        "proposal_validation": {
+          "circle_count": 2
+        },
+        "r0": "11/10",
+        "root_hash": "0b700624aa8d12917d549448758c378f34a08384008677145e70e7e0b2e54cd7",
+        "schema": "phase-c2a-proof-v1",
+        "zero_set_certificate": {
+          "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
+          "positivity": [
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                0,
+                1
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                0
+              ],
+              "leaves": 1
+            },
+            {
+              "boxes": 1,
+              "cell": [
+                1,
+                1
+              ],
+              "leaves": 1
+            }
+          ]
+        }
+      },
+      "reason": "equality or insufficient exact margin",
+      "runtime_seconds": 0.005835500000102911,
+      "status": "UNKNOWN"
+    }
+  ]
+}

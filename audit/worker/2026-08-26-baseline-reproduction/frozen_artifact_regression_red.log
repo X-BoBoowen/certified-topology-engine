@@ -1,0 +1,153 @@
+FFFFF                                                                    [100%]
+================================== FAILURES ===================================
+____________ test_resolver_reports_approved_frozen_artifact_hashes ____________
+
+    def test_resolver_reports_approved_frozen_artifact_hashes():
+>       artifacts = frozen_oracle.resolve_frozen_artifacts()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'phase_c2a.frozen_oracle' has no attribute 'resolve_frozen_artifacts'
+
+tests\test_frozen_artifacts.py:15: AttributeError
+_______________ test_resolver_rejects_missing_frozen_artifacts ________________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-676/test_resolver_rejects_missing_0')
+
+    def test_resolver_rejects_missing_frozen_artifacts(tmp_path):
+        with pytest.raises(RuntimeError, match='missing frozen Phase C.1 artifact'):
+>           frozen_oracle.resolve_frozen_artifacts(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'phase_c2a.frozen_oracle' has no attribute 'resolve_frozen_artifacts'
+
+tests\test_frozen_artifacts.py:24: AttributeError
+_____________ test_resolver_rejects_frozen_artifact_hash_mismatch _____________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-676/test_resolver_rejects_frozen_a0')
+
+    def test_resolver_rejects_frozen_artifact_hash_mismatch(tmp_path):
+        frozen_dir = tmp_path / 'frozen_phase_c1'
+        frozen_dir.mkdir()
+        (frozen_dir / 'Phase_C1_Exact_Input_Soundness_Repair_Bundle_20260823.zip').write_bytes(b'wrong outer')
+        (frozen_dir / 'phase_c_reach_engine_prototype.zip').write_bytes(b'wrong inner')
+        with pytest.raises(RuntimeError, match='frozen Phase C.1 artifact hash mismatch'):
+>           frozen_oracle.resolve_frozen_artifacts(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'phase_c2a.frozen_oracle' has no attribute 'resolve_frozen_artifacts'
+
+tests\test_frozen_artifacts.py:33: AttributeError
+_______ test_engine_fails_closed_when_frozen_artifact_validation_fails ________
+
+obj = <module 'phase_c2a.engine' from 'D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\phase_c2a\\engine.py'>
+name = 'resolve_frozen_artifacts', ann = 'phase_c2a.engine'
+
+    def annotated_getattr(obj: object, name: str, ann: str) -> object:
+        try:
+>           obj = getattr(obj, name)
+                  ^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'phase_c2a.engine' has no attribute 'resolve_frozen_artifacts'
+
+.venv\Lib\site-packages\_pytest\monkeypatch.py:95: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000029C2E236780>
+
+    def test_engine_fails_closed_when_frozen_artifact_validation_fails(monkeypatch):
+        def reject_artifacts():
+            raise RuntimeError('frozen Phase C.1 artifact hash mismatch')
+    
+>       monkeypatch.setattr('phase_c2a.engine.resolve_frozen_artifacts', reject_artifacts)
+
+tests\test_frozen_artifacts.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\_pytest\monkeypatch.py:109: in derive_importpath
+    annotated_getattr(target, attr, ann=module)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = <module 'phase_c2a.engine' from 'D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\phase_c2a\\engine.py'>
+name = 'resolve_frozen_artifacts', ann = 'phase_c2a.engine'
+
+    def annotated_getattr(obj: object, name: str, ann: str) -> object:
+        try:
+            obj = getattr(obj, name)
+        except AttributeError as e:
+>           raise AttributeError(
+                f"{type(obj).__name__!r} object at {ann} has no attribute {name!r}"
+            ) from e
+E           AttributeError: 'module' object at phase_c2a.engine has no attribute 'resolve_frozen_artifacts'
+
+.venv\Lib\site-packages\_pytest\monkeypatch.py:97: AttributeError
+_______________ test_real_valid_proof_replays_and_tamper_fails ________________
+
+    def test_real_valid_proof_replays_and_tamper_fails():
+>       s=base_circle_scenarios()[0]; f,p=make_field(s); e=GeneralReachEngine(max_depth=80,max_boxes=500000); r=e.certify(f,s.r0,p)
+                                                                                                                ^^^^^^^^^^^^^^^^^^^
+
+tests\test_proof_replay.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <phase_c2a.engine.GeneralReachEngine object at 0x0000029C2E234E60>
+field = PiecewisePolynomialField2D(x_breaks=(Fraction(-6, 1), Fraction(6, 1)), y_breaks=(Fraction(-6, 1), Fraction(6, 1)), pie...ynomial2D(coeffs={(2, 0): Fraction(1, 1), (0, 2): Fraction(1, 1), (0, 0): Fraction(-9, 1)})}, label='S1_single_circle')
+r0 = Fraction(2, 1)
+proposal = CircleProposal(circles=(CircleSpec(cx=Fraction(0, 1), cy=Fraction(0, 1), radius=Fraction(3, 1)),), multipliers={(0, 0): Polynomial2D(coeffs={(0, 0): Fraction(1, 1)})})
+
+    def certify(self,field:PiecewisePolynomialField2D,r0,proposal:CircleProposal|None=None):
+        try: r0=require_fraction(r0,'r0')
+        except (ExactInputError,ValueError) as e: return EngineResult(EngineStatus.INPUT_INVALID,str(e),{})
+        if r0<=0: return EngineResult(EngineStatus.INPUT_INVALID,'r0 must be positive',{})
+        if not isinstance(field,PiecewisePolynomialField2D): return EngineResult(EngineStatus.INPUT_INVALID,'invalid field object',{})
+        fv=field.validate()
+        if fv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,fv.reason,{'field_validation':fv.data})
+        if fv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,fv.reason,{'field_validation':fv.data})
+        if proposal is None:
+            return EngineResult(EngineStatus.UNKNOWN,'FIELD_ONLY_LOOP_DISCOVERY_NOT_IMPLEMENTED',{'field_validation':fv.data})
+        if not isinstance(proposal,CircleProposal): return EngineResult(EngineStatus.INPUT_INVALID,'invalid proposal object',{})
+        lv=proposal.validate_link()
+        if lv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.INPUT_INVALID,lv.reason,{'proposal_validation':lv.data})
+        zv=proposal.validate_field_factorization(field,max_depth=min(24,self.max_depth),max_boxes=self.max_boxes)
+        if zv.status is FieldStatus.INPUT_INVALID: return EngineResult(EngineStatus.INPUT_INVALID,zv.reason,{'factorization':zv.data})
+        if zv.status is not FieldStatus.VALID: return EngineResult(EngineStatus.UNKNOWN,zv.reason,{'factorization':zv.data})
+        # Exact analytic circle-link certificate.  The field certificate above proves
+        # that the general piecewise-polynomial zero set is exactly this link.
+        cs=proposal.circles
+        if any(c.radius < r0 for c in cs):
+            status=EngineStatus.CURVATURE_FAIL
+            oracle_name='CURVATURE_FAIL'
+            oracle_reason='exact curvature radius below r0'
+        else:
+            strict=all(c.radius > r0 for c in cs)
+            for i in range(len(cs)):
+                for j in range(i+1,len(cs)):
+                    a,b=cs[i],cs[j]
+                    dx=a.cx-b.cx; dy=a.cy-b.cy; d2=dx*dx+dy*dy
+                    sp=a.radius+b.radius; df=abs(a.radius-b.radius); two=Fraction(2)*r0
+                    if d2>sp*sp:
+                        strict = strict and d2>(sp+two)*(sp+two)
+                    else:
+                        strict = strict and df>two and d2<(df-two)*(df-two)
+            status=EngineStatus.VALID if strict else EngineStatus.UNKNOWN
+            oracle_name=status.value
+            oracle_reason='strict exact analytic circle-link margin' if strict else 'equality or insufficient exact margin'
+        class _O: pass
+        ores=_O(); ores.reason=oracle_reason; ores.stats={'mode':'exact_analytic_circle_link'}
+        log=seal({
+            'schema':'phase-c2a-proof-v1','field_hash':field.field_hash(),'proposal_hash':proposal.proposal_hash(),'r0':str(r0),
+            'field_validation':fv.data,'proposal_validation':lv.data,'zero_set_certificate':zv.data,
+            'frozen_phase_c1':{
+>             'outer_sha256':hashlib.sha256(frozen_outer.read_bytes()).hexdigest(),
+                                            ^^^^^^^^^^^^
+              'inner_sha256':hashlib.sha256(frozen_inner.read_bytes()).hexdigest(),
+            },
+            'oracle':{'status':oracle_name,'reason':getattr(ores,'reason',''),'stats':getattr(ores,'stats',{})},
+            'decision':status.value,
+            'field_only_gap':'automatic field-only loop discovery is not implemented',
+        })
+E       NameError: name 'frozen_outer' is not defined
+
+phase_c2a\engine.py:69: NameError
+=========================== short test summary info ===========================
+FAILED tests/test_frozen_artifacts.py::test_resolver_reports_approved_frozen_artifact_hashes
+FAILED tests/test_frozen_artifacts.py::test_resolver_rejects_missing_frozen_artifacts
+FAILED tests/test_frozen_artifacts.py::test_resolver_rejects_frozen_artifact_hash_mismatch
+FAILED tests/test_frozen_artifacts.py::test_engine_fails_closed_when_frozen_artifact_validation_fails
+FAILED tests/test_proof_replay.py::test_real_valid_proof_replays_and_tamper_fails
+5 failed in 2.36s

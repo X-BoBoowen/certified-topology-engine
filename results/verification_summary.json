@@ -1,49 +1,86 @@
 {
-  "all_passed": false,
+  "all_passed": true,
   "commands": {
     "float_path_audit": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "scripts/run_float_path_audit.py"
       ],
       "exit_code": 0,
-      "runtime_seconds": 0.0820387000021583
+      "log_path": "logs/VERIFY_FLOAT_PATH_AUDIT.txt",
+      "runtime_seconds": 0.09278710000216961,
+      "timed_out": false,
+      "timeout_seconds": 120
+    },
+    "frozen_artifact_hash": {
+      "command": [
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
+        "scripts/run_frozen_hash_check.py"
+      ],
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_FROZEN_ARTIFACT_HASH.txt",
+      "runtime_seconds": 0.12762579999980517,
+      "timed_out": false,
+      "timeout_seconds": 120
     },
     "general_suite": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "scripts/run_general_suite.py"
       ],
-      "exit_code": 1,
-      "runtime_seconds": 0.13583419999849866
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_GENERAL_SUITE.txt",
+      "runtime_seconds": 4.939789599993674,
+      "timed_out": false,
+      "timeout_seconds": 120
     },
     "invalid_suite": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "scripts/run_invalid_suite.py"
       ],
       "exit_code": 0,
-      "runtime_seconds": 0.10800680000102147
+      "log_path": "logs/VERIFY_INVALID_SUITE.txt",
+      "runtime_seconds": 0.12588500000128988,
+      "timed_out": false,
+      "timeout_seconds": 120
     },
     "proof_replay": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "scripts/run_proof_replay.py"
       ],
-      "exit_code": 1,
-      "runtime_seconds": 0.11080560000118567
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_PROOF_REPLAY.txt",
+      "runtime_seconds": 0.26006799999595387,
+      "timed_out": false,
+      "timeout_seconds": 120
+    },
+    "proof_tamper": {
+      "command": [
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
+        "scripts/run_proof_tamper.py"
+      ],
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_PROOF_TAMPER.txt",
+      "runtime_seconds": 0.6208776000057696,
+      "timed_out": false,
+      "timeout_seconds": 120
     },
     "property_suite": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "scripts/run_property_suite.py"
       ],
       "exit_code": 0,
-      "runtime_seconds": 13.4008868000019
+      "log_path": "logs/VERIFY_PROPERTY_SUITE.txt",
+      "runtime_seconds": 12.147755300000426,
+      "timed_out": false,
+      "timeout_seconds": 120
     },
     "py_compile": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "-m",
         "compileall",
         "-q",
@@ -52,28 +89,65 @@
         "scripts"
       ],
       "exit_code": 0,
-      "runtime_seconds": 0.09228760000041802
+      "log_path": "logs/VERIFY_PY_COMPILE.txt",
+      "runtime_seconds": 0.09111710000433959,
+      "timed_out": false,
+      "timeout_seconds": 120
     },
     "pytest": {
       "command": [
-        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.venv\\Scripts\\python.exe",
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
         "-m",
         "pytest",
-        "-q"
+        "-q",
+        "tests"
       ],
-      "exit_code": 2,
-      "runtime_seconds": 0.749931899998046
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_PYTEST.txt",
+      "runtime_seconds": 8.47453119999409,
+      "timed_out": false,
+      "timeout_seconds": 120
+    },
+    "relocation": {
+      "command": [
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
+        "scripts/run_relocation_check.py"
+      ],
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_RELOCATION.txt",
+      "runtime_seconds": 0.5122721000007004,
+      "timed_out": false,
+      "timeout_seconds": 120
+    },
+    "static_undefined": {
+      "command": [
+        "D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe",
+        "scripts/run_static_undefined_check.py"
+      ],
+      "exit_code": 0,
+      "log_path": "logs/VERIFY_STATIC_UNDEFINED.txt",
+      "runtime_seconds": 0.19862129999819444,
+      "timed_out": false,
+      "timeout_seconds": 120
     }
   },
   "field_only_loop_discovery": "NOT_IMPLEMENTED; candidate-free calls return UNKNOWN",
   "general_counts": {
-    "circle_failures": null,
-    "circle_false_valid": null,
-    "circle_scenarios": null,
-    "circle_valid": null,
-    "knot_failures": null,
-    "knot_scenarios": null,
-    "knot_valid": null
+    "circle_failures": 0,
+    "circle_false_valid": 0,
+    "circle_scenarios": 22,
+    "circle_valid": 13,
+    "knot_failures": 0,
+    "knot_scenarios": 9,
+    "knot_valid": 7
   },
-  "general_semantic_gate": false
+  "general_semantic_gate": true,
+  "overall_bounded_gate": true,
+  "overall_runtime_seconds": 27.598293700000795,
+  "overall_timeout_seconds": 600,
+  "package_version": "0.2.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.13 (main, Aug  7 2026, 02:26:41) [MSC v.1944 64 bit (AMD64)]",
+  "schema": "phase-c2b-verification-summary-v1",
+  "worker_status": "SELF-VERIFICATION PASS \u2014 INDEPENDENT AUDIT PENDING"
 }
