@@ -1,13 +1,13 @@
 COMMAND=["D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe", "scripts/run_proof_replay.py"]
 TIMEOUT_SECONDS=120
 {
-  "generator_pid": 26632,
+  "generator_pid": 31112,
   "original_replay": true,
   "proof_root_hash": "f2d1b996e38f2dd05fbb215455a288c2c37069e574e1f82a5f93eac620acecc4",
   "replay_exit_code": 0,
-  "replay_pid": 29460,
+  "replay_pid": 19912,
   "source_status": "VALID",
-  "worker_output": "{\n  \"accepted\": true,\n  \"error\": null,\n  \"replay_pid\": 29460\n}\n"
+  "worker_output": "{\n  \"accepted\": true,\n  \"error\": null,\n  \"replay_pid\": 19912\n}\n"
 }
 EXIT_CODE=0
-RUNTIME_SECONDS=0.260068
+RUNTIME_SECONDS=0.235796

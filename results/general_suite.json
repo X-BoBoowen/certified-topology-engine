@@ -102,7 +102,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0013717000038013794,
+      "runtime_seconds": 0.0015581000043312088,
       "status": "VALID"
     },
     {
@@ -203,7 +203,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0019008000017493032,
+      "runtime_seconds": 0.0016090999997686595,
       "status": "VALID"
     },
     {
@@ -304,7 +304,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0015868999980739318,
+      "runtime_seconds": 0.001641299997572787,
       "status": "VALID"
     },
     {
@@ -405,7 +405,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0016573000029893592,
+      "runtime_seconds": 0.001597400005266536,
       "status": "UNKNOWN"
     },
     {
@@ -506,7 +506,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0017436000052839518,
+      "runtime_seconds": 0.0016809000007924624,
       "status": "VALID"
     },
     {
@@ -607,7 +607,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0021931000010226853,
+      "runtime_seconds": 0.0015904999963822775,
       "status": "UNKNOWN"
     },
     {
@@ -708,7 +708,7 @@
         }
       },
       "reason": "exact curvature radius below r0",
-      "runtime_seconds": 0.0013558000064222142,
+      "runtime_seconds": 0.0015940999946906231,
       "status": "CURVATURE_FAIL"
     },
     {
@@ -809,7 +809,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0012715000048046932,
+      "runtime_seconds": 0.0011501999979373068,
       "status": "VALID"
     },
     {
@@ -910,7 +910,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0019033999997191131,
+      "runtime_seconds": 0.0016560000003664754,
       "status": "UNKNOWN"
     },
     {
@@ -1011,7 +1011,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0027222999997320585,
+      "runtime_seconds": 0.0025759999989531934,
       "status": "VALID"
     },
     {
@@ -1112,7 +1112,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0019882999986293726,
+      "runtime_seconds": 0.0018596999943838455,
       "status": "VALID"
     },
     {
@@ -1213,7 +1213,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0019362000020919368,
+      "runtime_seconds": 0.0019380000012461096,
       "status": "UNKNOWN"
     },
     {
@@ -1314,7 +1314,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.00166200000239769,
+      "runtime_seconds": 0.0017921000035130419,
       "status": "VALID"
     },
     {
@@ -1415,7 +1415,7 @@
         }
       },
       "reason": "exact curvature radius below r0",
-      "runtime_seconds": 0.0015877999976510182,
+      "runtime_seconds": 0.0016717999969841912,
       "status": "CURVATURE_FAIL"
     },
     {
@@ -1516,7 +1516,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0019155999980284832,
+      "runtime_seconds": 0.0016945999959716573,
       "status": "VALID"
     },
     {
@@ -1617,7 +1617,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0018152999982703477,
+      "runtime_seconds": 0.0017224999974132515,
       "status": "UNKNOWN"
     },
     {
@@ -1718,7 +1718,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.002620700004626997,
+      "runtime_seconds": 0.0023431000008713454,
       "status": "VALID"
     },
     {
@@ -1819,7 +1819,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.002559399996243883,
+      "runtime_seconds": 0.0027571000027819537,
       "status": "UNKNOWN"
     },
     {
@@ -1920,7 +1920,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0021033000011811964,
+      "runtime_seconds": 0.002038199992966838,
       "status": "VALID"
     },
     {
@@ -2021,7 +2021,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.001518200006103143,
+      "runtime_seconds": 0.0018930000005639158,
       "status": "VALID"
     },
     {
@@ -2122,7 +2122,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.00216349999391241,
+      "runtime_seconds": 0.002064500004053116,
       "status": "VALID"
     },
     {
@@ -2223,7 +2223,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0016630000027362257,
+      "runtime_seconds": 0.0013143999967724085,
       "status": "UNKNOWN"
     }
   ],
@@ -2353,7 +2353,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0019433999987086281,
+      "runtime_seconds": 0.0022639000017079525,
       "status": "VALID"
     },
     {
@@ -2478,7 +2478,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.002154800000425894,
+      "runtime_seconds": 0.002024200002779253,
       "status": "VALID"
     },
     {
@@ -2635,7 +2635,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.003555199997208547,
+      "runtime_seconds": 0.002956399999675341,
       "status": "VALID"
     },
     {
@@ -2952,7 +2952,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.017126200000348035,
+      "runtime_seconds": 0.016448700000182725,
       "status": "VALID"
     },
     {
@@ -3109,7 +3109,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.005662600000505336,
+      "runtime_seconds": 0.005480600004375447,
       "status": "VALID"
     },
     {
@@ -3266,7 +3266,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.00491150000016205,
+      "runtime_seconds": 0.0056687000032979995,
       "status": "VALID"
     },
     {
@@ -3423,7 +3423,7 @@
         }
       },
       "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.005968299999949522,
+      "runtime_seconds": 0.005557699994824361,
       "status": "VALID"
     },
     {
@@ -3580,7 +3580,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.005626199999824166,
+      "runtime_seconds": 0.0053846000009798445,
       "status": "UNKNOWN"
     },
     {
@@ -3737,7 +3737,7 @@
         }
       },
       "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.005835500000102911,
+      "runtime_seconds": 0.005309000000124797,
       "status": "UNKNOWN"
     }
   ]

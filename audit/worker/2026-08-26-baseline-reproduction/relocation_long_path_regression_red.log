@@ -1,0 +1,41 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______ test_relocation_script_supports_a_long_pristine_extraction_path _______
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-695/test_relocation_script_support0')
+
+    def test_relocation_script_supports_a_long_pristine_extraction_path(tmp_path):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        long_root = tmp_path / ('phase-c2b-pristine-' + 'x' * 45)
+        copy_release_tree(build_release, long_root)
+        process = subprocess.run(
+            [sys.executable, str(long_root / 'scripts' / 'run_relocation_check.py')],
+            cwd=long_root,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=120,
+        )
+>       assert process.returncode == 0, process.stdout
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\29722\AppData\Local\Temp\pytest-of-29722\pytest-695\test_relocation_script_support0\phase-c2b-pristine-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\scripts\run_relocation_check.py", line 76, in <module>
+E             raise SystemExit(main())
+E                              ^^^^^^
+E           File "C:\Users\29722\AppData\Local\Temp\pytest-of-29722\pytest-695\test_relocation_script_support0\phase-c2b-pristine-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\scripts\run_relocation_check.py", line 21, in main
+E             shutil.copytree(
+E           File "C:\Users\29722\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\shutil.py", line 600, in copytree
+E             return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "C:\Users\29722\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\shutil.py", line 554, in _copytree
+E             raise Error(errors)
+E         shutil.Error: [('C:\\Users\\29722\\AppData\\Local\\Temp\\pytest-of-29722\\pytest-695\\test_relocation_script_support0\\phase-c2b-pristine-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\docs\\superpowers\\plans\\2026-08-26-c2b-workspace-initialization.md', 'C:\\Users\\29722\\AppData\\Local\\Temp\\pytest-of-29722\\pytest-695\\test_relocation_script_support0\\phase-c2b-pristine-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\audit\\tmp\\phase-c2b-relocation-6leqrzvr\\candidate\\docs\\superpowers\\plans\\2026-08-26-c2b-workspace-initialization.md', '[WinError 3] 系统找不到指定的路径。'), ('C:\\Users\\29722\\AppData\\Local\\Temp\\pytest-of-29722\\pytest-695\\test_relocation_script_support0\\phase-c2b-pristine-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\frozen_phase_c1\\Phase_C1_Exact_Input_Soundness_Repair_Bundle_20260823.zip', 'C:\\Users\\29722\\AppData\\Local\\Temp\\pytest-of-29722\\pytest-695\\test_relocation_script_support0\\phase-c2b-pristine-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\audit\\tmp\\phase-c2b-relocation-6leqrzvr\\candidate\\frozen_phase_c1\\Phase_C1_Exact_Input_Soundness_Repair_Bundle_20260823.zip', '[WinError 3] 系统找不到指定的路径。')]
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\29722\\Desktop\\弱小但是有梦想的BoBoo文\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...e\\\\frozen_phase_c1\\\\Phase_C1_Exact_Input_Soundness_Repair_Bundle_20260823.zip\', \'[WinError 3] 系统找不到指定的路径。\')]\n').returncode
+
+tests\test_verification_scripts.py:173: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_relocation_script_supports_a_long_pristine_extraction_path
+1 failed in 0.36s

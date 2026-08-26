@@ -8,7 +8,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_FLOAT_PATH_AUDIT.txt",
-      "runtime_seconds": 0.09278710000216961,
+      "runtime_seconds": 0.08567619999666931,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -19,7 +19,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_FROZEN_ARTIFACT_HASH.txt",
-      "runtime_seconds": 0.12762579999980517,
+      "runtime_seconds": 0.1153072000015527,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -30,7 +30,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_GENERAL_SUITE.txt",
-      "runtime_seconds": 4.939789599993674,
+      "runtime_seconds": 4.708361899996817,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -41,7 +41,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_INVALID_SUITE.txt",
-      "runtime_seconds": 0.12588500000128988,
+      "runtime_seconds": 0.11841390000336105,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -52,7 +52,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PROOF_REPLAY.txt",
-      "runtime_seconds": 0.26006799999595387,
+      "runtime_seconds": 0.2357964999973774,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -63,7 +63,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PROOF_TAMPER.txt",
-      "runtime_seconds": 0.6208776000057696,
+      "runtime_seconds": 0.5908443000007537,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -74,7 +74,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PROPERTY_SUITE.txt",
-      "runtime_seconds": 12.147755300000426,
+      "runtime_seconds": 11.495558199996594,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -90,7 +90,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PY_COMPILE.txt",
-      "runtime_seconds": 0.09111710000433959,
+      "runtime_seconds": 0.0991098000013153,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -104,7 +104,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PYTEST.txt",
-      "runtime_seconds": 8.47453119999409,
+      "runtime_seconds": 8.709326500000316,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -115,7 +115,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_RELOCATION.txt",
-      "runtime_seconds": 0.5122721000007004,
+      "runtime_seconds": 0.49933730000338983,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -126,7 +126,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_STATIC_UNDEFINED.txt",
-      "runtime_seconds": 0.19862129999819444,
+      "runtime_seconds": 0.18566999999893596,
       "timed_out": false,
       "timeout_seconds": 120
     }
@@ -143,7 +143,7 @@
   },
   "general_semantic_gate": true,
   "overall_bounded_gate": true,
-  "overall_runtime_seconds": 27.598293700000795,
+  "overall_runtime_seconds": 26.849982600004296,
   "overall_timeout_seconds": 600,
   "package_version": "0.2.0",
   "platform": "Windows-11-10.0.26200-SP0",

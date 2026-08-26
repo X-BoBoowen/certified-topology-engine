@@ -4,23 +4,23 @@ TIMEOUT_SECONDS=120
   "details": {
     "artifact_hash": {
       "exit_code": 1,
-      "replay_pid": 28384,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 28384\n}\n"
+      "replay_pid": 20628,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 20628\n}\n"
     },
     "decision": {
       "exit_code": 1,
-      "replay_pid": 30636,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 30636\n}\n"
+      "replay_pid": 31284,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 31284\n}\n"
     },
     "factorization_certificate": {
       "exit_code": 1,
-      "replay_pid": 504,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 504\n}\n"
+      "replay_pid": 2192,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 2192\n}\n"
     },
     "numeric_certificate": {
       "exit_code": 1,
-      "replay_pid": 16596,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 16596\n}\n"
+      "replay_pid": 29228,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 29228\n}\n"
     }
   },
   "source_status": "VALID",
@@ -32,4 +32,4 @@ TIMEOUT_SECONDS=120
   }
 }
 EXIT_CODE=0
-RUNTIME_SECONDS=0.620878
+RUNTIME_SECONDS=0.590844

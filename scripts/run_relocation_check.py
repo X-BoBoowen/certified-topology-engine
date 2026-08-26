@@ -14,10 +14,10 @@ RESULTS = ROOT / 'results'
 
 def main():
     RESULTS.mkdir(exist_ok=True)
-    scratch = ROOT / 'audit' / 'tmp'
+    scratch = ROOT / '.r'
     scratch.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='phase-c2b-relocation-', dir=scratch) as temp_dir:
-        relocated_root = Path(temp_dir) / 'candidate'
+    with tempfile.TemporaryDirectory(prefix='x', dir=scratch) as temp_dir:
+        relocated_root = Path(temp_dir) / 'c'
         shutil.copytree(
             ROOT,
             relocated_root,
@@ -26,6 +26,7 @@ def main():
                 '.venv',
                 '__pycache__',
                 '.pytest_cache',
+                '.r',
                 'audit',
                 'dist',
                 'logs',

@@ -156,6 +156,26 @@ def test_relocation_script_replays_proof_from_a_different_path():
     assert result['proof_replay']['original_replay'] is True
 
 
+def test_relocation_script_supports_a_long_pristine_extraction_path(tmp_path):
+    spec = importlib.util.find_spec('scripts.build_release')
+    build_release = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build_release)
+    long_root = tmp_path / ('phase-c2b-pristine-' + 'x' * 45)
+    copy_release_tree(build_release, long_root)
+    process = subprocess.run(
+        [sys.executable, str(long_root / 'scripts' / 'run_relocation_check.py')],
+        cwd=long_root,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        timeout=120,
+    )
+    assert process.returncode == 0, process.stdout
+    result = json.loads((long_root / 'results' / 'relocation.json').read_text())
+    assert result['source_root'] != result['relocated_root']
+    assert result['proof_replay_exit_code'] == 0
+
+
 def test_release_archive_contains_only_the_runtime_closure_candidate(tmp_path):
     spec = importlib.util.find_spec('scripts.build_release')
     assert spec is not None
