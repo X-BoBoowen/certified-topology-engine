@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "certificate_path_float_violations": []
+}
+
+EXIT_CODE=0
