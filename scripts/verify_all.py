@@ -13,6 +13,7 @@ os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
 from phase_c2a import __version__
+from phase_c2a.source_integrity import controlled_source_snapshot
 from phase_c2a.verification_runtime import (
     run_bounded_command,
     verification_commands,
@@ -75,6 +76,7 @@ def overall_timeout_record(spec, logs_dir):
 
 
 def main():
+    source_before = controlled_source_snapshot(ROOT)
     logs_dir = ROOT / 'logs'
     results_dir = ROOT / 'results'
     logs_dir.mkdir(exist_ok=True)
@@ -98,6 +100,8 @@ def main():
         command_records[spec['name']] = record
 
     overall_runtime = time.perf_counter() - started
+    source_after = controlled_source_snapshot(ROOT)
+    source_stable = source_before == source_after
     general_exit_zero = command_records['general_suite']['exit_code'] == 0
     general_result = (
         load_json(results_dir / 'general_suite.json') if general_exit_zero else {}
@@ -107,15 +111,19 @@ def main():
         record['exit_code'] == 0 for record in command_records.values()
     )
     overall_bounded = overall_runtime <= OVERALL_TIMEOUT_SECONDS
-    all_passed = commands_passed and semantic_gate and overall_bounded
+    all_passed = (
+        commands_passed and semantic_gate and overall_bounded and source_stable
+    )
     worker_status = (
         'SELF-VERIFICATION PASS — INDEPENDENT AUDIT PENDING'
         if all_passed
         else 'PIVOT — PACKAGING / RUNTIME CLOSURE FAILED'
     )
     summary = {
-        'schema': 'phase-c2b-verification-summary-v1',
+        'schema': 'phase-c2b-verification-summary-v2',
         'package_version': __version__,
+        'controlled_source': source_after,
+        'controlled_source_stable_gate': source_stable,
         'python': sys.version,
         'platform': platform.platform(),
         'commands': command_records,

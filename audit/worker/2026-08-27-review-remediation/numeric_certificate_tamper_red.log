@@ -1,0 +1,25 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________ test_proof_tamper_script_rejects_resealed_critical_changes __________
+
+    def test_proof_tamper_script_rejects_resealed_critical_changes():
+        process = run_script('run_proof_tamper.py')
+        assert process.returncode == 0, process.stdout
+        result = json.loads((ROOT / 'results' / 'proof_tamper.json').read_text())
+>       assert set(result['tamper_rejections']) == {
+            'decision',
+            'r0_exact_input',
+            'numeric_certificate',
+            'artifact_hash',
+            'factorization_certificate',
+        }
+E       AssertionError: assert {'artifact_ha..._certificate'} == {'artifact_ha..._exact_input'}
+E         
+E         Extra items in the right set:
+E         'r0_exact_input'
+E         Use -v to get more diff
+
+tests\test_verification_scripts.py:90: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_proof_tamper_script_rejects_resealed_critical_changes
+1 failed in 0.93s

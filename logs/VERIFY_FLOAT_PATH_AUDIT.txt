@@ -5,4 +5,4 @@ TIMEOUT_SECONDS=120
   "certificate_path_float_violations": []
 }
 EXIT_CODE=0
-RUNTIME_SECONDS=0.085676
+RUNTIME_SECONDS=0.076800

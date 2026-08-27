@@ -17,7 +17,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -74,18 +74,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 48,
+            "generated_boxes": 120,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 120,
+            "local_pruned": 32,
+            "max_depth_seen": 1,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 64,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "2",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 16,
+            "subdivision_parent_boxes": 8,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "2",
+          "generated_boxes": 120,
+          "interval_boxes": 120,
+          "max_depth_seen": 1,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "bb086b713d3677184698defd6d65a253116ec49ee6dde9f460c9addbd6b0d1bb",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "2",
-        "root_hash": "4efc812019929027d92fb1a72996ef57c03d2a8972df5ee88063f916d5199c16",
+        "root_hash": "19543dd12265d05592f7424bbed1956597ff9ee92a28e6ff46099576ed9c1835",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "3e353519ef195ff55524cc42d36b37765b6a6efedaad2108f45860a9e73c31da",
@@ -101,8 +137,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0015581000043312088,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.035532100000182254,
       "status": "VALID"
     },
     {
@@ -118,7 +154,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -175,18 +211,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 372,
+            "generated_boxes": 584,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 584,
+            "local_pruned": 64,
+            "max_depth_seen": 2,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 152,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "3/2",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 120,
+            "subdivision_parent_boxes": 60,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "3/2",
+          "generated_boxes": 584,
+          "interval_boxes": 584,
+          "max_depth_seen": 2,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "e69a45e17ff1e0df5a9838033c016d93a8aa45c0e8d07ec8c524a72178a28dc2",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "3/2",
-        "root_hash": "46dffa339e7075b8325fe320724a31bf5822991e71c3e26db2251cd9ffc60d4b",
+        "root_hash": "8ec8ab31b996e1c20753b44421e652c13bbf016a069e8fed658464fdebc13a96",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "9f8af281cd9e008d725558238e3b1dbd012f47fe8f692db8d58ebe3c9c309b4c",
@@ -202,8 +274,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0016090999997686595,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.12384049999991475,
       "status": "VALID"
     },
     {
@@ -219,7 +291,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -276,18 +348,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 1114,
+            "generated_boxes": 3012,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 3012,
+            "local_pruned": 64,
+            "max_depth_seen": 8,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 624,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "7/5",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 2548,
+            "subdivision_parent_boxes": 1274,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "7/5",
+          "generated_boxes": 3012,
+          "interval_boxes": 3012,
+          "max_depth_seen": 8,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "298212aec374ac286d09726afeebe5d1deabcca6aa6fc33572ffde724867ab7b",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "7/5",
-        "root_hash": "83ba0d435954f123a0e8ed333be786ead4c12cd2f1050ec39a833107cd759508",
+        "root_hash": "ded59c64d2aa49e195b59ed91f3f3c207cb34f92ca00f2f35d136e2da21c5957",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "c824cefd6d2de68b43961e7ab4778cb197961fc2a654318cb2e0c4b95f95cdae",
@@ -303,8 +411,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.001641299997572787,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.7622698000000128,
       "status": "VALID"
     },
     {
@@ -320,7 +428,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -377,18 +485,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "interval box budget exhausted",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 326,
+            "generated_boxes": 13916,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 10000,
+            "local_pruned": 64,
+            "max_depth_seen": 11,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 2948,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 3916,
+            "r0": "3/2",
+            "reason": "interval box budget exhausted",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 13452,
+            "subdivision_parent_boxes": 6726,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 3916
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "3/2",
+          "generated_boxes": 13916,
+          "interval_boxes": 10000,
+          "max_depth_seen": 11,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 3916
         },
         "proposal_hash": "298212aec374ac286d09726afeebe5d1deabcca6aa6fc33572ffde724867ab7b",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "3/2",
-        "root_hash": "8a3f17a4223b0f6542a724a80aeae322975c5a5b0d4f52d92d2d69d512f64408",
+        "root_hash": "b1a8777ff7029ec916bc78868edb8bb5d4aba159422b5e70f459129925a87898",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "c824cefd6d2de68b43961e7ab4778cb197961fc2a654318cb2e0c4b95f95cdae",
@@ -404,8 +548,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.001597400005266536,
+      "reason": "interval box budget exhausted",
+      "runtime_seconds": 3.8306577000003017,
       "status": "UNKNOWN"
     },
     {
@@ -421,7 +565,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -478,18 +622,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 691,
+            "generated_boxes": 1176,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 1176,
+            "local_pruned": 64,
+            "max_depth_seen": 18,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 129,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "19/20",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 712,
+            "subdivision_parent_boxes": 356,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "19/20",
+          "generated_boxes": 1176,
+          "interval_boxes": 1176,
+          "max_depth_seen": 18,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "9ee6e4374a11f604c39620fe51883e0860185bb845e37eee9299c77bb6bcce4a",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "19/20",
-        "root_hash": "a703ea14f398a86f6c8460883f9c220e1b078c7ddb9d8a7a201cf08d1299490d",
+        "root_hash": "28d732ce7b12c2bc6ecc7b2b42c45c4690f671024266784680a595086afbbada",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "5eed27c2cfefba8f18226c346bfe9309e279d289442ae3bc9a7eace3c6af0e13",
@@ -505,8 +685,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0016809000007924624,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.36301289999983055,
       "status": "VALID"
     },
     {
@@ -522,7 +702,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -579,18 +759,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "unresolved boxes at maximum subdivision depth",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 364,
+            "generated_boxes": 904,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 904,
+            "local_pruned": 64,
+            "max_depth_seen": 40,
+            "max_depth_unresolved_boxes": 5,
+            "normal_pruned": 315,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "unresolved boxes at maximum subdivision depth",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 440,
+            "subdivision_parent_boxes": 220,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 5
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "1",
+          "generated_boxes": 904,
+          "interval_boxes": 904,
+          "max_depth_seen": 40,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 5
         },
         "proposal_hash": "5c7c2ab2390068554dfebc8ab091eb558fe10851e3ec893cc0fb15fe24300e27",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "1",
-        "root_hash": "9cb6b49643f168ac0923b29b2f0d8a69a481153c137f33d3735adf194dadaa3a",
+        "root_hash": "1486a49dfc468792a600784c2af2a1af54010a0d0c85057fd167b81176a15e8d",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
@@ -606,8 +822,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0015904999963822775,
+      "reason": "unresolved boxes at maximum subdivision depth",
+      "runtime_seconds": 0.25883189999967726,
       "status": "UNKNOWN"
     },
     {
@@ -623,7 +839,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -680,18 +896,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "exact curvature radius below r0",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "curvature bound 1/R <= 1/r0 fails",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 0,
+            "generated_boxes": 0,
+            "initial_pair_boxes": 0,
+            "interval_boxes": 0,
+            "local_pruned": 0,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 0,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "curvature bound 1/R <= 1/r0 fails",
+            "status": "CURVATURE_FAIL",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "CURVATURE_FAIL"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "1",
+          "generated_boxes": 0,
+          "interval_boxes": 0,
+          "max_depth_seen": 0,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "0bbd09e30edcbcce6ca3cc79189b8789259e2fc8e54bf44655addac2009a5248",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "1",
-        "root_hash": "01a81e3b04a036c0ff13fd06f62566285f8bb46427684ddf9a12b2c583d5d397",
+        "root_hash": "d4fcc77091fc2a59cad4737c3fdbe85e3409bd2fcdf92eecd210c06ecb4c54d5",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "d7abda22eb6d6cc1f8ce835e36cd71963d46316d14f357fd2e4febe820f7e356",
@@ -707,8 +959,8 @@
           ]
         }
       },
-      "reason": "exact curvature radius below r0",
-      "runtime_seconds": 0.0015940999946906231,
+      "reason": "curvature bound 1/R <= 1/r0 fails",
+      "runtime_seconds": 0.008682799999860435,
       "status": "CURVATURE_FAIL"
     },
     {
@@ -724,7 +976,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -781,18 +1033,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 251,
+            "generated_boxes": 868,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 868,
+            "local_pruned": 32,
+            "max_depth_seen": 5,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 235,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "7/10",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 764,
+            "subdivision_parent_boxes": 382,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "7/10",
+          "generated_boxes": 868,
+          "interval_boxes": 868,
+          "max_depth_seen": 5,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "0bbd09e30edcbcce6ca3cc79189b8789259e2fc8e54bf44655addac2009a5248",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "7/10",
-        "root_hash": "d2f92e6307f3ea7473b246c8aa19e4a49ab3efdbbba7dafb1ed6f6b2db7b0343",
+        "root_hash": "e556eff7a4577090a863c96984919008c80e5722145cfc3b3ca08dbfe9c52d3c",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "d7abda22eb6d6cc1f8ce835e36cd71963d46316d14f357fd2e4febe820f7e356",
@@ -808,8 +1096,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0011501999979373068,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.2982964000002539,
       "status": "VALID"
     },
     {
@@ -825,7 +1113,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -882,18 +1170,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "interval box budget exhausted",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 520,
+            "generated_boxes": 10592,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 10000,
+            "local_pruned": 64,
+            "max_depth_seen": 32,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 4416,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 592,
+            "r0": "1",
+            "reason": "interval box budget exhausted",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 10128,
+            "subdivision_parent_boxes": 5064,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 592
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "1",
+          "generated_boxes": 10592,
+          "interval_boxes": 10000,
+          "max_depth_seen": 32,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 592
         },
         "proposal_hash": "8ec9114d25b232b682ea3d637b1073239caa577ff9d5fc6f765ae9662247ce62",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "1",
-        "root_hash": "75e51193322b30e1212b410f48b6f556551b5e5b01c4b59598a5bfe273bec2e8",
+        "root_hash": "aec0cfab97177850827eb78dbb1d6935b77b54607da0cb96baaa415fcf5ec678",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "39b0f7d7e7778b56a5faa83c02994b7726166493acd19b25ff7aa137f55a82f8",
@@ -909,8 +1233,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0016560000003664754,
+      "reason": "interval box budget exhausted",
+      "runtime_seconds": 4.26076379999995,
       "status": "UNKNOWN"
     },
     {
@@ -926,7 +1250,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -983,18 +1307,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 1176,
+            "distance_pruned": 1690,
+            "generated_boxes": 3628,
+            "initial_pair_boxes": 1080,
+            "interval_boxes": 3628,
+            "local_pruned": 96,
+            "max_depth_seen": 8,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 664,
+            "patch_count": 48,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "7/5",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 2548,
+            "subdivision_parent_boxes": 1274,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 1176,
+          "certified_r0": "7/5",
+          "generated_boxes": 3628,
+          "interval_boxes": 3628,
+          "max_depth_seen": 8,
+          "patch_count": 48,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "26b4a252b0fed9f8a7df851aa00e6f6ea5425fe43d9218ed044d084c64e5e576",
         "proposal_validation": {
           "circle_count": 3
         },
         "r0": "7/5",
-        "root_hash": "67ad528c83b5cd8c38c9150af833e6fef261b1b812249e95cd404f8607998c29",
+        "root_hash": "9ac6b1f80217ac2b298e5069e1bb2118c1ef7a9c534d1cad2b36654ca2b0ae45",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "9d88db5dfc07a26296e968fb7b86a1f30ca0545a84ab270e84d7625689b71f4b",
@@ -1010,8 +1370,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0025759999989531934,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 1.1437349999996513,
       "status": "VALID"
     },
     {
@@ -1027,7 +1387,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1084,18 +1444,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 354,
+            "generated_boxes": 546,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 546,
+            "local_pruned": 64,
+            "max_depth_seen": 5,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 151,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "7/5",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 82,
+            "subdivision_parent_boxes": 41,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "7/5",
+          "generated_boxes": 546,
+          "interval_boxes": 546,
+          "max_depth_seen": 5,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "1b9c125841e0b679c470be190cf91c941fb4e2c99967173f1cb6e7cd44cbb746",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "7/5",
-        "root_hash": "ec53a0f8da493224137e4d244bf483a9eba773db83d97944cc876b471f84159e",
+        "root_hash": "f352d5bdb4185465f0c07ecbb72b3929501a4f6c9aa076231170b4015405e0c6",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "1fa00a49ec7c26aa93701ec02910cd5ff0a421b8f6e9b31e905afca73174b416",
@@ -1111,8 +1507,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0018596999943838455,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.1418376999999964,
       "status": "VALID"
     },
     {
@@ -1128,7 +1524,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1185,18 +1581,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "unresolved boxes at maximum subdivision depth",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 401,
+            "generated_boxes": 1080,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 1080,
+            "local_pruned": 64,
+            "max_depth_seen": 40,
+            "max_depth_unresolved_boxes": 4,
+            "normal_pruned": 367,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "8/5",
+            "reason": "unresolved boxes at maximum subdivision depth",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 616,
+            "subdivision_parent_boxes": 308,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 4
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "8/5",
+          "generated_boxes": 1080,
+          "interval_boxes": 1080,
+          "max_depth_seen": 40,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 4
         },
         "proposal_hash": "1b9c125841e0b679c470be190cf91c941fb4e2c99967173f1cb6e7cd44cbb746",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "8/5",
-        "root_hash": "3cd66dbedd6bee285938b0bad53badd589217037157c604017d702fbfa9328a7",
+        "root_hash": "a4fec89c8f9a6a037a5f20b2fa7a0303def16c3e16839e7ddea9c606782d33f1",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "1fa00a49ec7c26aa93701ec02910cd5ff0a421b8f6e9b31e905afca73174b416",
@@ -1212,8 +1644,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0019380000012461096,
+      "reason": "unresolved boxes at maximum subdivision depth",
+      "runtime_seconds": 0.3654415000000881,
       "status": "UNKNOWN"
     },
     {
@@ -1229,7 +1661,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1286,18 +1718,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 410,
+            "generated_boxes": 532,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 532,
+            "local_pruned": 64,
+            "max_depth_seen": 2,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 88,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "3/2",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 68,
+            "subdivision_parent_boxes": 34,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "3/2",
+          "generated_boxes": 532,
+          "interval_boxes": 532,
+          "max_depth_seen": 2,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "b63b7b6d30c8bdd6befa7612f14e0bd0f1193b11123f69b5f38b1d171b34fe47",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "3/2",
-        "root_hash": "30d9c89a731880bd66bf7e089cd7d06bdd98221f9dd9bf2c3a0ef0d87167b39b",
+        "root_hash": "8d2d5dc7c03fb0b2f33e462c679a82c56943bfa32245788c7c3f62999a729669",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "0eeddfe9b78587d58c8cefcf16789577c5a406841ee1af25857ec732d4940cd5",
@@ -1313,8 +1781,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0017921000035130419,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.15738499999997657,
       "status": "VALID"
     },
     {
@@ -1330,7 +1798,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1387,18 +1855,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "exact curvature radius below r0",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "curvature bound 1/R <= 1/r0 fails",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 0,
+            "generated_boxes": 0,
+            "initial_pair_boxes": 0,
+            "interval_boxes": 0,
+            "local_pruned": 0,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 0,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "16/5",
+            "reason": "curvature bound 1/R <= 1/r0 fails",
+            "status": "CURVATURE_FAIL",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "CURVATURE_FAIL"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "16/5",
+          "generated_boxes": 0,
+          "interval_boxes": 0,
+          "max_depth_seen": 0,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "b63b7b6d30c8bdd6befa7612f14e0bd0f1193b11123f69b5f38b1d171b34fe47",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "16/5",
-        "root_hash": "c97ae77c4eb5176c5a2fd66dea76edb27238d0453a91c4547749aca6b876c31f",
+        "root_hash": "fd0fc1d964bde388ef9b13b7be7ebeb56ac9e086752437044ddbbd0fe21e95b3",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "0eeddfe9b78587d58c8cefcf16789577c5a406841ee1af25857ec732d4940cd5",
@@ -1414,8 +1918,8 @@
           ]
         }
       },
-      "reason": "exact curvature radius below r0",
-      "runtime_seconds": 0.0016717999969841912,
+      "reason": "curvature bound 1/R <= 1/r0 fails",
+      "runtime_seconds": 0.01281120000021474,
       "status": "CURVATURE_FAIL"
     },
     {
@@ -1431,7 +1935,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1488,18 +1992,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 435,
+            "generated_boxes": 506,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 506,
+            "local_pruned": 64,
+            "max_depth_seen": 6,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 50,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "9/10",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 42,
+            "subdivision_parent_boxes": 21,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "9/10",
+          "generated_boxes": 506,
+          "interval_boxes": 506,
+          "max_depth_seen": 6,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "59cb98a4ee3771f7473a4490fdf85cf130859762f62b554fd0bfab729adb7306",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "9/10",
-        "root_hash": "8953af727329d7ca77d04d5bb90936aacd4995820b1b5ebb5d14d1904e9db79c",
+        "root_hash": "27c201ff64ac0141d734accb73597da6b936152f585932b5998bf33fbe0daca9",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "254b25c8c9630bb598725a9f18058d7a9569cb7d3d8b3c9209d06d0a60504fdd",
@@ -1515,8 +2055,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0016945999959716573,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.09669119999989562,
       "status": "VALID"
     },
     {
@@ -1532,7 +2072,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1589,18 +2129,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "unresolved boxes at maximum subdivision depth",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 387,
+            "generated_boxes": 992,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 992,
+            "local_pruned": 64,
+            "max_depth_seen": 40,
+            "max_depth_unresolved_boxes": 6,
+            "normal_pruned": 335,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "11/10",
+            "reason": "unresolved boxes at maximum subdivision depth",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 528,
+            "subdivision_parent_boxes": 264,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 6
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "11/10",
+          "generated_boxes": 992,
+          "interval_boxes": 992,
+          "max_depth_seen": 40,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 6
         },
         "proposal_hash": "59cb98a4ee3771f7473a4490fdf85cf130859762f62b554fd0bfab729adb7306",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "11/10",
-        "root_hash": "c6de86850d87580f6417e33f55895558e2fab5664bee3a32267ecb847639eb10",
+        "root_hash": "94486fd6833e08e5779fbb460a5532489befe04f3a7f2baf76420e9fbca629a3",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "254b25c8c9630bb598725a9f18058d7a9569cb7d3d8b3c9209d06d0a60504fdd",
@@ -1616,8 +2192,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0017224999974132515,
+      "reason": "unresolved boxes at maximum subdivision depth",
+      "runtime_seconds": 0.33209720000013476,
       "status": "UNKNOWN"
     },
     {
@@ -1633,7 +2209,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1690,18 +2266,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 1176,
+            "distance_pruned": 1035,
+            "generated_boxes": 1122,
+            "initial_pair_boxes": 1080,
+            "interval_boxes": 1122,
+            "local_pruned": 96,
+            "max_depth_seen": 6,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 66,
+            "patch_count": 48,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "9/10",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 42,
+            "subdivision_parent_boxes": 21,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 1176,
+          "certified_r0": "9/10",
+          "generated_boxes": 1122,
+          "interval_boxes": 1122,
+          "max_depth_seen": 6,
+          "patch_count": 48,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "bfd6428a56bbf20b7771f4f971420a0aea471be680afd0122ceba8409e0d0ae5",
         "proposal_validation": {
           "circle_count": 3
         },
         "r0": "9/10",
-        "root_hash": "c1787ab7a346f42d17f10800e765b475f4526861e346db4f84697aebd4769cbc",
+        "root_hash": "b5832d82d61c4b14dd80375974db5c22e3ad0dcd9ee10e52d1e6aea285b96c35",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "64d6e1fede648a1a7bb42fb123ad2629ad6396d0b02b4c45ccf8e2ddad2c209e",
@@ -1717,8 +2329,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0023431000008713454,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.26896350000015445,
       "status": "VALID"
     },
     {
@@ -1734,7 +2346,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1791,18 +2403,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "unresolved boxes at maximum subdivision depth",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 1176,
+            "distance_pruned": 987,
+            "generated_boxes": 1608,
+            "initial_pair_boxes": 1080,
+            "interval_boxes": 1608,
+            "local_pruned": 96,
+            "max_depth_seen": 40,
+            "max_depth_unresolved_boxes": 6,
+            "normal_pruned": 351,
+            "patch_count": 48,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "11/10",
+            "reason": "unresolved boxes at maximum subdivision depth",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 528,
+            "subdivision_parent_boxes": 264,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 6
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 1176,
+          "certified_r0": "11/10",
+          "generated_boxes": 1608,
+          "interval_boxes": 1608,
+          "max_depth_seen": 40,
+          "patch_count": 48,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 6
         },
         "proposal_hash": "bfd6428a56bbf20b7771f4f971420a0aea471be680afd0122ceba8409e0d0ae5",
         "proposal_validation": {
           "circle_count": 3
         },
         "r0": "11/10",
-        "root_hash": "39ac6f5cb722b778351788e4a1c1e3887c468c6360db9f20e5587dfaf1656bd1",
+        "root_hash": "26f3cb913a442f32b53c418627dc0cde6a1465cb0d233fa8b99d4456515c7e9c",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "64d6e1fede648a1a7bb42fb123ad2629ad6396d0b02b4c45ccf8e2ddad2c209e",
@@ -1818,8 +2466,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0027571000027819537,
+      "reason": "unresolved boxes at maximum subdivision depth",
+      "runtime_seconds": 0.41868639999984225,
       "status": "UNKNOWN"
     },
     {
@@ -1835,7 +2483,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1892,18 +2540,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 362,
+            "generated_boxes": 524,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 524,
+            "local_pruned": 64,
+            "max_depth_seen": 2,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 132,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "3",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 60,
+            "subdivision_parent_boxes": 30,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "3",
+          "generated_boxes": 524,
+          "interval_boxes": 524,
+          "max_depth_seen": 2,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "3a3e954cd551740a48321c5eca200643ff4f5d3209b2767f83281b04f4f6ee05",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "3",
-        "root_hash": "d9f1553e744ab9d7d6cda1500d4dce72848520ca6816fd0370bc28557ab46007",
+        "root_hash": "3ae958f2c8c34b247a68d0b353773aab2e1c75a07c89711293dfd23917e41b7e",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "816f823c394d527b71837365a2608578fd74995269c8220f0cb5bbeffec0158a",
@@ -1919,8 +2603,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.002038199992966838,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.1330388999999741,
       "status": "VALID"
     },
     {
@@ -1936,7 +2620,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -1993,18 +2677,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 116,
+            "generated_boxes": 368,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 368,
+            "local_pruned": 32,
+            "max_depth_seen": 3,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 120,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "2",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 264,
+            "subdivision_parent_boxes": 132,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "2",
+          "generated_boxes": 368,
+          "interval_boxes": 368,
+          "max_depth_seen": 3,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "cb53bc5f89986965682638378dc7d49d0a91f80f600683553de3ac82c26348c4",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "2",
-        "root_hash": "2f67a86ccca563ed7e2e1317e4b269f75845a8a48621a49a50040d8ff67304e3",
+        "root_hash": "8b679b21105cbdbad3864aaaa811dfb456a004db21b4c93e33c1ab895907f1a6",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "f1944548e2ecc1cf36ede527574a3b66fd7ce94028272965e1364adc5f6a48ec",
@@ -2020,8 +2740,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0018930000005639158,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.13683450000007724,
       "status": "VALID"
     },
     {
@@ -2037,7 +2757,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -2094,18 +2814,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 557,
+            "generated_boxes": 1088,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 1088,
+            "local_pruned": 64,
+            "max_depth_seen": 4,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 219,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "2",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 624,
+            "subdivision_parent_boxes": 312,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "2",
+          "generated_boxes": 1088,
+          "interval_boxes": 1088,
+          "max_depth_seen": 4,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "0b33d23e90429f6cfc41ce833bc44bf4a4690d05cc651854c4fff61ad5ac0dbf",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "2",
-        "root_hash": "e2d597677040311a3c5b6091c49d3e8925fa550136f01e84fdf883c5bee46d11",
+        "root_hash": "46479220539fd1c92466d44ffc0f2e5712ed407af5027746007e4e91cb79ab61",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "8ae54d7d75f157280ee70434770f9a4180ebe3d3f3595f4eabbf7489708d52c6",
@@ -2121,8 +2877,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.002064500004053116,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.3230158000001211,
       "status": "VALID"
     },
     {
@@ -2138,7 +2894,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -2195,18 +2951,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "interval box budget exhausted",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 0,
+            "generated_boxes": 13958,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 10000,
+            "local_pruned": 32,
+            "max_depth_seen": 12,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 3073,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 3958,
+            "r0": "2",
+            "reason": "interval box budget exhausted",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 13854,
+            "subdivision_parent_boxes": 6927,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 3958
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "2",
+          "generated_boxes": 13958,
+          "interval_boxes": 10000,
+          "max_depth_seen": 12,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 3958
         },
         "proposal_hash": "6ddcc8bb96c16261edc83859f1a3be5545bbdb87709697e7e0585b139f6a15f3",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "2",
-        "root_hash": "3b0a56847647be447773c0811e87c2a3ed4d623a732c490a3300b1e6fff89920",
+        "root_hash": "83dc04ce1dcce475379f92cb0989b7ce48939c15025142dc2201eb64e6434385",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
@@ -2222,8 +3014,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0013143999967724085,
+      "reason": "interval box budget exhausted",
+      "runtime_seconds": 4.476848400000108,
       "status": "UNKNOWN"
     }
   ],
@@ -2244,7 +3036,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -2317,18 +3109,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 60,
+            "generated_boxes": 104,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 104,
+            "local_pruned": 32,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 44,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "1",
+          "generated_boxes": 104,
+          "interval_boxes": 104,
+          "max_depth_seen": 0,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "9ba450b2131c1ce5bd6922eb6b1cddb5b19ce95f155509fbc5ff71ca66c62e41",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "1",
-        "root_hash": "7dadda8ec97bbf2d92c0f9870ffa1447f2f836c18460b7df8a843f85c5d2e323",
+        "root_hash": "baa2aea3c7934b06d1c85bcb6169564a4ca91b9083d295871e9e478203b35a2d",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
@@ -2352,8 +3180,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0022639000017079525,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.042509899999913614,
       "status": "VALID"
     },
     {
@@ -2369,7 +3197,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -2442,18 +3270,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 60,
+            "generated_boxes": 104,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 104,
+            "local_pruned": 32,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 44,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "1",
+          "generated_boxes": 104,
+          "interval_boxes": 104,
+          "max_depth_seen": 0,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "569703364eaf756e8e5fb13cdca442362ce878f7ea0fe535cd48b42fd3a9bc30",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "1",
-        "root_hash": "5cd56159d843e8739f60bf8e5dc0dff5206156d53e87f7af748f477f01f26045",
+        "root_hash": "30735da7ec4f01750dd3feda71fee6df1e5e64f705dd6a8ed58263922d85e155",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
@@ -2477,8 +3341,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.002024200002779253,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.0560987999997451,
       "status": "VALID"
     },
     {
@@ -2494,7 +3358,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -2583,18 +3447,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 60,
+            "generated_boxes": 104,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 104,
+            "local_pruned": 32,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 44,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "1",
+          "generated_boxes": 104,
+          "interval_boxes": 104,
+          "max_depth_seen": 0,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "6125e3451503e16e6810e5f2050d0351e783530d7e2662eac6c5d3cd0c0be639",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "1",
-        "root_hash": "5c5d2bb0f36dacc3fe5bcd28c23e9bf9e2b5a78e385986b8c7b0bcdd4c08e196",
+        "root_hash": "bbdfda8c99d0d4ccd05f73f03123ab45b40b7e77b80ecb26f59cf482ce95139b",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
@@ -2634,8 +3534,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.002956399999675341,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.051495600000180275,
       "status": "VALID"
     },
     {
@@ -2651,7 +3551,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -2804,18 +3704,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 136,
+            "distance_pruned": 60,
+            "generated_boxes": 104,
+            "initial_pair_boxes": 104,
+            "interval_boxes": 104,
+            "local_pruned": 32,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 44,
+            "patch_count": 16,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 136,
+          "certified_r0": "1",
+          "generated_boxes": 104,
+          "interval_boxes": 104,
+          "max_depth_seen": 0,
+          "patch_count": 16,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "3c8c060b412dbf952145c24cea58c43a0e5e8c6fb04d85a234056acbde9d9244",
         "proposal_validation": {
           "circle_count": 1
         },
         "r0": "1",
-        "root_hash": "c2e10d88a1a92e3485d70f46b6dc7ec28268aea48fb2eafe8c7ba9d3f99e7451",
+        "root_hash": "6b17649cd0164aa94877078c4322c0479439d44f36af7d49563eb29f8f39e669",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "58e7852b69961ca751cbb9bdef877f3a41a0989defb16ca2940dcd068000eb26",
@@ -2951,8 +3887,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.016448700000182725,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.05537509999976464,
       "status": "VALID"
     },
     {
@@ -2968,7 +3904,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -3057,18 +3993,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 392,
+            "generated_boxes": 464,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 464,
+            "local_pruned": 64,
+            "max_depth_seen": 0,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 72,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "9/10",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 0,
+            "subdivision_parent_boxes": 0,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "9/10",
+          "generated_boxes": 464,
+          "interval_boxes": 464,
+          "max_depth_seen": 0,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "86a7f17fd7c9a7e4bfedd94f540be587ef3457b911fe465b2b5e629099b8eef9",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "9/10",
-        "root_hash": "feffccf34bd733e5118103d46808ae3b3ab62b3c4c0f832973900c17ed35b8e8",
+        "root_hash": "5248f1617a2170ce2e2465798d7a343a1791e1637c42a72aaecf4c3e34da827e",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "2ffded5413bec79e953bfe86672f8639c015ce565be6a547e3dc374ef4eeca6d",
@@ -3108,8 +4080,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.005480600004375447,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.12797920000002705,
       "status": "VALID"
     },
     {
@@ -3125,7 +4097,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -3214,18 +4186,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 522,
+            "generated_boxes": 892,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 892,
+            "local_pruned": 64,
+            "max_depth_seen": 4,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 156,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "3/2",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 428,
+            "subdivision_parent_boxes": 214,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "3/2",
+          "generated_boxes": 892,
+          "interval_boxes": 892,
+          "max_depth_seen": 4,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "b1e35e948428a3b53ea01a16aed793bdd0f69ac49bf8ed2099802a6a2212df72",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "3/2",
-        "root_hash": "276e6e16195540e7d1d6888f7c2c563084edf1810e5df066df64a6369bc702cb",
+        "root_hash": "0c22d7b7da4449911ff79acea420952ad18a292355f8be3c4a130c080464fe74",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "48078790473fa560176ab9ad6183d0aa9538b0b5bd83e9d223d6724079beab58",
@@ -3265,8 +4273,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.0056687000032979995,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.30320410000013,
       "status": "VALID"
     },
     {
@@ -3282,7 +4290,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -3371,18 +4379,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "strict exact analytic circle-link margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "all nonlocal patch-pair boxes excluded",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 398,
+            "generated_boxes": 502,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 502,
+            "local_pruned": 64,
+            "max_depth_seen": 5,
+            "max_depth_unresolved_boxes": 0,
+            "normal_pruned": 85,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "9/10",
+            "reason": "all nonlocal patch-pair boxes excluded",
+            "status": "VALID",
+            "subdivision_children_enqueued": 38,
+            "subdivision_parent_boxes": 19,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 0
           },
           "status": "VALID"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "9/10",
+          "generated_boxes": 502,
+          "interval_boxes": 502,
+          "max_depth_seen": 5,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 0
         },
         "proposal_hash": "bc7d87312b39bf260d5c4576f679f65ce748d59cb1e0a74219e89f51117408f7",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "9/10",
-        "root_hash": "92cf4b3be196d94729c42e2653a68694f66eef64181a836bdfbd7dfb753923b3",
+        "root_hash": "92de6e95f31e89dd2ee291a996a8f903af5e45ea157efc5278978fe044ea6388",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
@@ -3422,8 +4466,8 @@
           ]
         }
       },
-      "reason": "strict exact analytic circle-link margin",
-      "runtime_seconds": 0.005557699994824361,
+      "reason": "all nonlocal patch-pair boxes excluded",
+      "runtime_seconds": 0.1102075000003424,
       "status": "VALID"
     },
     {
@@ -3439,7 +4483,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -3528,18 +4572,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "unresolved boxes at maximum subdivision depth",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 364,
+            "generated_boxes": 904,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 904,
+            "local_pruned": 64,
+            "max_depth_seen": 40,
+            "max_depth_unresolved_boxes": 5,
+            "normal_pruned": 315,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "1",
+            "reason": "unresolved boxes at maximum subdivision depth",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 440,
+            "subdivision_parent_boxes": 220,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 5
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "1",
+          "generated_boxes": 904,
+          "interval_boxes": 904,
+          "max_depth_seen": 40,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 5
         },
         "proposal_hash": "bc7d87312b39bf260d5c4576f679f65ce748d59cb1e0a74219e89f51117408f7",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "1",
-        "root_hash": "a68b9b8b7d9c776e4611c6f6fd610ec24261cc5b0963a0b41915dd76453866b4",
+        "root_hash": "775969667ab04638a65503288735e14817b4c679b1ac75dc8c91784ab0d65a73",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
@@ -3579,8 +4659,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.0053846000009798445,
+      "reason": "unresolved boxes at maximum subdivision depth",
+      "runtime_seconds": 0.3318274999996902,
       "status": "UNKNOWN"
     },
     {
@@ -3596,7 +4676,7 @@
         "engine": {
           "algorithm": "phase-c2b-proposal-assisted-v1",
           "package": "phase-c2a-general-field-reference",
-          "version": "0.2.0",
+          "version": "0.2.1",
           "work_budgets": {
             "factorization_max_depth": 24,
             "max_boxes": 800000,
@@ -3685,18 +4765,54 @@
           "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
         },
         "oracle": {
-          "reason": "equality or insufficient exact margin",
+          "budgets": {
+            "max_boxes": 10000,
+            "max_depth": 40,
+            "pieces_per_quarter": 4
+          },
+          "reason": "unresolved boxes at maximum subdivision depth",
           "stats": {
-            "mode": "exact_analytic_circle_link"
+            "accounting_ok": true,
+            "all_patch_pairs": 528,
+            "distance_pruned": 343,
+            "generated_boxes": 984,
+            "initial_pair_boxes": 464,
+            "interval_boxes": 984,
+            "local_pruned": 64,
+            "max_depth_seen": 40,
+            "max_depth_unresolved_boxes": 6,
+            "normal_pruned": 375,
+            "patch_count": 32,
+            "processing_accounting_ok": true,
+            "queued_boxes_at_exit": 0,
+            "r0": "11/10",
+            "reason": "unresolved boxes at maximum subdivision depth",
+            "status": "UNKNOWN",
+            "subdivision_children_enqueued": 520,
+            "subdivision_parent_boxes": 260,
+            "unresolved_accounting_ok": true,
+            "unresolved_boxes": 6
           },
           "status": "UNKNOWN"
+        },
+        "oracle_numeric_certificate": {
+          "accounting_ok": true,
+          "all_patch_pairs": 528,
+          "certified_r0": "11/10",
+          "generated_boxes": 984,
+          "interval_boxes": 984,
+          "max_depth_seen": 40,
+          "patch_count": 32,
+          "processing_accounting_ok": true,
+          "unresolved_accounting_ok": true,
+          "unresolved_boxes": 6
         },
         "proposal_hash": "bc7d87312b39bf260d5c4576f679f65ce748d59cb1e0a74219e89f51117408f7",
         "proposal_validation": {
           "circle_count": 2
         },
         "r0": "11/10",
-        "root_hash": "0b700624aa8d12917d549448758c378f34a08384008677145e70e7e0b2e54cd7",
+        "root_hash": "90247ff6cdf0e7bf5cac0322c48ee506c38e33f2e85cce3029acd548588e5d58",
         "schema": "phase-c2a-proof-v1",
         "zero_set_certificate": {
           "factor_hash": "d3ad13d1dfa0f1084a9cf99cfbb945bc1761714890eff5272aa989a3c75f6e69",
@@ -3736,8 +4852,8 @@
           ]
         }
       },
-      "reason": "equality or insufficient exact margin",
-      "runtime_seconds": 0.005309000000124797,
+      "reason": "unresolved boxes at maximum subdivision depth",
+      "runtime_seconds": 0.37436139999999796,
       "status": "UNKNOWN"
     }
   ]

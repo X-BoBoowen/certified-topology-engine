@@ -89,11 +89,27 @@ def test_proof_tamper_script_rejects_resealed_critical_changes():
     result = json.loads((ROOT / 'results' / 'proof_tamper.json').read_text())
     assert set(result['tamper_rejections']) == {
         'decision',
+        'r0_exact_input',
         'numeric_certificate',
         'artifact_hash',
         'factorization_certificate',
     }
     assert all(result['tamper_rejections'].values())
+    base = json.loads((ROOT / 'results' / 'proof_tamper_base_case.json').read_text())
+    r0_case = json.loads(
+        (ROOT / 'results' / 'proof_tamper_case_r0_exact_input.json').read_text()
+    )
+    numeric_case = json.loads(
+        (ROOT / 'results' / 'proof_tamper_case_numeric_certificate.json').read_text()
+    )
+    assert r0_case['exact_input']['r0'] != base['exact_input']['r0']
+    assert r0_case['proof_log'] == base['proof_log']
+    assert numeric_case['exact_input'] == base['exact_input']
+    assert (
+        numeric_case['proof_log']['oracle_numeric_certificate']['interval_boxes']
+        != base['proof_log']['oracle_numeric_certificate']['interval_boxes']
+    )
+    assert numeric_case['proof_log']['r0'] == base['proof_log']['r0']
 
 
 def test_bounded_command_runner_times_out_fail_closed(tmp_path):
@@ -182,8 +198,10 @@ def test_release_archive_contains_only_the_runtime_closure_candidate(tmp_path):
     build_release = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(build_release)
     archive_path = tmp_path / 'candidate.zip'
+    candidate = tmp_path / 'candidate-source'
+    copy_release_tree(build_release, candidate)
     release = build_release.create_release_archive(
-        ROOT, archive_path, commit_sha='0' * 40
+        candidate, archive_path, commit_sha='0' * 40
     )
     assert len(release['archive_sha256']) == 64
     with zipfile.ZipFile(archive_path) as archive:
@@ -203,6 +221,18 @@ def copy_release_tree(build_release, destination):
         target = destination / source.relative_to(ROOT)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    summary_path = destination / 'results' / 'verification_summary.json'
+    if summary_path.is_file():
+        summary = json.loads(summary_path.read_text(encoding='utf-8'))
+        summary['schema'] = 'phase-c2b-verification-summary-v2'
+        summary['package_version'] = build_release.CANDIDATE_VERSION
+        summary['controlled_source'] = build_release.controlled_source_snapshot(
+            destination
+        )
+        summary['controlled_source_stable_gate'] = True
+        summary_path.write_text(
+            json.dumps(summary, indent=2, sort_keys=True), encoding='utf-8'
+        )
 
 
 def test_release_builder_rejects_a_missing_machine_summary(tmp_path):
@@ -230,6 +260,91 @@ def test_release_builder_rejects_a_failed_machine_summary(tmp_path):
         build_release.create_release_archive(
             candidate, tmp_path / 'failed.zip', commit_sha='0' * 40
         )
+
+
+def test_release_builder_rejects_old_pass_summary_with_changed_source(tmp_path):
+    spec = importlib.util.find_spec('scripts.build_release')
+    build_release = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build_release)
+    candidate = tmp_path / 'candidate'
+    copy_release_tree(build_release, candidate)
+    engine_path = candidate / 'phase_c2a' / 'engine.py'
+    engine_path.write_text(
+        engine_path.read_text(encoding='utf-8') + '\n# changed after verification\n',
+        encoding='utf-8',
+    )
+    with pytest.raises(RuntimeError, match='controlled source digest mismatch'):
+        build_release.create_release_archive(
+            candidate, tmp_path / 'stale.zip', commit_sha='0' * 40
+        )
+
+
+def extract_release_candidate(build_release, tmp_path):
+    archive_path = tmp_path / 'candidate.zip'
+    source = tmp_path / 'candidate-source'
+    copy_release_tree(build_release, source)
+    build_release.create_release_archive(source, archive_path, commit_sha='0' * 40)
+    extraction = tmp_path / 'extracted'
+    with zipfile.ZipFile(archive_path) as archive:
+        archive.extractall(extraction)
+    return extraction / build_release.CANDIDATE_NAME
+
+
+def load_verify_pristine_module():
+    spec = importlib.util.find_spec('scripts.verify_pristine')
+    verify_pristine = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(verify_pristine)
+    return verify_pristine
+
+
+def test_pristine_manifest_validator_rejects_damaged_schema(tmp_path):
+    spec = importlib.util.find_spec('scripts.build_release')
+    build_release = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build_release)
+    candidate = extract_release_candidate(build_release, tmp_path)
+    manifest_path = candidate / 'CANDIDATE_MANIFEST.json'
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    manifest['schema'] = 'damaged-schema'
+    manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
+    verify_pristine = load_verify_pristine_module()
+    with pytest.raises(RuntimeError, match='manifest schema'):
+        verify_pristine.verify_candidate_manifest(candidate)
+
+
+@pytest.mark.parametrize('mutation', ['changed_file', 'extra_file', 'missing_file'])
+def test_pristine_manifest_validator_rejects_tree_mutation(tmp_path, mutation):
+    spec = importlib.util.find_spec('scripts.build_release')
+    build_release = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build_release)
+    candidate = extract_release_candidate(build_release, tmp_path)
+    if mutation == 'changed_file':
+        (candidate / 'README.md').write_text('tampered', encoding='utf-8')
+    elif mutation == 'extra_file':
+        (candidate / 'unexpected.txt').write_text('extra', encoding='utf-8')
+    else:
+        (candidate / 'README.md').unlink()
+    verify_pristine = load_verify_pristine_module()
+    with pytest.raises(RuntimeError, match='manifest'):
+        verify_pristine.verify_candidate_manifest(candidate)
+
+
+def test_pristine_manifest_failure_prevents_environment_subprocesses(
+    tmp_path, monkeypatch
+):
+    spec = importlib.util.find_spec('scripts.build_release')
+    build_release = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build_release)
+    candidate = extract_release_candidate(build_release, tmp_path)
+    (candidate / 'README.md').write_text('tampered', encoding='utf-8')
+    verify_pristine = load_verify_pristine_module()
+    monkeypatch.setattr(verify_pristine, 'ROOT', candidate)
+
+    def forbidden_subprocess(*args, **kwargs):
+        raise AssertionError('environment subprocess started before manifest validation')
+
+    monkeypatch.setattr(verify_pristine, 'run_step', forbidden_subprocess)
+    assert verify_pristine.main() == 1
+    assert not (candidate / '.venv').exists()
 
 
 def test_pristine_bootstrap_times_out_fail_closed():

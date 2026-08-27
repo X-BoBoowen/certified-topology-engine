@@ -1,0 +1,159 @@
+FFFFFF                                                                   [100%]
+================================== FAILURES ===================================
+______ test_release_builder_rejects_old_pass_summary_with_changed_source ______
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-708/test_release_builder_rejects_o0')
+
+    def test_release_builder_rejects_old_pass_summary_with_changed_source(tmp_path):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = tmp_path / 'candidate'
+        copy_release_tree(build_release, candidate)
+        engine_path = candidate / 'phase_c2a' / 'engine.py'
+        engine_path.write_text(
+            engine_path.read_text(encoding='utf-8') + '\n# changed after verification\n',
+            encoding='utf-8',
+        )
+>       with pytest.raises(RuntimeError, match='controlled source digest mismatch'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE RuntimeError
+
+tests\test_verification_scripts.py:262: Failed
+___________ test_pristine_manifest_validator_rejects_damaged_schema ___________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-708/test_pristine_manifest_validat0')
+
+    def test_pristine_manifest_validator_rejects_damaged_schema(tmp_path):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = extract_release_candidate(build_release, tmp_path)
+        manifest_path = candidate / 'CANDIDATE_MANIFEST.json'
+        manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+        manifest['schema'] = 'damaged-schema'
+        manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
+        verify_pristine = load_verify_pristine_module()
+        with pytest.raises(RuntimeError, match='manifest schema'):
+>           verify_pristine.verify_candidate_manifest(candidate)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'scripts.verify_pristine' has no attribute 'verify_candidate_manifest'
+
+tests\test_verification_scripts.py:295: AttributeError
+____ test_pristine_manifest_validator_rejects_tree_mutation[changed_file] _____
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-708/test_pristine_manifest_validat1')
+mutation = 'changed_file'
+
+    @pytest.mark.parametrize('mutation', ['changed_file', 'extra_file', 'missing_file'])
+    def test_pristine_manifest_validator_rejects_tree_mutation(tmp_path, mutation):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = extract_release_candidate(build_release, tmp_path)
+        if mutation == 'changed_file':
+            (candidate / 'README.md').write_text('tampered', encoding='utf-8')
+        elif mutation == 'extra_file':
+            (candidate / 'unexpected.txt').write_text('extra', encoding='utf-8')
+        else:
+            (candidate / 'README.md').unlink()
+        verify_pristine = load_verify_pristine_module()
+        with pytest.raises(RuntimeError, match='manifest'):
+>           verify_pristine.verify_candidate_manifest(candidate)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'scripts.verify_pristine' has no attribute 'verify_candidate_manifest'
+
+tests\test_verification_scripts.py:312: AttributeError
+_____ test_pristine_manifest_validator_rejects_tree_mutation[extra_file] ______
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-708/test_pristine_manifest_validat2')
+mutation = 'extra_file'
+
+    @pytest.mark.parametrize('mutation', ['changed_file', 'extra_file', 'missing_file'])
+    def test_pristine_manifest_validator_rejects_tree_mutation(tmp_path, mutation):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = extract_release_candidate(build_release, tmp_path)
+        if mutation == 'changed_file':
+            (candidate / 'README.md').write_text('tampered', encoding='utf-8')
+        elif mutation == 'extra_file':
+            (candidate / 'unexpected.txt').write_text('extra', encoding='utf-8')
+        else:
+            (candidate / 'README.md').unlink()
+        verify_pristine = load_verify_pristine_module()
+        with pytest.raises(RuntimeError, match='manifest'):
+>           verify_pristine.verify_candidate_manifest(candidate)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'scripts.verify_pristine' has no attribute 'verify_candidate_manifest'
+
+tests\test_verification_scripts.py:312: AttributeError
+____ test_pristine_manifest_validator_rejects_tree_mutation[missing_file] _____
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-708/test_pristine_manifest_validat3')
+mutation = 'missing_file'
+
+    @pytest.mark.parametrize('mutation', ['changed_file', 'extra_file', 'missing_file'])
+    def test_pristine_manifest_validator_rejects_tree_mutation(tmp_path, mutation):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = extract_release_candidate(build_release, tmp_path)
+        if mutation == 'changed_file':
+            (candidate / 'README.md').write_text('tampered', encoding='utf-8')
+        elif mutation == 'extra_file':
+            (candidate / 'unexpected.txt').write_text('extra', encoding='utf-8')
+        else:
+            (candidate / 'README.md').unlink()
+        verify_pristine = load_verify_pristine_module()
+        with pytest.raises(RuntimeError, match='manifest'):
+>           verify_pristine.verify_candidate_manifest(candidate)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'scripts.verify_pristine' has no attribute 'verify_candidate_manifest'
+
+tests\test_verification_scripts.py:312: AttributeError
+______ test_pristine_manifest_failure_prevents_environment_subprocesses _______
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-708/test_pristine_manifest_failure0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001B0CE83B3E0>
+
+    def test_pristine_manifest_failure_prevents_environment_subprocesses(
+        tmp_path, monkeypatch
+    ):
+        spec = importlib.util.find_spec('scripts.build_release')
+        build_release = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build_release)
+        candidate = extract_release_candidate(build_release, tmp_path)
+        (candidate / 'README.md').write_text('tampered', encoding='utf-8')
+        verify_pristine = load_verify_pristine_module()
+        monkeypatch.setattr(verify_pristine, 'ROOT', candidate)
+    
+        def forbidden_subprocess(*args, **kwargs):
+            raise AssertionError('environment subprocess started before manifest validation')
+    
+        monkeypatch.setattr(verify_pristine, 'run_step', forbidden_subprocess)
+>       assert verify_pristine.main() == 1
+               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_verification_scripts.py:330: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\verify_pristine.py:69: in main
+    steps['create_venv'] = run_step(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (['D:\\29722\\Desktop\\��С�����������BoBoo��\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe', ...of-29722/pytest-708/test_pristine_manifest_failure0/extracted/Phase_C2b_Proposal_Assisted_Runtime_Closure_0.2.0'), 120)
+kwargs = {}
+
+    def forbidden_subprocess(*args, **kwargs):
+>       raise AssertionError('environment subprocess started before manifest validation')
+E       AssertionError: environment subprocess started before manifest validation
+
+tests\test_verification_scripts.py:327: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_verification_scripts.py::test_release_builder_rejects_old_pass_summary_with_changed_source
+FAILED tests/test_verification_scripts.py::test_pristine_manifest_validator_rejects_damaged_schema
+FAILED tests/test_verification_scripts.py::test_pristine_manifest_validator_rejects_tree_mutation[changed_file]
+FAILED tests/test_verification_scripts.py::test_pristine_manifest_validator_rejects_tree_mutation[extra_file]
+FAILED tests/test_verification_scripts.py::test_pristine_manifest_validator_rejects_tree_mutation[missing_file]
+FAILED tests/test_verification_scripts.py::test_pristine_manifest_failure_prevents_environment_subprocesses
+6 failed, 15 deselected in 1.50s

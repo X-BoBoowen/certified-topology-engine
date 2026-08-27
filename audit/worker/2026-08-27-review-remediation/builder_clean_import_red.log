@@ -1,0 +1,38 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________ test_release_builder_imports_from_clean_working_directory __________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-710/test_release_builder_imports_f0')
+
+    def test_release_builder_imports_from_clean_working_directory(tmp_path):
+        root=Path(__file__).resolve().parents[1]
+        script=root/'scripts'/'build_release.py'
+        code=f"import runpy; runpy.run_path({str(script)!r},run_name='build_release_probe')"
+        try:
+            p=subprocess.run(
+                [sys.executable,'-c',code],
+                cwd=tmp_path,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=120,
+            )
+        except subprocess.TimeoutExpired:
+            raise AssertionError('release-builder import exceeded 120 seconds') from None
+>       assert p.returncode==0,p.stdout
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 1, in <module>
+E           File "<frozen runpy>", line 287, in run_path
+E           File "<frozen runpy>", line 98, in _run_module_code
+E           File "<frozen runpy>", line 88, in _run_code
+E           File "D:\29722\Desktop\��С�����������BoBoo��\paper\paper7\c2b\.worktrees\phase-c2b-worker\scripts\build_release.py", line 10, in <module>
+E             from phase_c2a.source_integrity import controlled_source_snapshot
+E         ModuleNotFoundError: No module named 'phase_c2a'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\29722\\Desktop\\��С�����������BoBoo��\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...om phase_c2a.source_integrity import controlled_source_snapshot\nModuleNotFoundError: No module named \'phase_c2a\'\n').returncode
+
+tests\test_import_environment.py:34: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_import_environment.py::test_release_builder_imports_from_clean_working_directory
+1 failed in 0.16s

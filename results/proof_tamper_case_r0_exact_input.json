@@ -55,7 +55,7 @@
       }
     },
     "proposal_hash": "bb086b713d3677184698defd6d65a253116ec49ee6dde9f460c9addbd6b0d1bb",
-    "r0": "2",
+    "r0": "3/2",
     "schema": "phase-c2b-exact-input-v1"
   },
   "proof_log": {
@@ -167,10 +167,10 @@
       "circle_count": 1
     },
     "r0": "2",
-    "root_hash": "cf9fbb1efa768eba75bb477b8bf487326fbc9d8386fe8acd55203fe02a4bd013",
+    "root_hash": "c6363ef7f2729d02bf9ece147978bd9ca0f1c11f3affc9e16da7d0807cb7e761",
     "schema": "phase-c2a-proof-v1",
     "zero_set_certificate": {
-      "factor_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "factor_hash": "3e353519ef195ff55524cc42d36b37765b6a6efedaad2108f45860a9e73c31da",
       "positivity": [
         {
           "boxes": 1,

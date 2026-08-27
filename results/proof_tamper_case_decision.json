@@ -4,12 +4,66 @@
     "max_depth": 80,
     "pieces_per_quarter": 4
   },
+  "exact_input": {
+    "field": {
+      "label": "S1_single_circle",
+      "pieces": {
+        "0,0": [
+          [
+            0,
+            0,
+            "-9"
+          ],
+          [
+            0,
+            2,
+            "1"
+          ],
+          [
+            2,
+            0,
+            "1"
+          ]
+        ]
+      },
+      "x_breaks": [
+        "-6",
+        "6"
+      ],
+      "y_breaks": [
+        "-6",
+        "6"
+      ]
+    },
+    "field_hash": "df4599f52f7b742eda25c56df64c038d53bf0156110611f0227964cc5a07f8fc",
+    "proposal": {
+      "circles": [
+        [
+          "0",
+          "0",
+          "3"
+        ]
+      ],
+      "multipliers": {
+        "0,0": [
+          [
+            0,
+            0,
+            "1"
+          ]
+        ]
+      }
+    },
+    "proposal_hash": "bb086b713d3677184698defd6d65a253116ec49ee6dde9f460c9addbd6b0d1bb",
+    "r0": "2",
+    "schema": "phase-c2b-exact-input-v1"
+  },
   "proof_log": {
     "decision": "UNKNOWN",
     "engine": {
       "algorithm": "phase-c2b-proposal-assisted-v1",
       "package": "phase-c2a-general-field-reference",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "work_budgets": {
         "factorization_max_depth": 24,
         "max_boxes": 500000,
@@ -66,18 +120,54 @@
       "outer_sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0"
     },
     "oracle": {
-      "reason": "strict exact analytic circle-link margin",
+      "budgets": {
+        "max_boxes": 10000,
+        "max_depth": 40,
+        "pieces_per_quarter": 4
+      },
+      "reason": "all nonlocal patch-pair boxes excluded",
       "stats": {
-        "mode": "exact_analytic_circle_link"
+        "accounting_ok": true,
+        "all_patch_pairs": 136,
+        "distance_pruned": 48,
+        "generated_boxes": 120,
+        "initial_pair_boxes": 104,
+        "interval_boxes": 120,
+        "local_pruned": 32,
+        "max_depth_seen": 1,
+        "max_depth_unresolved_boxes": 0,
+        "normal_pruned": 64,
+        "patch_count": 16,
+        "processing_accounting_ok": true,
+        "queued_boxes_at_exit": 0,
+        "r0": "2",
+        "reason": "all nonlocal patch-pair boxes excluded",
+        "status": "VALID",
+        "subdivision_children_enqueued": 16,
+        "subdivision_parent_boxes": 8,
+        "unresolved_accounting_ok": true,
+        "unresolved_boxes": 0
       },
       "status": "VALID"
+    },
+    "oracle_numeric_certificate": {
+      "accounting_ok": true,
+      "all_patch_pairs": 136,
+      "certified_r0": "2",
+      "generated_boxes": 120,
+      "interval_boxes": 120,
+      "max_depth_seen": 1,
+      "patch_count": 16,
+      "processing_accounting_ok": true,
+      "unresolved_accounting_ok": true,
+      "unresolved_boxes": 0
     },
     "proposal_hash": "bb086b713d3677184698defd6d65a253116ec49ee6dde9f460c9addbd6b0d1bb",
     "proposal_validation": {
       "circle_count": 1
     },
     "r0": "2",
-    "root_hash": "270976a4a22c61a2ce1aa218f202d3096b7c834162d7c27f51891f4878147fbe",
+    "root_hash": "39595d33c3fbad853470a21eea244bb44317c88112b0807892437e0b0da61f44",
     "schema": "phase-c2a-proof-v1",
     "zero_set_certificate": {
       "factor_hash": "3e353519ef195ff55524cc42d36b37765b6a6efedaad2108f45860a9e73c31da",
@@ -93,7 +183,5 @@
       ]
     }
   },
-  "r0": "2",
-  "scenario_name": "S1_single_circle",
-  "schema": "phase-c2b-replay-case-v1"
+  "schema": "phase-c2b-replay-case-v2"
 }

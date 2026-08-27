@@ -14,20 +14,31 @@ from phase_c2a.proof_log import seal
 from run_proof_replay import build_case, run_replay_worker
 
 
-def tampered_logs(original):
+def tampered_cases(base_case):
     cases = {}
-    changed = copy.deepcopy(original)
-    changed['decision'] = 'UNKNOWN'
-    cases['decision'] = seal(changed)
-    changed = copy.deepcopy(original)
-    changed['r0'] = '3/2'
-    cases['numeric_certificate'] = seal(changed)
-    changed = copy.deepcopy(original)
-    changed['frozen_phase_c1']['outer_sha256'] = '0' * 64
-    cases['artifact_hash'] = seal(changed)
-    changed = copy.deepcopy(original)
-    changed['zero_set_certificate']['factor_hash'] = '0' * 64
-    cases['factorization_certificate'] = seal(changed)
+    changed_case = copy.deepcopy(base_case)
+    changed_case['proof_log']['decision'] = 'UNKNOWN'
+    changed_case['proof_log'] = seal(changed_case['proof_log'])
+    cases['decision'] = changed_case
+
+    changed_case = copy.deepcopy(base_case)
+    changed_case['exact_input']['r0'] = '3/2'
+    cases['r0_exact_input'] = changed_case
+
+    changed_case = copy.deepcopy(base_case)
+    changed_case['proof_log']['oracle_numeric_certificate']['interval_boxes'] += 1
+    changed_case['proof_log'] = seal(changed_case['proof_log'])
+    cases['numeric_certificate'] = changed_case
+
+    changed_case = copy.deepcopy(base_case)
+    changed_case['proof_log']['frozen_phase_c1']['outer_sha256'] = '0' * 64
+    changed_case['proof_log'] = seal(changed_case['proof_log'])
+    cases['artifact_hash'] = changed_case
+
+    changed_case = copy.deepcopy(base_case)
+    changed_case['proof_log']['zero_set_certificate']['factor_hash'] = '0' * 64
+    changed_case['proof_log'] = seal(changed_case['proof_log'])
+    cases['factorization_certificate'] = changed_case
     return cases
 
 
@@ -35,11 +46,12 @@ def main():
     results_dir = ROOT / 'results'
     results_dir.mkdir(exist_ok=True)
     source_result, base_case = build_case()
+    (results_dir / 'proof_tamper_base_case.json').write_text(
+        json.dumps(base_case, indent=2, sort_keys=True), encoding='utf-8'
+    )
     rejections = {}
     details = {}
-    for name, proof_log in tampered_logs(base_case['proof_log']).items():
-        case = copy.deepcopy(base_case)
-        case['proof_log'] = proof_log
+    for name, case in tampered_cases(base_case).items():
         case_path = results_dir / f'proof_tamper_case_{name}.json'
         case_path.write_text(json.dumps(case, indent=2, sort_keys=True), encoding='utf-8')
         exit_code, replay, worker_output = run_replay_worker(case_path)

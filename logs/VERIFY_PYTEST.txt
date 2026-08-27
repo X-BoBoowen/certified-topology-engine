@@ -1,6 +1,7 @@
 COMMAND=["D:\\29722\\Desktop\\\u5f31\u5c0f\u4f46\u662f\u6709\u68a6\u60f3\u7684BoBoo\u6587\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\Scripts\\python.exe", "-m", "pytest", "-q", "tests"]
 TIMEOUT_SECONDS=120
-.......................................................................  [100%]
-71 passed in 8.39s
+........................................................................ [ 83%]
+..............                                                           [100%]
+86 passed in 51.94s
 EXIT_CODE=0
-RUNTIME_SECONDS=8.709327
+RUNTIME_SECONDS=52.244734

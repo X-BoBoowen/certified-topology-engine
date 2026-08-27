@@ -7,10 +7,14 @@ import sys
 import zipfile
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
-CANDIDATE_VERSION = '0.2.0'
-CANDIDATE_NAME = 'Phase_C2b_Proposal_Assisted_Runtime_Closure_0.2.0'
+sys.path.insert(0, str(ROOT))
+
+from phase_c2a.source_integrity import controlled_source_snapshot
+
+
+CANDIDATE_VERSION = '0.2.1'
+CANDIDATE_NAME = 'Phase_C2b_Proposal_Assisted_Runtime_Closure_0.2.1'
 OUTER_SHA256 = '0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0'
 INNER_SHA256 = '94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe'
 
@@ -131,9 +135,12 @@ def create_release_archive(root, archive_path, commit_sha):
     archive_path = Path(archive_path).resolve()
     files = release_files(root)
     frozen_hashes = approved_frozen_hashes(root)
+    controlled_source = controlled_source_snapshot(root)
     summary = json.loads(
         (root / 'results' / 'verification_summary.json').read_text(encoding='utf-8')
     )
+    if summary.get('controlled_source') != controlled_source:
+        raise RuntimeError('controlled source digest mismatch with verification summary')
     commands = summary.get('commands', {})
     summary_is_passed = (
         summary.get('all_passed') is True
@@ -141,6 +148,8 @@ def create_release_archive(root, archive_path, commit_sha):
         == 'SELF-VERIFICATION PASS — INDEPENDENT AUDIT PENDING'
         and summary.get('general_semantic_gate') is True
         and summary.get('overall_bounded_gate') is True
+        and summary.get('controlled_source_stable_gate') is True
+        and summary.get('package_version') == CANDIDATE_VERSION
         and set(commands) == REQUIRED_COMMANDS
         and all(record.get('exit_code') == 0 for record in commands.values())
         and all(
@@ -156,6 +165,9 @@ def create_release_archive(root, archive_path, commit_sha):
         raise RuntimeError('verification summary is not passed or is inconsistent')
     file_records = []
     contents = {}
+    controlled_paths = {
+        record['path'] for record in controlled_source['files']
+    }
     for path in files:
         relative = path.relative_to(root).as_posix()
         content = path.read_bytes()
@@ -165,14 +177,19 @@ def create_release_archive(root, archive_path, commit_sha):
                 'path': relative,
                 'sha256': hashlib.sha256(content).hexdigest(),
                 'size': len(content),
+                'role': 'source' if relative in controlled_paths else 'evidence',
             }
         )
     manifest = {
-        'schema': 'phase-c2b-candidate-manifest-v1',
+        'schema': 'phase-c2b-candidate-manifest-v2',
         'candidate_name': CANDIDATE_NAME,
         'candidate_version': CANDIDATE_VERSION,
         'commit_sha': commit_sha,
         'frozen_phase_c1': frozen_hashes,
+        'controlled_source': {
+            key: controlled_source[key]
+            for key in ('schema', 'sha256', 'file_count')
+        },
         'files': file_records,
     }
     manifest_bytes = json.dumps(manifest, indent=2, sort_keys=True).encode('utf-8')
@@ -195,6 +212,7 @@ def create_release_archive(root, archive_path, commit_sha):
         'archive_path': str(archive_path),
         'archive_sha256': hashlib.sha256(archive_path.read_bytes()).hexdigest(),
         'archive_entries': len(contents) + 1,
+        'controlled_source_sha256': controlled_source['sha256'],
     }
 
 

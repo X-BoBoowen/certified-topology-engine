@@ -8,7 +8,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_FLOAT_PATH_AUDIT.txt",
-      "runtime_seconds": 0.08567619999666931,
+      "runtime_seconds": 0.07679959999995845,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -19,7 +19,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_FROZEN_ARTIFACT_HASH.txt",
-      "runtime_seconds": 0.1153072000015527,
+      "runtime_seconds": 0.1026691000001847,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -30,7 +30,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_GENERAL_SUITE.txt",
-      "runtime_seconds": 4.708361899996817,
+      "runtime_seconds": 25.33726370000022,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -41,7 +41,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_INVALID_SUITE.txt",
-      "runtime_seconds": 0.11841390000336105,
+      "runtime_seconds": 0.10927110000011453,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -52,7 +52,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PROOF_REPLAY.txt",
-      "runtime_seconds": 0.2357964999973774,
+      "runtime_seconds": 0.3051052000000709,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -63,7 +63,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PROOF_TAMPER.txt",
-      "runtime_seconds": 0.5908443000007537,
+      "runtime_seconds": 0.9219094000000041,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -74,7 +74,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PROPERTY_SUITE.txt",
-      "runtime_seconds": 11.495558199996594,
+      "runtime_seconds": 13.173003999999764,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -90,7 +90,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PY_COMPILE.txt",
-      "runtime_seconds": 0.0991098000013153,
+      "runtime_seconds": 0.11355689999982133,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -104,7 +104,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_PYTEST.txt",
-      "runtime_seconds": 8.709326500000316,
+      "runtime_seconds": 52.24473420000004,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -115,7 +115,7 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_RELOCATION.txt",
-      "runtime_seconds": 0.49933730000338983,
+      "runtime_seconds": 0.5889637000000221,
       "timed_out": false,
       "timeout_seconds": 120
     },
@@ -126,11 +126,324 @@
       ],
       "exit_code": 0,
       "log_path": "logs/VERIFY_STATIC_UNDEFINED.txt",
-      "runtime_seconds": 0.18566999999893596,
+      "runtime_seconds": 0.20736310000029334,
       "timed_out": false,
       "timeout_seconds": 120
     }
   },
+  "controlled_source": {
+    "file_count": 61,
+    "files": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "74696e8c0202e20a37cb217e173ad37703f1b118a731165d37ed4133e5d0ed20",
+        "size": 3375
+      },
+      {
+        "path": "BOUNDARY_ZERO_FREE_CERTIFICATE.md",
+        "sha256": "3e7e6f0e774ab46b70788bd1e625f4fc7c45d1602b741863a5fb8fcd378644a1",
+        "size": 481
+      },
+      {
+        "path": "FROZEN_PHASE_C1_HASHES.txt",
+        "sha256": "c0a2d6e76da528f28028a8712a02e02243901389451bb1e1ef2497e6c4e85db8",
+        "size": 272
+      },
+      {
+        "path": "GENERAL_FIELD_INPUT_CONTRACT.md",
+        "sha256": "295bf79450ef4a6417e4e93afa82eff6676c62a02995a9176b9edfd3fb988c56",
+        "size": 710
+      },
+      {
+        "path": "KNOWN_LIMITATIONS.md",
+        "sha256": "36acc1f0640608c1d049cd51b366fcd39b02a7c7f721589b026f28a0daa35156",
+        "size": 831
+      },
+      {
+        "path": "PHASE_C2A_RESEARCH_STATUS.md",
+        "sha256": "f681b2291fc31418d8c591ae3a1f217f5183802fc719406a8e65e3f24fc4f331",
+        "size": 1492
+      },
+      {
+        "path": "PROOF_REPLAY.md",
+        "sha256": "a5bbb5eb677d503ce56537ec82a0ee095ab10e6965461d1b1fba726f96b033da",
+        "size": 1045
+      },
+      {
+        "path": "PROPOSAL_ASSISTED_SCOPE.md",
+        "sha256": "39f63f080b935a7a9e57be872406f1fd7884a4e62df62f81e5978c0b12975620",
+        "size": 467
+      },
+      {
+        "path": "README.md",
+        "sha256": "14e7bf128ce3862c53be274a18ac0bc346c02c92c2815e944160bd5d24f0dd69",
+        "size": 2218
+      },
+      {
+        "path": "SCENARIO_TEST_MAPPING.md",
+        "sha256": "fd06c54374dc41e9e484fa0fee93fe6482f848c4dc2df168a588c0ebe11a640a",
+        "size": 533
+      },
+      {
+        "path": "docs/BASELINE_PROVENANCE.md",
+        "sha256": "2a8c20be8e1ea1db9326f7c6976926d2faf6d08dccb97e0d1c41dde802b5d30d",
+        "size": 3107
+      },
+      {
+        "path": "docs/CURRENT_GATE_C2B.md",
+        "sha256": "03a265682bf77c8cbccfe913e6b2428496a515e2ca6bf544024f681e3f5cc4a9",
+        "size": 5101
+      },
+      {
+        "path": "docs/FROZEN_THEOREM_LEDGER.md",
+        "sha256": "a536dbc005ead5f52f76e380c97d8ab0fd7c37344c4ca0daa5709b73bbdfcdf9",
+        "size": 3560
+      },
+      {
+        "path": "docs/RELEASE_VERIFICATION.md",
+        "sha256": "3070ce6794a2cae615832bd77abd7b6412a5d66b684173ea10274b6e754b6c5f",
+        "size": 1327
+      },
+      {
+        "path": "docs/SUPERVISOR_HANDOFF.md",
+        "sha256": "25f19d1490dabed540ffcdfb667935bdf853ba7a41c8959937f7b0469b69638d",
+        "size": 3268
+      },
+      {
+        "path": "docs/WORKER_HANDOFF.md",
+        "sha256": "d84812de19cd6a59e4cd8c166906c3cd49f2c8ba8ce925a7a4cf73a8e6d2e967",
+        "size": 3155
+      },
+      {
+        "path": "docs/superpowers/plans/2026-08-26-c2b-workspace-initialization.md",
+        "sha256": "e274fb3001efb0fe776da0163c2cac3e51de4a4b41b684076921a14864f0a56a",
+        "size": 8342
+      },
+      {
+        "path": "docs/superpowers/plans/2026-08-27-phase-c2b-review-remediation.md",
+        "sha256": "07885ca525b92da610694cfed30966da39eeeb21fcf48785aeb0829833eaab92",
+        "size": 7447
+      },
+      {
+        "path": "frozen_phase_c1/Phase_C1_Exact_Input_Soundness_Repair_Bundle_20260823.zip",
+        "sha256": "0edae927f9cd75b5140ced9e925b70da0cbaa785f6cfe077789e046b0e368ee0",
+        "size": 109023
+      },
+      {
+        "path": "frozen_phase_c1/phase_c_reach_engine_prototype.zip",
+        "sha256": "94903d2a45f08e14cd153782e949c1301dbc8e67c863c25cce958ee1581aa6fe",
+        "size": 50003
+      },
+      {
+        "path": "phase_c2a/__init__.py",
+        "sha256": "a341e1d6e74db5e14e687e162ac543de1af08c5cef5fdf2c8ac836a9eaed2f74",
+        "size": 917
+      },
+      {
+        "path": "phase_c2a/circle_proposal.py",
+        "sha256": "1b7a3e4ef63866d991270fa6301f2a077ff06746f82f289a1f1b2a4289892980",
+        "size": 4892
+      },
+      {
+        "path": "phase_c2a/engine.py",
+        "sha256": "6ff168e9e1400acf72b8398c8a4e0a6261868c37532941431f126d4de99d32c5",
+        "size": 8639
+      },
+      {
+        "path": "phase_c2a/exact_serialization.py",
+        "sha256": "ca38c2b56fcf3029d3e7ef2eed93399f14963f1b925abfdbd142a02ac5a0bd7b",
+        "size": 6936
+      },
+      {
+        "path": "phase_c2a/exact_types.py",
+        "sha256": "58106ea601887b4578f69097b45c93625abfa4b1b6cf2a73f3477969fdca799e",
+        "size": 938
+      },
+      {
+        "path": "phase_c2a/field.py",
+        "sha256": "24be1c343b5b04fc9214fd9cd22366579c62e9ed76ad031d5e8c8060ce08f5a8",
+        "size": 5243
+      },
+      {
+        "path": "phase_c2a/frozen_oracle.py",
+        "sha256": "18fdae62be45ccdb662697a35a972f0ed6580e83c81d3723f23f3ad3e690a62f",
+        "size": 1929
+      },
+      {
+        "path": "phase_c2a/intervals.py",
+        "sha256": "5a9259eb940ca4fe5b0be2c0e45a8408378cc19d27e7d3c1147dc945b31889c6",
+        "size": 2080
+      },
+      {
+        "path": "phase_c2a/polynomial.py",
+        "sha256": "982b10237ee725776899ef2aba2167b75e01cb372d4794f2976b7dff93067d11",
+        "size": 5434
+      },
+      {
+        "path": "phase_c2a/proof_log.py",
+        "sha256": "fe076cb0f148a9e6a114466ab5e2865bc33aa8cf6b9ce458ee12b37cc2780b25",
+        "size": 519
+      },
+      {
+        "path": "phase_c2a/scenarios.py",
+        "sha256": "4247bc0c1599223bf26311e3372d127b437cd8e66d53411501f06a80ccd7075f",
+        "size": 4923
+      },
+      {
+        "path": "phase_c2a/source_integrity.py",
+        "sha256": "b98a5b47739ca4eca3f7b7f0173f169fb8c36abbce9970aab027a26468bf5857",
+        "size": 2282
+      },
+      {
+        "path": "phase_c2a/sturm.py",
+        "sha256": "3c2de32490bc45451538029de06b9a51b1cc2a757eddbf192184d7cb3903a89c",
+        "size": 1193
+      },
+      {
+        "path": "phase_c2a/verification_runtime.py",
+        "sha256": "5e33f5ed2caaffec1dad8ae1f727dcf4bbc4c82aa26ad7ea43ee4ad457b89d00",
+        "size": 2829
+      },
+      {
+        "path": "phase_c2a/version.py",
+        "sha256": "c03329a9082d6eb1bae4fe2378e5ddc0aa75e6889158843fef13178726ce3b73",
+        "size": 130
+      },
+      {
+        "path": "pyproject.toml",
+        "sha256": "f5e3cba561fad5f8f47a236b598091deff67a958f6cc4d1414ace79dc11633c2",
+        "size": 304
+      },
+      {
+        "path": "requirements.txt",
+        "sha256": "0c242c5bd32dfc10eb7b94dc5fff63cb67f459536b6a3b78c1cfd6c0aee1474d",
+        "size": 29
+      },
+      {
+        "path": "scripts/build_release.py",
+        "sha256": "e719558764f5855f5e8d885e7db2ca9d617e54bd7d1372324b349b3ede6c3b11",
+        "size": 8530
+      },
+      {
+        "path": "scripts/replay_proof_case.py",
+        "sha256": "64a9bb66bcd9ff1ea7318ee3340d8f453ba89b62eea244d415f64d27d2aa775e",
+        "size": 1931
+      },
+      {
+        "path": "scripts/run_float_path_audit.py",
+        "sha256": "c18a5a5151037ae424f89751207db67b85f467489106d55466405bf97c75111c",
+        "size": 890
+      },
+      {
+        "path": "scripts/run_frozen_hash_check.py",
+        "sha256": "85eaa18b012ff64202dcf542119074d6ad49bfbbd1ee624047694c64519f3c77",
+        "size": 813
+      },
+      {
+        "path": "scripts/run_general_suite.py",
+        "sha256": "85e53172f5ce30fc445a9100d8edc4e603aaeb89cf5c0eccbeffb4a9307a1326",
+        "size": 2638
+      },
+      {
+        "path": "scripts/run_invalid_suite.py",
+        "sha256": "849ef1dd7af37d9c853133f334e85f4f344e08028d7e5278a85aeec458dc59fb",
+        "size": 1905
+      },
+      {
+        "path": "scripts/run_proof_replay.py",
+        "sha256": "d39a5022f9180a3115de869c5d56dad924adebcc2cc383afefec53dad61c6558",
+        "size": 2742
+      },
+      {
+        "path": "scripts/run_proof_tamper.py",
+        "sha256": "815b096a5a904a0811bc3e2d35e9b142be92411405820786e231ca8a61afe13c",
+        "size": 2737
+      },
+      {
+        "path": "scripts/run_property_suite.py",
+        "sha256": "16c5740da60aa4e626b3be0f71369bb9e1f1fef12333d50d6e0e318f769477b7",
+        "size": 1952
+      },
+      {
+        "path": "scripts/run_relocation_check.py",
+        "sha256": "86e462bfa5296fe3250929de0f81ef3e61a17638d886832922424428e9bf4a4d",
+        "size": 2486
+      },
+      {
+        "path": "scripts/run_static_undefined_check.py",
+        "sha256": "7521742aec3200282cc96f57e682c7c6807670a97b9fc5b0596f2c7231c336db",
+        "size": 1177
+      },
+      {
+        "path": "scripts/verify_all.py",
+        "sha256": "9e7a256ec1abb2fee810affadc445d59a874595103e7e15041eb86e6f357d21f",
+        "size": 5185
+      },
+      {
+        "path": "scripts/verify_pristine.py",
+        "sha256": "10022166e7b95293f97cf760a34cc4ac32028a45be234beaba2706295b091651",
+        "size": 9783
+      },
+      {
+        "path": "tests/conftest.py",
+        "sha256": "dbb84fe1454d863d12d791e98c680527c94787a6a04ef8a19cd85c732ccc1228",
+        "size": 110
+      },
+      {
+        "path": "tests/test_boundary_sturm.py",
+        "sha256": "03920de179f13f5656ef6b4c7a393cce12c46b3922db9643a5db55ba7925040c",
+        "size": 1039
+      },
+      {
+        "path": "tests/test_exact_input.py",
+        "sha256": "02de466f7daef2125d22c5bdd34ebc7d95a51c5df334e33e75f655ad8977d9f6",
+        "size": 706
+      },
+      {
+        "path": "tests/test_factor_certificate.py",
+        "sha256": "8f4668a1cc36ddc5f88ee498af4d9e5405972db9a99cbe63fb0966be6549c73b",
+        "size": 633
+      },
+      {
+        "path": "tests/test_field_validation.py",
+        "sha256": "cc4543042b13b93b999431ca4de3127101eda75fcdde5cc47443ccd57fd43cc6",
+        "size": 546
+      },
+      {
+        "path": "tests/test_frozen_artifacts.py",
+        "sha256": "c48d4c544814068ec91feb8970d2a52eeeba4b1ca1b109c106dab8acfc71b65e",
+        "size": 6714
+      },
+      {
+        "path": "tests/test_general_scenarios.py",
+        "sha256": "0d65c6c703b0d2a197b547da2dd62b494fb1632fe52ef3a2ba0f97719ad74bf8",
+        "size": 756
+      },
+      {
+        "path": "tests/test_import_environment.py",
+        "sha256": "2cbf011a79eeee051292ad642944a718da80a3c4e74afe1e8d5d10cbe937535c",
+        "size": 1634
+      },
+      {
+        "path": "tests/test_polynomial_interval.py",
+        "sha256": "564730784cf81f07ffa2c52bc10d5d301be76b9ecfe511c0e697ba6cf0da22b3",
+        "size": 483
+      },
+      {
+        "path": "tests/test_proof_replay.py",
+        "sha256": "3761368a2ead7c918fa2d00f7f8e97767569b5e4ec0907b6e706362096b4a8b8",
+        "size": 4355
+      },
+      {
+        "path": "tests/test_verification_scripts.py",
+        "sha256": "6ffa3b2f7e15dea2681b2e200df7365dacf5b72811334ef6954fa502e14bcd80",
+        "size": 14901
+      }
+    ],
+    "schema": "phase-c2b-controlled-source-v1",
+    "sha256": "9e39e1ab912e2033358755caa5ffc522302d8a1b15240b8e2b89044a6e6e7c72"
+  },
+  "controlled_source_stable_gate": true,
   "field_only_loop_discovery": "NOT_IMPLEMENTED; candidate-free calls return UNKNOWN",
   "general_counts": {
     "circle_failures": 0,
@@ -143,12 +456,12 @@
   },
   "general_semantic_gate": true,
   "overall_bounded_gate": true,
-  "overall_runtime_seconds": 26.849982600004296,
+  "overall_runtime_seconds": 93.1885569000001,
   "overall_timeout_seconds": 600,
-  "package_version": "0.2.0",
+  "package_version": "0.2.1",
   "platform": "Windows-11-10.0.26200-SP0",
   "python": "3.12.13 (main, Aug  7 2026, 02:26:41) [MSC v.1944 64 bit (AMD64)]",
-  "schema": "phase-c2b-verification-summary-v1",
+  "schema": "phase-c2b-verification-summary-v2",
   "worker_status": "SELF-VERIFICATION PASS \u2014 INDEPENDENT AUDIT PENDING"
 }
 EXIT_CODE=0

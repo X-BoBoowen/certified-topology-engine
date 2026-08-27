@@ -1,0 +1,50 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______ test_engine_valid_path_calls_verified_frozen_oracle_with_budgets _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000016569845DC0>
+
+    def test_engine_valid_path_calls_verified_frozen_oracle_with_budgets(monkeypatch):
+        module = frozen_oracle.load_frozen_module()
+        real_engine = module.ReachEngine
+        calls = []
+    
+        class RecordingReachEngine(real_engine):
+            def __init__(self, pieces_per_quarter, max_depth, max_boxes):
+                calls.append(
+                    ('budgets', pieces_per_quarter, max_depth, max_boxes)
+                )
+                super().__init__(pieces_per_quarter, max_depth, max_boxes)
+    
+            def certify(self, circles, r0):
+                circles = list(circles)
+                calls.append(
+                    (
+                        'certify',
+                        [(c.cx, c.cy, c.radius) for c in circles],
+                        r0,
+                    )
+                )
+                return super().certify(circles, r0)
+    
+        module.ReachEngine = RecordingReachEngine
+        monkeypatch.setattr(engine_module, 'load_frozen_module', lambda: module)
+        scenario = base_circle_scenarios()[0]
+        field, proposal = make_field(scenario)
+        result = GeneralReachEngine(max_depth=40, max_boxes=500000).certify(
+            field, scenario.r0, proposal
+        )
+        assert result.status is EngineStatus.VALID, result.reason
+>       assert calls == [
+            ('budgets', 4, 40, 20000),
+            ('certify', [(Fraction(0), Fraction(0), Fraction(3))], Fraction(2)),
+        ]
+E       AssertionError: assert [('budgets', ...action(2, 1))] == [('budgets', ...action(2, 1))]
+E         
+E         At index 0 diff: ('budgets', 4, 40, 500000) != ('budgets', 4, 40, 20000)
+E         Use -v to get more diff
+
+tests\test_frozen_artifacts.py:91: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_frozen_artifacts.py::test_engine_valid_path_calls_verified_frozen_oracle_with_budgets
+1 failed in 0.12s

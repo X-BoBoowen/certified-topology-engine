@@ -19,9 +19,12 @@ From a newly extracted release archive, the one-command bootstrap is:
 python scripts/verify_pristine.py
 ```
 
-It creates or reuses the archive-local `.venv`, installs `requirements.txt` with
-a 120-second subprocess limit, and runs the complete machine gate with a
-600-second limit. If the environment is already prepared, run:
+It first validates every path, size and SHA-256 in `CANDIDATE_MANIFEST.json`,
+rejects missing/extra files, and checks the controlled-source digest before any
+environment subprocess. It then creates the archive-local `.venv`, installs
+`requirements.txt` with a 120-second subprocess limit, and runs the complete
+machine gate with a 600-second limit. If the environment is already prepared,
+run:
 
 ```bash
 python -m pip install -r requirements.txt

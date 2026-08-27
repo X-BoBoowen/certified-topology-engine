@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from phase_c2a import EngineStatus, GeneralReachEngine
+from phase_c2a import EngineStatus, GeneralReachEngine, serialize_exact_input
 from phase_c2a.scenarios import base_circle_scenarios, make_field
 
 
@@ -27,9 +27,8 @@ def build_case():
     engine = GeneralReachEngine(**ENGINE_BUDGETS)
     result = engine.certify(field, scenario.r0, proposal)
     case = {
-        'schema': 'phase-c2b-replay-case-v1',
-        'scenario_name': scenario.name,
-        'r0': str(scenario.r0),
+        'schema': 'phase-c2b-replay-case-v2',
+        'exact_input': serialize_exact_input(field, proposal, scenario.r0),
         'engine_budgets': ENGINE_BUDGETS,
         'proof_log': result.data.get('proof_log'),
     }

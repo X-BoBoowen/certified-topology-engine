@@ -1,0 +1,54 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+____________ test_replay_case_records_complete_literal_exact_input ____________
+
+    def test_replay_case_records_complete_literal_exact_input():
+        _,case=build_case()
+>       assert case['schema']=='phase-c2b-replay-case-v2'
+E       AssertionError: assert 'phase-c2b-replay-case-v1' == 'phase-c2b-replay-case-v2'
+E         
+E         - phase-c2b-replay-case-v2
+E         ?                        ^
+E         + phase-c2b-replay-case-v1
+E         ?                        ^
+
+tests\test_proof_replay.py:21: AssertionError
+_________ test_existing_replay_case_does_not_need_scenario_factories __________
+
+tmp_path = WindowsPath('C:/Users/29722/AppData/Local/Temp/pytest-of-29722/pytest-699/test_existing_replay_case_does0')
+
+    def test_existing_replay_case_does_not_need_scenario_factories(tmp_path):
+        _,case=build_case()
+        candidate=tmp_path/'candidate'
+        shutil.copytree(ROOT/'phase_c2a',candidate/'phase_c2a')
+        shutil.copytree(ROOT/'frozen_phase_c1',candidate/'frozen_phase_c1')
+        (candidate/'scripts').mkdir()
+        shutil.copyfile(
+            ROOT/'scripts'/'replay_proof_case.py',
+            candidate/'scripts'/'replay_proof_case.py',
+        )
+        (candidate/'phase_c2a'/'scenarios.py').unlink()
+        case_path=candidate/'proof_case.json'
+        case_path.write_text(json.dumps(case),encoding='utf-8')
+        process=subprocess.run(
+            [sys.executable,str(candidate/'scripts'/'replay_proof_case.py'),str(case_path)],
+            cwd=candidate,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            timeout=120,
+        )
+>       assert process.returncode==0,process.stdout
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\29722\AppData\Local\Temp\pytest-of-29722\pytest-699\test_existing_replay_case_does0\candidate\scripts\replay_proof_case.py", line 13, in <module>
+E             from phase_c2a.scenarios import base_circle_scenarios, knot_scenarios, make_field
+E         ModuleNotFoundError: No module named 'phase_c2a.scenarios'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['D:\\29722\\Desktop\\��С�����������BoBoo��\\paper\\paper7\\c2b\\.worktrees\\phase-c2b-worker\\.venv\\S...ort base_circle_scenarios, knot_scenarios, make_field\nModuleNotFoundError: No module named \'phase_c2a.scenarios\'\n').returncode
+
+tests\test_proof_replay.py:64: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_proof_replay.py::test_replay_case_records_complete_literal_exact_input
+FAILED tests/test_proof_replay.py::test_existing_replay_case_does_not_need_scenario_factories
+2 failed, 1 deselected in 0.79s

@@ -4,23 +4,28 @@ TIMEOUT_SECONDS=120
   "details": {
     "artifact_hash": {
       "exit_code": 1,
-      "replay_pid": 20628,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 20628\n}\n"
+      "replay_pid": 11328,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": \"proof log does not match reconstructed exact input\",\n  \"replay_pid\": 11328\n}\n"
     },
     "decision": {
       "exit_code": 1,
-      "replay_pid": 31284,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 31284\n}\n"
+      "replay_pid": 6224,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": \"proof log does not match reconstructed exact input\",\n  \"replay_pid\": 6224\n}\n"
     },
     "factorization_certificate": {
       "exit_code": 1,
-      "replay_pid": 2192,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 2192\n}\n"
+      "replay_pid": 16420,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": \"proof log does not match reconstructed exact input\",\n  \"replay_pid\": 16420\n}\n"
     },
     "numeric_certificate": {
       "exit_code": 1,
-      "replay_pid": 29228,
-      "worker_output": "{\n  \"accepted\": false,\n  \"error\": null,\n  \"replay_pid\": 29228\n}\n"
+      "replay_pid": 6740,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": \"proof log does not match reconstructed exact input\",\n  \"replay_pid\": 6740\n}\n"
+    },
+    "r0_exact_input": {
+      "exit_code": 1,
+      "replay_pid": 20068,
+      "worker_output": "{\n  \"accepted\": false,\n  \"error\": \"proof log does not match reconstructed exact input\",\n  \"replay_pid\": 20068\n}\n"
     }
   },
   "source_status": "VALID",
@@ -28,8 +33,9 @@ TIMEOUT_SECONDS=120
     "artifact_hash": true,
     "decision": true,
     "factorization_certificate": true,
-    "numeric_certificate": true
+    "numeric_certificate": true,
+    "r0_exact_input": true
   }
 }
 EXIT_CODE=0
-RUNTIME_SECONDS=0.590844
+RUNTIME_SECONDS=0.921909
